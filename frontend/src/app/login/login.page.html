@@ -1,0 +1,35 @@
+<ion-content class="login-page">
+  <div class="background-top"></div>
+
+  <ion-button fill="clear" class="back-button" size="small">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+
+  <div class="login-card">
+    <h2>Login</h2>
+
+    <ion-list lines="none">
+      <ion-item class="input-item">
+        <ion-label position="stacked">Username/NIK</ion-label>
+        <ion-input placeholder="JohnDoe / 12345678" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'"></ion-input>
+        <ion-icon
+          name="{{ showPassword ? 'eye-off-outline' : 'eye-outline' }}"
+          slot="end"
+          class="password-toggle"
+          (click)="togglePassword()"
+        ></ion-icon>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" class="login-button">
+      Masuk
+    </ion-button>
+  </div>
+
+  <div class="background-bottom"></div>
+</ion-content>
