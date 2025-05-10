@@ -1,63 +1,101 @@
-<ion-header>
-  <ion-toolbar color="primary" class="header-toolbar">
-    <ion-title class="logo">
-      <img src="assets/logo.svg" alt="Kokita" height="24" />
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" class="logout-btn">Logout</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="dashboard-page" fullscreen>
-  <div class="header-greeting">
-    <p class="welcome">Halo, <strong>John!</strong></p>
-    <span class="role">Member</span>
-  </div>
-
-  <div class="summary-container">
-    <div class="summary-box">
-      <ion-icon name="wallet-outline"></ion-icon>
-      <p>Total Simpanan</p>
-      <h2>Rp10.000.000</h2>
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
     </div>
-    <div class="summary-box">
-      <ion-icon name="card-outline"></ion-icon>
-      <p>Total Pinjaman</p>
-      <h2>Rp30.000.000</h2>
+    <div class="user-info">
+      <h2>Hello, John!</h2>
+      <p>Member</p>
+    </div>
+    <div class="notification-banner">
+      <div class="banner-content">
+        <img src="assets/warning.svg" alt="Info" class="info-icon" />
+        <span>Angsuran jatuh tempo 3 hari lagi!</span>
+      </div>
+    </div>  
+  </div>  
+
+  <!-- Saldo Simpanan -->
+  <div class="card saldo">
+    <div class="text-section">
+      <h3>Saldo Simpanan</h3>
+      <div class="amount">Rp5.000.000</div>
+    </div>
+    <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" />
+  </div>
+
+  <!-- Total Pinjaman -->
+  <div class="card pinjaman">
+    <div class="text-section">
+      <h3>Total Pinjaman</h3>
+      <div class="amount">Rp15.000.000</div>
+    </div>
+    <img src="assets/calculator.svg" alt="Total Pinjaman" />
+  </div>
+
+  <!-- Aksi Cepat -->
+  <div class="quick-actions">
+    <div class="action-button">
+      <img src="assets/ajukan-pinjaman.svg" alt="Ajukan Pinjaman" />
+      <span>Ajukan<br />Pinjaman</span>
+    </div>
+    <div class="action-button">
+      <img src="assets/bayar-angsuran.svg" alt="Bayar Angsuran" />
+      <span>Bayar<br />Angsuran</span>
+    </div>
+    <div class="action-button">
+      <img src="assets/lihat-slip-pembayaran.svg" alt="Lihat Slip Pembayaran" />
+      <span>Lihat Slip<br />Pembayaran</span>
     </div>
   </div>
 
-  <div class="menu-grid">
-    <ion-card *ngFor="let item of menuItems">
-      <ion-card-content>
-        <img [src]="item.icon" alt="{{ item.label }}" />
-        <p>{{ item.label }}</p>
-      </ion-card-content>
-    </ion-card>
+  <!-- Bantuan WhatsApp -->
+  <div class="help-section">
+    <img src="assets/icon-orang.svg" alt="Butuh bantuan" class="helper-image" />
+    <div class="chat-box">
+      <p>Butuh Bantuan?</p>
+      <a href="https://wa.me/6281234567890" target="_blank" class="whatsapp-button">
+        <img src="assets/wa.svg" alt="WhatsApp" />
+        Chat on Whatsapp
+      </a>
+    </div>
   </div>
 
-  <div class="support-section">
-    <p class="support-text">Ada kendala? Hubungi CS kami</p>
-    <ion-fab-button color="success">
-      <ion-icon name="logo-whatsapp"></ion-icon>
-    </ion-fab-button>
-  </div>
+  <!-- Placeholder (untuk grafik atau lainnya) -->
+  <div class="placeholder-circle"></div>
 </ion-content>
 
-<ion-footer>
-  <ion-tab-bar slot="bottom" color="primary">
-    <ion-tab-button tab="home">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="history">
-      <ion-icon name="document-text-outline"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="loan">
-      <ion-icon name="cash-outline"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="profile">
-      <ion-icon name="person-outline"></ion-icon>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>
+<div class="custom-tabbar">
+  <!-- SVG cekungan -->
+  <img src="assets/ellipse1139.svg" alt="notch" class="tab-notch" />
+  
+  <!-- Kiri -->
+  <div class="tab-button" routerLink="/notifications">
+    <img src="assets/notification.svg" alt="Notifikasi" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/payments">
+    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+  </div>
+
+  <!-- Spacer tengah -->
+  <div class="tab-spacer"></div>
+
+  <!-- Kanan -->
+  <div class="tab-button" routerLink="/loans">
+    <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/histories">
+    <img src="assets/history.svg" alt="Riwayat" class="icon" />
+  </div>
+
+  <!-- Tombol Home di tengah -->
+  <div class="tab-home">
+    <div class="home-icon-wrapper">
+      <img src="assets/home.svg" alt="Home" class="home-icon" />
+    </div>
+    <span>Home</span>
+  </div>
+</div>
+
