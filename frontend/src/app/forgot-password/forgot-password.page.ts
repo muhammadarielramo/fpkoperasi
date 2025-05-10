@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   standalone: false,
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.page.html',
+  styleUrls: ['./forgot-password.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class ForgotPasswordPage implements OnInit {
   showPassword = false;
+
 
   constructor() { }
 

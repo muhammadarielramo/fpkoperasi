@@ -1,68 +1,29 @@
-<ion-content fullscreen class="home-content">
-  <div class="background-image"></div>
-  <div class="overlay"></div>
+<ion-content class="home-page" fullscreen>
 
-  <!-- Tambahkan wrapper agar layout tetap -->
-  <div class="fixed-container">
+  <!-- Background -->
+  <img src="assets/home-background.svg" class="bg-gradient" alt="background" />
 
-    <!-- Header -->
-    <div class="header">
-      <ion-avatar class="logo-avatar">
-        <img src="assets/logo.png" alt="Logo Koperasi">
-      </ion-avatar>
-      <img src="assets/logo-text.png" alt="Nama Koperasi" class="koperasi-nama-img" />
-    </div>
-
-    <!-- Tagline -->
-    <div class="tagline-section">
-      <h1>Koperasi Digital<br>Solusi Masa Kini.</h1>
-    </div>
-
-    <!-- Fitur -->
-    <div class="features-section">
-      <ion-grid>
-        <ion-row class="ion-justify-content-center">
-          <ion-col size="3" class="ion-text-center">
-            <ion-card class="feature-card">
-              <ion-card-content>
-                <ion-icon name="cash-outline" class="feature-card-icon"></ion-icon>
-                <div class="feature-card-text">Manajemen Simpanan & Pinjaman</div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="3" class="ion-text-center">
-            <ion-card class="feature-card">
-              <ion-card-content>
-                <ion-icon name="hand-left-outline" class="feature-card-icon"></ion-icon>
-                <div class="feature-card-text">Pengajuan Pinjaman Digital</div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="3" class="ion-text-center">
-            <ion-card class="feature-card">
-              <ion-card-content>
-                <ion-icon name="reader-outline" class="feature-card-icon"></ion-icon>
-                <div class="feature-card-text">Catatan Kolektor & Setoran</div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="3" class="ion-text-center">
-            <ion-card class="feature-card">
-              <ion-card-content>
-                <ion-icon name="document-text-outline" class="feature-card-icon"></ion-icon>
-                <div class="feature-card-text">Laporan Keuangan & Notifikasi</div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-
-    <!-- Tombol -->
-    <div class="button-section">
-      <ion-button class="masuk-button" shape="round" routerLink="/login">Masuk</ion-button>
-      <ion-button class="daftar-button" shape="round" routerLink="/register">Daftar</ion-button>
-    </div>
-
+  <!-- Ilustrasi -->
+  <div class="illustration">
+    <img src="assets/home-illustration.svg" alt="Ilustrasi" />
   </div>
+
+  <!-- Teks -->
+  <div class="tagline">
+    <h1>
+      Let Your<br />
+      Finance<br />
+      Flow With<br />
+      You
+    </h1>
+  </div>
+
+  <!-- Tombol -->
+  <div class="bottom-sheet"></div>
+
+  <div class="button-group">
+    <ion-button routerLink="/register" class="btn-daftar" shape="round" expand="block">Daftar</ion-button>
+    <ion-button routerLink="/login" class="btn-masuk" shape="round" expand="block">Masuk</ion-button>
+  </div>
+
 </ion-content>
