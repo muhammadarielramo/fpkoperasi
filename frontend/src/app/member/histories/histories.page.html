@@ -1,0 +1,86 @@
+<ion-content class="histories-page" fullscreen>
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+    </div>
+    <div class="user-info">
+      <h2>Hello, John!</h2>
+      <p>Member</p>
+    </div>
+    <div class="notification-icon" routerLink="/notifications">
+      <img src="assets/notification.svg" alt="Notifikasi" />
+      <span class="notif-dot"></span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Riwayat Transaksi</h3>
+    <ion-segment value="semua" (ionChange)="filterChanged($event)" class="filter-segment">
+      <ion-segment-button value="semua">
+        <ion-label>Semua</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="simpanan">
+        <ion-label>Simpanan</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pinjaman">
+        <ion-label>Pinjaman</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div class="transaction-scroll">
+    <div class="transaction-list">
+      <div class="card">
+        <h4>Simpanan Wajib:</h4>
+        <p>Nominal: <span class="amount">Rp100.000</span></p>
+        <p>1 Mei 2025</p>
+        <a href="#histories">Lihat detail transaksi</a>
+      </div>
+      <div class="card">
+        <h4>Simpanan Wajib:</h4>
+        <p>Nominal: <span class="amount">Rp100.000</span></p>
+        <p>1 Mei 2025</p>
+        <a href="#histories">Lihat detail transaksi</a>
+      </div>
+      <div class="card">
+        <h4>Simpanan Wajib:</h4>
+        <p>Nominal: <span class="amount">Rp100.000</span></p>
+        <p>1 Mei 2025</p>
+        <a href="#histories">Lihat detail transaksi</a>
+      </div>
+      <div class="card">
+        <h4>Simpanan Wajib:</h4>
+        <p>Nominal: <span class="amount">Rp100.000</span></p>
+        <p>1 Mei 2025</p>
+        <a href="#histories">Lihat detail transaksi</a>
+      </div>
+    </div>
+  </div>
+
+<div class="custom-tabbar">
+  <!-- Histories dengan notch -->
+  <div class="tab-wrapper active">
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
+    <div class="tab-button" routerLink="/histories">
+      <div class="icon-wrapper">
+        <img src="assets/history.svg" alt="Riwayat" class="icon" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Lain -->
+  <div class="tab-button" routerLink="/payments">
+    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/home">
+    <img src="assets/home.svg" alt="Home" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/loans">
+    <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/profile">
+    <img src="assets/profile.svg" alt="Profil" class="icon" />
+  </div>
+</div>

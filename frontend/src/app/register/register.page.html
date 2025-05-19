@@ -1,4 +1,4 @@
-<ion-content class="register-page" fullscreen>
+<ion-content class="register-page no-scroll" fullscreen>
 
   <!-- Dekorasi -->
   <div class="circle circle1"></div>
@@ -15,32 +15,32 @@
     <h2 class="title">Register</h2>
 
     <ion-input
-      label="Nama Lengkap"
-      label-placement="floating"
+      label="NAMA LENGKAP"
+      label-placement="stacked"
       fill="outline"
       class="custom-outline"
       type="text">
     </ion-input>
 
     <ion-input
-      label="No. HP"
-      label-placement="floating"
+      label="NOMOR HP"
+      label-placement="stacked"
       fill="outline"
       class="custom-outline"
       type="tel">
     </ion-input>
 
     <ion-input
-      label="Email"
-      label-placement="floating"
+      label="EMAIL"
+      label-placement="stacked"
       fill="outline"
       class="custom-outline"
       type="email">
     </ion-input>
 
     <ion-input
-      label="Alamat Lengkap"
-      label-placement="floating"
+      label="ALAMAT LENGKAP"
+      label-placement="stacked"
       fill="outline"
       class="custom-outline"
       type="text">
@@ -48,21 +48,27 @@
 
     <ion-input
       label="NIK"
-      label-placement="floating"
+      label-placement="stacked"
       fill="outline"
       class="custom-outline"
-      type="number">
+      type="text">
     </ion-input>
 
     <div class="input-container">
       <ion-input
-        label="Tanggal Lahir"
-        label-placement="floating"
+        label="TANGGAL LAHIR"
+        label-placement="stacked"
         fill="outline"
         class="custom-outline date-input"
         id="tanggalLahirInput"
         readonly
         (click)="openDatePicker()">
+        <ion-icon 
+          name="calendar-outline" 
+          slot="end" 
+          class="calendar-icon" 
+          (click)="openDatePicker()">
+        </ion-icon>
       </ion-input>
       <ion-modal 
         [isOpen]="showDatePicker" 
@@ -91,8 +97,8 @@
       </ion-modal>
     </div>
 
-    <div class="upload-box">
-      <label>Foto KTP</label>
+    <div class="upload-container">
+      <span class="upload-label">FOTO KTP</span>
       <div class="upload-area">
         <ion-icon name="image-outline"></ion-icon>
         <ion-icon name="camera-outline" class="camera-icon"></ion-icon>
@@ -100,7 +106,7 @@
     </div>
 
     <div class="floating-button">
-      <ion-button (click)="showVerificationAlert()" shape="round" expand="block">Daftar</ion-button>
+      <ion-button (click)="showVerificationAlert()" class="btn-daftar" shape="round" expand="block">Daftar</ion-button>
     </div>
   </div>
 

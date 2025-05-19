@@ -16,24 +16,24 @@
       <h2>Login</h2>
       <form>
         <ion-item>
-          <ion-input label="Username/NIK" labelPlacement="floating" placeholder="Masukkan Username/NIK" ></ion-input>
+          <ion-input label="Username/NIK" labelPlacement="floating" placeholder="Masukkan Username/NIK" class="username-input"></ion-input>
         </ion-item>
 
         <div class="password-field">
           <ion-item>
             <ion-input label="Password" labelPlacement="floating" placeholder="Masukkan Password"
-              [type]="showPassword ? 'text' : 'password'" id="password" required>
+              [type]="showPassword ? 'text' : 'password'" id="password" required class="password-input">
             </ion-input>
           </ion-item>
-
+        
           <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" id="togglePassword"
-            (click)="togglePasswordVisibility()">
+            (click)="togglePasswordVisibility()" class="eye-icon">
           </ion-icon>
         </div>
 
         <br>
 
-        <a href="/forgot-password" class="forgot-password">Lupa password?</a>
+        <a href="/forgot-password" class="forgot-password">Lupa Kata Sandi?</a>
 
         <!-- Tombol -->
         <div class="button-group">

@@ -25,32 +25,37 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+    loadChildren: () => import('./member/dashboard/dashboard.module').then(m => m.DashboardPageModule)
   },
   {
     path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsPageModule)
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./member/notifications/notifications.module').then(m => m.NotificationsPageModule)
   },
   {
     path: 'payments',
-    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
+    loadChildren: () => import('./member/payments/payments.module').then( m => m.PaymentsPageModule)
   },
   {
     path: 'loans',
-    loadChildren: () => import('./loans/loans.module').then( m => m.LoansPageModule)
+    loadChildren: () => import('./member/loans/loans.module').then( m => m.LoansPageModule)
   },
   {
     path: 'histories',
-    loadChildren: () => import('./histories/histories.module').then( m => m.HistoriesPageModule)
+    loadChildren: () => import('./member/histories/histories.module').then( m => m.HistoriesPageModule)
   },
   {
     path: 'forgot-password',
-    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+    loadChildren: () => import('./member/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },  {
+    path: 'profile',
+    loadChildren: () => import('./member/profile/profile.module').then( m => m.ProfilePageModule)
   }
+
+
 ];
 
 @NgModule({
