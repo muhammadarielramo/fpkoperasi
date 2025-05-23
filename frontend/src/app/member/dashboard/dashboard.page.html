@@ -98,9 +98,12 @@
   <img src="assets/icon-orang.svg" alt="Butuh bantuan" class="helper-image" />
   <div class="chat-box">
     <p class="chat-title">Butuh Bantuan?</p>
-    <a href="https://wa.me/6285771282700" target="_blank" class="whatsapp-button">
-    <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Chat on WhatsApp</ion-button>
-    </a>
+      <div class="whatsapp-button-container">
+        <a href="https://wa.me/6285771282700">
+          <img href="https://wa.me/6285771282700" src="assets/wa.svg" alt="WhatsApp" class="whatsapp-floating-icon" />
+        </a>
+        <ion-button href="https://wa.me/6285771282700" class="whatsapp-button" shape="round" size="small">Chat on WhatsApp</ion-button>
+      </div>
   </div>
 </div>
 
@@ -113,8 +116,8 @@
   <div class="tab-button" routerLink="/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/payments">
-    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+  <div class="tab-button" routerLink="/savings">
+    <img src="assets/money-bag.svg" alt="Savings" class="icon" />
   </div>
 
   <!-- Spacer tengah -->

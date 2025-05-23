@@ -28,7 +28,7 @@ export class RegisterPage implements OnInit {
     }, 5000);
   }
 
-    openDatePicker() {
+  openDatePicker() {
     this.showDatePicker = true;
   }
   

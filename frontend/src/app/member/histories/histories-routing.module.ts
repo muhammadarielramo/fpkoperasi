@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: HistoriesPage
+  },  {
+    path: 'transaction-details',
+    loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
   }
+
 ];
 
 @NgModule({

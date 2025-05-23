@@ -1,5 +1,7 @@
-.histories-page {
+.savings-page {
     --ion-background-color: #ffffff;
+    overflow: hidden;
+    height: 100vh;
 
   .header {
     background: #857AFE;
@@ -23,7 +25,7 @@
         font-family: 'Montserrat Alternates', sans-serif;
         font-weight: 700;
         font-size: 1rem;
-        text-transform: none; // agar hanya "L" yang kapital
+        text-transform: none;
         --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.36);
         --background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
         --color: #ffffff;
@@ -77,6 +79,19 @@
   padding: 0 1rem 0;
   position: relative;
   z-index: 1;
+  margin-bottom: 100px;
+  overflow: visible;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    bottom: -999px;
+    left: 0;
+    right: 0;
+    background: #F2EBFF;
+    z-index: -1;
+  }
 
   h3 {
     font-family: 'Lato', sans-serif;
@@ -87,144 +102,76 @@
     margin-bottom: 1rem;
   }
 
-  .filter-segment {
-    display: flex;
-    justify-content: center;
-
-    ion-segment-button {
-      font-family: 'Lato', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: normal;
-      text-transform: capitalize;
-      border: 1px solid #565656;
-      background-color: #ffffff;
-      border-radius: 0;
-      margin-bottom: 1rem;
-      color: #646464;
-      cursor: pointer;
-      box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
-
-      &.segment-button-checked {
-        --color-checked: #646464;
-        background-color: #F2EBFF;
-        border: 1px solid #565656;
-        font-weight: 700;
-        box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
-
-        ion-label {
-          text-shadow: 0px 4px 4px rgba(0,0,0,0.25);
-        }
-      }
-
-      &:first-child {
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-      }
-    }
+  .content-wrapper {
+    margin-top: 2rem;
   }
 }
 
+.card {
+  background: 
+    url('/../../assets/background-card-savings.svg'),
+    linear-gradient(157deg,rgba(135, 104, 204, 1) 0%, rgba(179, 79, 250, 1) 100%);
+  color: white;
+  border-radius: 14px;
+  padding: 1rem 1rem 0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+}
 
-.transaction-scroll {
+.card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-left {
   flex: 1;
-  overflow-y: auto;
-  background-color: #F2EBFF;
-  padding: 1rem;
-  padding-top: 0;
-  position: absolute;
-  top: 250px; // adjust sesuai tinggi header + content-section
-  bottom: 30px; // tinggi custom-tabbar
-  left: 0;
-  right: 0;
 }
 
-.transaction-list {
-  background-color: #F2EBFF;
-  padding: 1rem;
-  padding-bottom: 1rem;
-  
-
-  .card {
-    background: #ffffff;
-    border-radius: 15px;
-    padding: 0 1rem 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
-    border: 1px solid #565656;
-  }
-
-  .card-content {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .card-left {
-    flex: 1;
-  }
-
-  .card-right {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .date-container {
-    margin-top: 5px;
-
-    p {
-      margin: 0;
-      font-family: 'Lato', sans-serif;
-      font-weight: 400;
-      font-size: 11px;
-      color: #646464;
-    }
-  }
-
-  .amount-container {
-    margin-top: 43px;
-  }
-
-  h4 {
-    font-family: 'Lato', sans-serif;
-    font-size: 15px;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    color: #646464;
-  }
-
-  p {
-    margin: 0;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: #646464;
-  }
-
-  .amount {
-    font-size: 15px;
-    font-weight: bold;
-    color: #646464;
-  }
-
-  a {
-    font-family: 'Lato', sans-serif;
-    display: block;
-    font-size: 12px;
-    margin-top: 5px;
-    font-weight: 400;
-    font-style: italic;
-    color: #3F68FF;
-    text-decoration: underline;
-  }
+.card-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
+
+.card-left h4 {
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 800;
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.card-left p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.date-container p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f0e9ff;
+}
+
+.card-right .date-container {
+  text-align: center;
+}
+
+.amount-container p {
+  margin-top: 34px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.amount {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: white;
+}
 
 .custom-tabbar {
   position: fixed;

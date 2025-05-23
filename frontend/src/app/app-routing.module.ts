@@ -32,8 +32,8 @@ const routes: Routes = [
     loadChildren: () => import('./member/notifications/notifications.module').then(m => m.NotificationsPageModule)
   },
   {
-    path: 'payments',
-    loadChildren: () => import('./member/payments/payments.module').then( m => m.PaymentsPageModule)
+    path: 'savings',
+    loadChildren: () => import('./member/savings/savings.module').then( m => m.SavingsPageModule)
   },
   {
     path: 'loans',
@@ -45,17 +45,20 @@ const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    loadChildren: () => import('./member/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+    loadChildren: () => import('./login/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
     path: 'dashboard',
     loadChildren: () => import('./admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
-  },  {
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./member/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'loan-application',
+    loadChildren: () => import('./member/loans/loan-application/loan-application.module').then(m => m.LoanApplicationPageModule)
   }
-
-
 ];
 
 @NgModule({

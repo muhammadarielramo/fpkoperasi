@@ -13,6 +13,47 @@
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
+  </div>
+
+  <!-- Section Detail Pinjaman -->
+  <div class="loan-section">
+    <div class="loan-header">
+      <h3>Detail Pinjaman</h3>
+      <ion-button class="btn-ajukan" routerLink="/loan-application" shape="round" size="small">
+        <ion-icon name="add-circle-outline"></ion-icon> Ajukan Pinjaman
+      </ion-button>
+    </div>
+
+    <!-- Kartu Tagihan 1 -->
+    <div class="loan-card card-ungu">
+      <h4>Rincian Tagihan</h4>
+      <p><strong>1. Pinjaman Jangka Pendek:</strong> <span class="nominal">Rp500.000</span></p>
+      <p>Angsuran ke-3</p>
+      <p>Sisa Hutang: <strong>Rp100.000</strong></p>
+      <p>Jadwal Angsuran berikutnya: <strong>2 Juni 2025</strong></p>
+      <ion-button class="btn-setor" shape="round" size="small">Setor</ion-button>
+    </div>
+
+    <!-- Kartu Tagihan 2 -->
+    <div class="loan-card card-kuning">
+      <div class="badge kuning">Tepat Waktu</div>
+      <h4>Rincian Tagihan</h4>
+      <p><strong>1. Pinjaman Jangka Pendek:</strong> <span class="nominal">Rp500.000</span></p>
+      <p>Angsuran ke-2</p>
+      <p>Pembayaran: <strong>Rp200.000</strong></p>
+      <p>Sisa Hutang: <strong>Rp100.000</strong></p>
+      <p><small>14 Mei 2025 - 10:32:12</small></p>
+    </div>
+
+    <!-- Kartu Tagihan 3 -->
+    <div class="loan-card card-hijau">
+      <div class="badge hijau">Lunas</div>
+      <h4>Rincian Tagihan</h4>
+      <p><strong>1. Pinjaman Jangka Panjang:</strong> <span class="nominal">Rp3.000.000</span></p>
+      <p>Angsuran ke-3</p>
+      <p>Pembayaran: <strong>Rp3.000.000</strong></p>
+    </div>
+  </div>
 
   <div class="custom-tabbar">
   <!-- SVG cekungan -->
@@ -22,7 +63,7 @@
   <div class="tab-button" routerLink="/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/payments">
+  <div class="tab-button" routerLink="/savings">
     <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
   </div>
 

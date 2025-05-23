@@ -1,0 +1,104 @@
+<ion-content class="transaction-details-page" fullscreen [scrollY]="false">
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+    </div>
+    <div class="user-info">
+      <h2>Hello, John!</h2>
+      <p>Member</p>
+    </div>
+    <div class="notification-icon" routerLink="/notifications">
+      <img src="assets/notification.svg" alt="Notifikasi" />
+      <span class="notif-dot"></span>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>Detail Transaksi</h3>
+    
+    <!-- Transaction Card -->
+    <div class="transaction-card">
+      <h4>Pinjaman Jangka Pendek</h4>
+      
+      <div class="transaction-details">
+        <div class="detail-row">
+          <span class="label">Jumlah Pinjaman:</span>
+          <span class="value">Rp500.000</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Nominal Pembayaran:</span>
+          <span class="value">Rp200.000</span>
+        </div>
+        
+        <div class="detail-row row-tanggal">
+          <span class="label">Tanggal Transaksi:</span>
+          <div class="value">
+            <span class="date">14 Mei 2025</span>
+            <span class="time">10:32:12</span>
+          </div>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Angsuran Ke:</span>
+          <span class="value">Ke-2</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Sisa Hutang:</span>
+          <span class="value">Rp100.000</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Status Pembayaran:</span>
+          <span class="status-badge">Tepat Waktu</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Lokasi Pembayaran:</span>
+          <ion-button class="location-btn" size="small" shape="round">
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            Lihat di Maps
+          </ion-button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Download Button -->
+    <div class="download-section">
+      <ion-button class="download-btn" expand="block" shape="round">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        Unduh Slip Pembayaran
+      </ion-button>
+    </div>
+  </div>
+
+<div class="custom-tabbar">
+  <!-- Histories dengan notch -->
+  <div class="tab-wrapper active">
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
+    <div class="tab-button" routerLink="/histories">
+      <div class="icon-wrapper">
+        <img src="assets/history.svg" alt="Riwayat" class="icon" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Lain -->
+  <div class="tab-button" routerLink="/savings">
+    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/home">
+    <img src="assets/home.svg" alt="Home" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/loans">
+    <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+  </div>
+  <div class="tab-button" routerLink="/profile">
+    <img src="assets/profile.svg" alt="Profil" class="icon" />
+  </div>
+</div>
+
+</ion-content>

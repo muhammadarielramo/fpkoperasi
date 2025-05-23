@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: LoansPage
+  },  {
+    path: 'loan-application',
+    loadChildren: () => import('./loan-application/loan-application.module').then( m => m.LoanApplicationPageModule)
   }
+
 ];
 
 @NgModule({

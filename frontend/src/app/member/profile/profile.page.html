@@ -1,4 +1,4 @@
-<ion-content class="profile-page" fullscreen>
+<ion-content class="profile-page" fullscreen [scrollY]="false">
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
@@ -13,6 +13,57 @@
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+      <!-- Profile Header -->
+      <div class="profile-header">
+          <h1 class="profile-title">Profile</h1>
+          <button class="edit-profile-btn">
+            <img src="assets/edit-profile.svg" alt="Edit" class="icon-edit" />
+            Edit Profile
+          </button>
+      </div>
+
+      <!-- Profile Avatar -->
+      <div class="profile-avatar-section">
+        <div class="profile-avatar">
+          <img src="assets/avatar.svg" alt="Avatar" class="avatar-icon" />
+          <div class="avatar-edit-icon">
+            <img src="assets/edit-avatar.svg" alt="Edit Avatar" class="icon-edit-avatar" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="form-section">
+          <div class="input-group">
+              <label class="input-label">Username</label>
+              <input type="text" class="input-field" value="Tsukasa Suou" readonly>
+          </div>
+
+          <div class="input-group">
+              <label class="input-label">Email</label>
+              <input type="email" class="input-field" value="tsukasasuou@gmail.com" readonly>
+          </div>
+
+          <div class="input-group">
+              <label class="input-label">Password</label>
+              <input type="password" class="input-field password-field" value="••••••••••••••" readonly>
+          </div>
+
+          <div class="input-group">
+              <label class="input-label">Alamat Lengkap</label>
+              <input type="text" class="input-field" value="Jl. Citra Kebun Mas RT 01/RW 12 KARAWANG" readonly>
+          </div>
+
+          <div class="input-group">
+              <label class="input-label">No. HP</label>
+              <input type="tel" class="input-field" value="081234567891012" readonly>
+          </div>
+      </div>
+  </div>
 
   <div class="custom-tabbar">
   <!-- SVG cekungan -->
@@ -22,7 +73,7 @@
   <div class="tab-button" routerLink="/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/payments">
+  <div class="tab-button" routerLink="/savings">
     <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
   </div>
 

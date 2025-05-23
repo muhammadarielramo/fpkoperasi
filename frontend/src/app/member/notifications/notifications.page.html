@@ -1,4 +1,4 @@
-<ion-content class="notifications-page" fullscreen>
+<ion-content class="notifications-page" fullscreen [scrollY]="false">
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
@@ -13,6 +13,65 @@
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
+  </div>
+
+  <!-- Notifications Content -->
+  <div class="notifications-content">
+      <!-- Konfirmasi Transaksi Pembayaran Tagihan -->
+      <div class="notification-card">
+          <div class="notification-icon-wrapper"></div>
+          <div class="notification-content">
+              <h3 class="notification-title">Konfirmasi Transaksi Pembayaran Tagihan</h3>
+              <p class="notification-description">Transaksi berhasil! Anda telah membayar tagihan pinjaman jangka pendek sebesar Rp100.000</p>
+              <div class="notification-time">14 Mei 2025 - 9:00:45 WIB</div>
+          </div>
+          <div class="notification-arrow">›</div>
+      </div>
+
+      <!-- Konfirmasi Transaksi -->
+      <div class="notification-card">
+          <div class="notification-icon-wrapper"></div>
+          <div class="notification-content">
+              <h3 class="notification-title">Konfirmasi Transaksi</h3>
+              <p class="notification-description">Transaksi berhasil! Anda telah melakukan Simpanan Sukarela sebesar Rp100.000 pada 8 Mei 2025. Saldo simpanan anda saat ini adalah Rp2.000.000</p>
+              <div class="notification-time">8 Mei 2025 - 19:30:12 WIB</div>
+          </div>
+          <div class="notification-arrow">›</div>
+      </div>
+
+      <!-- Notifikasi Pencairan Dana -->
+      <div class="notification-card">
+          <div class="notification-icon-wrapper"></div>
+          <div class="notification-content">
+              <h3 class="notification-title">Notifikasi Pencairan Dana!</h3>
+              <p class="notification-description">Dana pinjaman sebesar Rp500.000 telah tersedia. Silakan hubungi kolektor Anda untuk pencairan.</p>
+              <div class="notification-time">2 Mei 2025 - 12:05:40 WIB</div>
+          </div>
+          <div class="notification-arrow">›</div>
+      </div>
+
+      <!-- Informasi Umum Koperasi -->
+      <div class="notification-card">
+          <div class="notification-icon-wrapper"></div>
+          <div class="notification-content">
+              <h3 class="notification-title">Informasi Umum Koperasi!</h3>
+              <p class="notification-description">Pemberitahuan: Rapat Anggota Tahunan (RAT) akan dilaksanakan pada 15 Maret 2025 pukul 10.00 WIB di Aula Koperasi. Kehadiran Anda sangat diharapkan.</p>
+              <div class="notification-time">13 April 2025 - 3:00:45 WIB</div>
+          </div>
+          <div class="notification-arrow">›</div>
+      </div>
+
+      <!-- Pengingat Jatuh Tempo Pembayaran -->
+      <div class="notification-card">
+          <div class="notification-icon-wrapper"></div>
+          <div class="notification-content">
+              <h3 class="notification-title">Pengingat Jatuh Tempo Pembayaran!</h3>
+              <p class="notification-description">Yth. Bapak/Ibu (nama Anggota), angsuran pinjaman Anda sebesar Rp500.000 akan jatuh tempo pada 10 April 2025. Mohon lakukan pembayaran tepat waktu untuk menghindari denda keterlambatan.</p>
+              <div class="notification-time">5 maret 2025 - 8:59:59 WIB</div>
+          </div>
+          <div class="notification-arrow">›</div>
+      </div>
+  </div>
 
   <div class="custom-tabbar">
   <!-- SVG cekungan -->
@@ -22,7 +81,7 @@
   <div class="tab-button" routerLink="/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/payments">
+  <div class="tab-button" routerLink="/savings">
     <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
   </div>
 
