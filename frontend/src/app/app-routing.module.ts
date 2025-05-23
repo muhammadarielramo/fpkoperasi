@@ -24,23 +24,23 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'dashboard',
+    path: 'member/dashboard',
     loadChildren: () => import('./member/dashboard/dashboard.module').then(m => m.DashboardPageModule)
   },
   {
-    path: 'notifications',
+    path: 'member/notifications',
     loadChildren: () => import('./member/notifications/notifications.module').then(m => m.NotificationsPageModule)
   },
   {
-    path: 'savings',
+    path: 'member/savings',
     loadChildren: () => import('./member/savings/savings.module').then( m => m.SavingsPageModule)
   },
   {
-    path: 'loans',
+    path: 'member/loans',
     loadChildren: () => import('./member/loans/loans.module').then( m => m.LoansPageModule)
   },
   {
-    path: 'histories',
+    path: 'member/histories',
     loadChildren: () => import('./member/histories/histories.module').then( m => m.HistoriesPageModule)
   },
   {
@@ -48,17 +48,37 @@ const routes: Routes = [
     loadChildren: () => import('./login/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./admin/dashboard/dashboard.module').then( m => m.DashboardPageModule)
-  },
-  {
-    path: 'profile',
+    path: 'member/profile',
     loadChildren: () => import('./member/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'loan-application',
+    path: 'member/loan-application',
     loadChildren: () => import('./member/loans/loan-application/loan-application.module').then(m => m.LoanApplicationPageModule)
+  },  {
+    path: 'dashboard',
+    loadChildren: () => import('./collector/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'savings',
+    loadChildren: () => import('./collector/savings/savings.module').then( m => m.SavingsPageModule)
+  },
+  {
+    path: 'payments',
+    loadChildren: () => import('./collector/payments/payments.module').then( m => m.PaymentsPageModule)
+  },
+  {
+    path: 'loans',
+    loadChildren: () => import('./collector/loans/loans.module').then( m => m.LoansPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./collector/notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'histories',
+    loadChildren: () => import('./collector/histories/histories.module').then( m => m.HistoriesPageModule)
   }
+
 ];
 
 @NgModule({
