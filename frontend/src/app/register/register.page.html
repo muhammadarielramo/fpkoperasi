@@ -1,4 +1,4 @@
-<ion-content class="register-page no-scroll" fullscreen>
+<ion-content class="register-page" fullscreen>
 
   <!-- Dekorasi -->
   <div class="circle circle1"></div>
@@ -53,6 +53,30 @@
       class="custom-outline"
       type="text">
     </ion-input>
+
+    <ion-accordion-group>
+      <ion-accordion #accordion>
+        
+        <ion-item slot="header" color="light">
+          <ion-label>
+            {{ selectedGender || 'Pilih Jenis Kelamin' }}
+          </ion-label>
+          <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+        </ion-item>
+
+        <div class="ion-padding" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let gender of genderOptions" 
+                      (click)="selectGender(gender)" 
+                      button 
+                      detail="false">
+              <ion-label>{{ gender }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+      </ion-accordion>
+    </ion-accordion-group>
 
     <div class="input-container">
       <ion-input

@@ -104,27 +104,37 @@
   </div>
 
 <div class="custom-tabbar">
-  <!-- Histories dengan notch -->
-  <div class="tab-wrapper active">
-    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-    <div class="tab-button" routerLink="/histories">
-      <div class="icon-wrapper">
-        <img src="assets/history.svg" alt="Riwayat" class="icon" />
-      </div>
-    </div>
+  <!-- SVG cekungan dipindah ke kiri -->
+  <img src="assets/tab-notch.svg" alt="notch" class="tab-notch tab-notch-left" />
+
+  <!-- Riwayat: melayang di kiri -->
+  <div class="tab-button tab-floating-left" routerLink="/member/histories">
+    <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
 
-  <!-- Tab Lain -->
-  <div class="tab-button" routerLink="/savings">
-    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+  <!-- Savings -->
+  <div class="tab-button" routerLink="/member/savings">
+    <img src="assets/money-bag.svg" alt="Savings" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/home">
-    <img src="assets/home.svg" alt="Home" class="icon" />
-  </div>
-  <div class="tab-button" routerLink="/loans">
+
+  <!-- Spacer tengah -->
+  <div class="tab-spacer"></div>
+
+  <!-- Loans -->
+  <div class="tab-button" routerLink="/member/loans">
     <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
   </div>
-  <div class="tab-button" routerLink="/profile">
+
+  <!-- Profile -->
+  <div class="tab-button" routerLink="/member/profile">
     <img src="assets/profile.svg" alt="Profil" class="icon" />
   </div>
+
+  <!-- Tombol Home -->
+  <div class="tab-button" routerLink="/member/dashboard">
+    <img src="assets/home.svg" alt="Dashboard" class="icon" />
+  </div>
 </div>
+
+
+

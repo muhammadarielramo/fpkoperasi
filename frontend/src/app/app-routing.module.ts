@@ -54,28 +54,41 @@ const routes: Routes = [
   {
     path: 'member/loan-application',
     loadChildren: () => import('./member/loans/loan-application/loan-application.module').then(m => m.LoanApplicationPageModule)
-  },  {
-    path: 'dashboard',
+  },
+  {
+    path: 'collector/dashboard',
     loadChildren: () => import('./collector/dashboard/dashboard.module').then( m => m.DashboardPageModule)
   },
   {
-    path: 'savings',
+    path: 'collector/savings',
     loadChildren: () => import('./collector/savings/savings.module').then( m => m.SavingsPageModule)
   },
   {
-    path: 'payments',
+    path: 'collector/savings/deposit-savings',
+    loadChildren: () => import('./collector/savings/deposit-savings/deposit-savings.module').then( m => m.DepositSavingsPageModule)
+  },
+  {
+    path: 'collector/payments',
     loadChildren: () => import('./collector/payments/payments.module').then( m => m.PaymentsPageModule)
   },
   {
-    path: 'loans',
+    path: 'collector/payments/payment-entry',
+    loadChildren: () => import('./collector/payments/payment-entry/payment-entry.module').then( m => m.PaymentEntryPageModule)
+  },
+  {
+    path: 'collector/loans',
     loadChildren: () => import('./collector/loans/loans.module').then( m => m.LoansPageModule)
   },
   {
-    path: 'notifications',
+    path: 'collector/loans/loan-details',
+    loadChildren: () => import('./collector/loans/loan-details/loan-details.module').then( m => m.LoanDetailsPageModule)
+  },
+  {
+    path: 'collector/notifications',
     loadChildren: () => import('./collector/notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
   {
-    path: 'histories',
+    path: 'collector/histories',
     loadChildren: () => import('./collector/histories/histories.module').then( m => m.HistoriesPageModule)
   }
 
