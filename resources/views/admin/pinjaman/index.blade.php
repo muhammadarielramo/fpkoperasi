@@ -5,7 +5,17 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Data Pinjaman Anggota</h4>
-                  </div>
+
+                    <form method="GET" action="{{ route('pinjaman.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                   <div class="card-body p-0">
                     <div class="table-responsive">
                       <table class="table table-striped table-md">

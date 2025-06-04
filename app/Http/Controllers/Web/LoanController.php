@@ -29,11 +29,21 @@ class LoanController extends Controller
         return view('admin.pinjaman.pengajuan', compact('pengajuan'));
     }
 
-    public function index() {
+    public function index(Request $request) {
 
-        $loans = Loan::with('member')
-            ->whereNot('status', 'Ditolak')
-            ->get();
+        $query = Loan::with('member.user')
+            ->where('status', '!=', 'Ditolak');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+
+            $query->whereHas('member.user', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $loans = $query->get();
+
         return view('admin.pinjaman.index', compact('loans'));
     }
 
