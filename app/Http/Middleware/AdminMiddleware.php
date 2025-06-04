@@ -21,7 +21,7 @@ class AdminMiddleware
         }
 
         if (Auth::user()->id_role !== '1') {
-            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses.');
+            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses.');
         }
 
         return $next($request);

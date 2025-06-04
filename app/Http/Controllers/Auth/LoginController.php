@@ -37,6 +37,8 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        // dd($request->all());
+
         if(Auth::attempt($request->only('email', 'password'))) {
             if(Auth::user()->id_role == '1') {
                 return redirect()->route('admin.dashboard');

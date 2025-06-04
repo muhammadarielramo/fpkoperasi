@@ -40,9 +40,8 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
 // dashboard
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function(){
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-
     Route::get('/anggota', [MemberController::class, 'getDatas'])->name('data-anggota');
     Route::get('/kolektor', [CollectorController::class, 'getDatas'])->name('data-kolektor');
     Route::get('/pendaftaran-anggota', [RegisterController::class, 'show'])->name('pendaftaran-anggota');
@@ -51,7 +50,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 });
 
 // anggota
-Route::group(['prefix' => 'anggota', 'as' => 'anggota.'], function(){
+Route::group(['prefix' => 'anggota', 'as' => 'anggota.', 'middleware' => 'admin'], function(){
     Route::get('/info/{id}', [MemberController::class, 'detailAnggota'])->name('info');
     Route::delete('/hapus/{id}', [MemberController::class, 'destroy'])->name('hapus');
     Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('edit');
@@ -61,7 +60,7 @@ Route::group(['prefix' => 'anggota', 'as' => 'anggota.'], function(){
 });
 
 // kolektor
-Route::group(['prefix' => 'kolektor', 'as' => 'kolektor.'], function(){
+Route::group(['prefix' => 'kolektor', 'as' => 'kolektor.', 'middleware' => 'admin'], function(){
     Route::get('/info/{id}', [CollectorController::class, 'detailKolektor'])->name('info');
     Route::get('/edit/{id}', [CollectorController::class, 'edit'])->name('edit');
     Route::put('/edit/{id}', [CollectorController::class, 'update'])->name('update');
@@ -72,7 +71,7 @@ Route::group(['prefix' => 'kolektor', 'as' => 'kolektor.'], function(){
 });
 
 // pinjaman
-Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.'], function(){
+Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.', 'middleware' => 'admin'], function(){
     Route::get('/pengajuan', [LoanController::class, 'indexPengajuan'])->name('pengajuan');
     Route::get('/data',[LoanController::class, 'index'])->name('index');
     Route::get('/history',[LoanController::class, 'history'])->name('history');
@@ -82,13 +81,13 @@ Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.'], function(){
 });
 
 // simpanan
-Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.'], function(){
+Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.', 'middleware' => 'admin'], function(){
     Route::get('/data', [DepositController::class, 'index'])->name('index');
     Route::get('/history',[TransactionController::class, 'deposit'])->name('history');
     Route::get('/history/info/{id}', [TransactionController::class, 'infoHistori'])->name('histori.info');
 });
 
-Route::group(['prefix' => 'register', 'as' => 'register.'], function(){
+Route::group(['prefix' => 'register', 'as' => 'register.', 'middleware' => 'admin'], function(){
     Route::delete('/tolak/{id}', [RegisterController::class, 'tolak'])->name('tolak');
     Route::post('/terima/{id}', [RegisterController::class, 'terima'])->name('terima');
     Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
@@ -104,14 +103,6 @@ Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->na
 Route::get('/history/monthly', [TransactionController::class, 'monthlyHistory'])->name('history.monthly');
 // export
 Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
-
-
-
-
-
-
-
-
 
 // relasi
 Route::get('relasi/tambah/{id}', [RelationController::class, 'create'])->name('relasi.create');
