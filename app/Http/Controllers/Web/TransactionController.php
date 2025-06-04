@@ -16,13 +16,29 @@ use function Laravel\Prompts\form;
 
 class TransactionController extends Controller
 {
-    public function deposit() {
-        $histories = Transaction::with('member', 'deposit', 'collector')
-            ->whereNotNull('id_deposit')
-            ->get();
-        // dd($histories->toArray());
-        return view('admin.simpanan.history', compact( 'histories'));
+    public function deposit(Request $request)
+    {
+        $query = Transaction::with('member', 'deposit', 'collector')
+            ->whereNotNull('id_deposit');
+
+        if ($request->has('date') && !empty($request->date)) {
+            $date = $request->input('date');
+
+            // Cek apakah formatnya hanya bulan dan tahun (YYYY-MM)
+            if (preg_match('/^\d{4}-\d{2}$/', $date)) {
+                $query->whereDate('tgl_transaksi', 'like', $date . '%'); // match bulan dan tahun
+            }
+            // Jika formatnya tanggal lengkap (YYYY-MM-DD)
+            elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                $query->whereDate('tgl_transaksi', $date); // match tanggal
+            }
+        }
+
+        $histories = $query->get();
+
+        return view('admin.simpanan.history', compact('histories'));
     }
+
 
     public function dailyHistory(Request $request) {
 

@@ -35,7 +35,7 @@
             </tr>
             </thead>
             <tbody>
-                @foreach ($transactions as $t)
+                @foreach ($transactions->sortByDesc('tgl_transaksi') as $t)
                     <tr>
                         <td>{{$t->tipe_transaksi}}</td>
                         <td>
