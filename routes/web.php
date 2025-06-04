@@ -78,6 +78,7 @@ Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.'], function(){
     Route::get('/history',[LoanController::class, 'history'])->name('history');
     Route::put('/pengajuan/update/{id}', [LoanController::class, 'responPengajuan'])->name('updateStatus');
     Route::get('/detail/{id}', [LoanController::class, 'detailPinjaman'])->name('detail');
+    Route::patch('/pinjaman/{id}/lunas', [LoanController::class, 'lunas'])->name('lunas');
 });
 
 // simpanan

@@ -36,7 +36,7 @@
                           <td>{{$l->member->id}}</td>
                           <td>{{$l->member->user->name}}</td>
                           <td>{{$l->tenor}}</td>
-                          <td>{{$l->jumlah_pinjaman}}</td>
+                          <td>Rp {{ number_format($l->jumlah_pinjaman, 0, ',', '.') }}</td>
                           <td>{{$l->status}}</td>
                           <td><a href="{{route('pinjaman.detail', $l->id)}}" class="btn btn-primary">Detail</a></td>
                         </tr>

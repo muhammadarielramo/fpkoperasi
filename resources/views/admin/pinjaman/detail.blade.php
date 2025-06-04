@@ -62,6 +62,12 @@
                 <dt class="col-sm-4">Sisa Pinjaman</dt>
                 <dd class="col-sm-8">Rp {{ number_format($loan->jumlah_pinjaman - $totalCicilan, 0, ',', '.') }}</dd>
             </dl>
+
+            <form action="{{ route('pinjaman.lunas', $loan->id) }}" method="POST" onsubmit="return confirm('Tandai pinjaman ini sebagai lunas?')">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="btn btn-success btn-sm">✔️ Lunas</button>
+            </form>
         </div>
     </div>
 

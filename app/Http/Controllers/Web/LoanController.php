@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Loan;
+use Doctrine\DBAL\Schema\Index;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -74,5 +75,13 @@ class LoanController extends Controller
         $loan = Loan::with('member', 'installments')->findOrFail($id);
 
         return view('admin.pinjaman.detail', compact('loan'));
+    }
+
+    public function lunas ($id) {
+        $loan = Loan::findOrFail($id);
+        $loan->status = 'Lunas';
+        $loan->save();
+
+        return redirect()->route('pinjaman.index');
     }
 }

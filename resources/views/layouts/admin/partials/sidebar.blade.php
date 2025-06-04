@@ -46,10 +46,6 @@
                 <a href="{{route('pinjaman.index')}}" class="nav-link"><i class="fas fa-wallet"></i>
                     <span>Data Pinjaman Anggota</span></a>
             </i>
-            <li class="nav-item">
-                <a href="{{route('pinjaman.history')}}" class="nav-link"><i class="fas fa-clock"></i>
-                    <span>Transaksi Pinjaman</span></a>
-            </i>
             {{-- Manajemen pinjaman End --}}
 
             {{-- Laporan Keuangan Start --}}
