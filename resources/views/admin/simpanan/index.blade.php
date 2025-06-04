@@ -5,9 +5,9 @@
                 <div class="card">
                      <div class="card-header d-flex justify-content-between align-items-center">
                         <h4>Data Simpanan Anggota</h4>
-                        <form method="GET">
+                        <form method="GET" action="{{ route('simpanan.index') }}">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari nama..." value="{{ request('search') }}">
+                            <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
                             <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                             </div>
