@@ -3,120 +3,93 @@
 <link rel="stylesheet" href="../node_modules/selectric/public/selectric.css">
 
 @section('content')
-        <section class="section">
-          <div class="section-body">
-            <h2 class="section-title">Pengajuan Pinjaman</h2>
+<section>
 
-            <div class="row">
-              <div class="col-12">
-                <div class="card mb-0">
-                  <div class="card-body">
-                    <ul class="nav nav-pills">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="#">All <span class="badge badge-white">5</span></a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Pending <span class="badge badge-primary">1</span></a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Diterima<span class="badge badge-primary">0</span></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="float-right">
-                      <form>
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                          <div class="input-group-append">
-                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+<div class="container my-4">
 
-                    <div class="clearfix mb-3"></div>
+    <!-- Filter dan Search -->
+    <form method="GET" action="{{ route('pinjaman.pengajuan') }}" class="row row-cols-lg-auto g-2 align-items-center mb-3">
+        <div class="col-12">
+            <label class="visually-hidden" for="statusSelect">Status</label>
+            <select name="status" id="statusSelect" class="form-select">
+                <option value="">🔽 Filter Status</option>
+                <option value="Diajukan" {{ request('status') == 'Diajukan' ? 'selected' : '' }}>🕒 Diajukan</option>
+                <option value="Diterima" {{ request('status') == 'Diterima' ? 'selected' : '' }}>✅ Diterima</option>
+                <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>❌ Ditolak</option>
+            </select>
+        </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Tanggal Pengajuan</th>
-                                    <th>Nominal</th>
-                                    <th>Tenor</th>
-                                    <th>Terakhir diubah</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pengajuan as $p)
-                                    <tr>
-                                        <td>
-                                            {{ $p->member->user->name }}
-                                            <div class="table-links">
-                                                <a href="#">View</a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p>{{ $p->tgl_pengajuan }}</p>
-                                        </td>
-                                        <td>
-                                            <p>Rp {{ number_format($p->jumlah_pinjaman, 0, ',', '.') }}</p>
-                                        </td>
-                                        <td>{{ $p->tenor }} Bulan</td>
-                                        <td>{{ $p->updated_at }}</td>
-                                        <td>
-                                            @if ($p->status == 'Diajukan')
-                                                <div class="badge badge-warning">Diajukan</div>
-                                            @elseif ($p->status == 'Diterima')
-                                                <div class="badge badge-success">Diterima</div>
-                                            @elseif ($p->status == 'Ditolak')
-                                                <div class="badge badge-danger">Ditolak</div>
-                                            @else
-                                                <div class="badge badge-secondary">{{ $p->status }}</div>
-                                            @endif
-                                        </td>
-                                    <td>
-                                        <form action="{{ route('pinjaman.updateStatus', $p->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="status" value="Diterima">
-                                            <button type="submit" class="btn btn-success btn-sm">Terima</button>
-                                        </form>
+        <div class="col-12">
+            <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary">
+                🔎 Tampilkan
+            </button>
+        </div>
+    </form>
 
-                                        <form action="{{ route('pinjaman.updateStatus', $p->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="status" value="Ditolak">
-                                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                        </form>
-                                    </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {{ $pengajuan->links() }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-  <script src="../node_modules/selectric/public/jquery.selectric.min.js"></script>
-
-  <script src="../assets/js/page/features-posts.js"></script>
+    <!-- Tabel -->
+    <table class="table table-bordered table-striped table-sm align-middle">
+        <thead class="table-secondary">
+            <tr>
+                <th>Nama</th>
+                <th>Tanggal Pengajuan</th>
+                <th>Nominal</th>
+                <th>Tenor</th>
+                <th>Terakhir diubah</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($pengajuan->sortByDesc('tgl_pengajuan') as $p)
+                <tr>
+                    <td>{{ $p->member->user->name }}</td>
+                    <td>{{ \Carbon\Carbon::parse($p->tgl_pengajuan)->format('d M Y') }}</td>
+                    <td>Rp {{ number_format($p->jumlah_pinjaman, 0, ',', '.') }}</td>
+                    <td>{{ $p->tenor }} bulan</td>
+                    <td>{{ \Carbon\Carbon::parse($p->updated_at)->diffForHumans() }}</td>
+                    <td>
+                        <span class="badge
+                            @if($p->status == 'Diterima') bg-success
+                            @elseif($p->status == 'Ditolak') bg-danger
+                            @else bg-secondary
+                            @endif">
+                            {{ $p->status }}
+                        </span>
+                    </td>
+                    <td>
+                        @if($p->status == 'Diajukan')
+                        <form action="{{ route('pinjaman.updateStatus', $p->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="status" value="Diterima">
+                            <button type="submit" class="btn btn-success btn-sm">✔ Terima</button>
+                        </form>
+                        <form action="{{ route('pinjaman.updateStatus', $p->id) }}" method="POST" class="d-inline ms-1">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="status" value="Ditolak">
+                            <button type="submit" class="btn btn-danger btn-sm">✖ Tolak</button>
+                        </form>
+                        @else
+                        <em>-</em>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Tidak ada data pengajuan.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 
 
+        {{-- Pagination --}}
+    <div class="d-flex justify-content-center">
+        {{ $pengajuan->links() }}
+    </div>
+</div>
+
+</section>
 @endsection

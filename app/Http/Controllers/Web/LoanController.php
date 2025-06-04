@@ -9,9 +9,22 @@ use Illuminate\Http\Request;
 class LoanController extends Controller
 {
     public function indexPengajuan(Request $request) {
-        $pengajuan = Loan::with('member')
-            // ->where('status', 'Diajukan')
-            ->paginate(20);
+        $query = Loan::with('member.user');
+
+        // Filter berdasarkan status jika tersedia
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Pencarian berdasarkan nama anggota
+        if ($request->filled('search')) {
+            $query->whereHas('member.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Urutkan berdasarkan tanggal pengajuan terbaru
+        $pengajuan = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.pinjaman.pengajuan', compact('pengajuan'));
     }
