@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Mail;
 */
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
+Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
 // dashboard
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
