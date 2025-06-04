@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="register-page" fullscreen>
+  <div class="background-decor"></div>
+
+  <div class="form-container">
+    <h2 class="title">Register</h2>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">Nama Lengkap</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">No. HP</ion-label>
+      <ion-input type="tel"></ion-input>
+    </ion-item>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email"></ion-input>
+    </ion-item>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">Alamat Lengkap</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">NIK</ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+
+    <ion-item lines="inset">
+      <ion-label position="floating">Tanggal Lahir</ion-label>
+      <ion-datetime display-format="DD/MM/YYYY"></ion-datetime>
+    </ion-item>
+
+    <div class="upload-box">
+      <label>Foto KTP</label>
+      <div class="upload-area">
+        <ion-icon name="image-outline"></ion-icon>
+        <ion-icon name="camera-outline" class="camera-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

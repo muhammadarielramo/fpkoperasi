@@ -1,0 +1,45 @@
+<ion-content class="background" fullscreen="True" scrollEvents="false" [scrollY]="false">
+
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle1b"></div>
+  <div class="circle circle2b"></div>
+
+  <!-- Back Button keluar dari login-container -->
+  <ion-button fill="clear" class="back-button" routerLink="/home">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+
+  <!-- Baru ini untuk center box -->
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <form>
+        <ion-item>
+          <ion-input label="Username/NIK" labelPlacement="floating" placeholder="Masukkan Username/NIK" class="username-input"></ion-input>
+        </ion-item>
+
+        <div class="password-field">
+          <ion-item>
+            <ion-input label="Password" labelPlacement="floating" placeholder="Masukkan Password"
+              [type]="showPassword ? 'text' : 'password'" id="password" required class="password-input">
+            </ion-input>
+          </ion-item>
+        
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" id="togglePassword"
+            (click)="togglePasswordVisibility()" class="eye-icon">
+          </ion-icon>
+        </div>
+
+        <br>
+
+        <a href="/forgot-password" class="forgot-password">Lupa Kata Sandi?</a>
+
+        <!-- Tombol -->
+        <div class="button-group">
+          <ion-button routerLink="/member/dashboard" class="btn-masuk" shape="round" expand="block" type="submit">Masuk</ion-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>
