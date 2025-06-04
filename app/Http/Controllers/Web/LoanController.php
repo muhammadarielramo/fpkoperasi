@@ -17,7 +17,11 @@ class LoanController extends Controller
     }
 
     public function index() {
-        return redirect('admin.pinjaman.index');
+
+        $loans = Loan::with('member')
+            ->whereNot('status', 'Ditolak')
+            ->get();
+        return view('admin.pinjaman.index', compact('loans'));
     }
 
     public function responPengajuan (Request $request, $id) {
@@ -41,5 +45,11 @@ class LoanController extends Controller
 
     public function history() {
         return view('admin.pinjaman.history');
+    }
+
+    public function detailPinjaman ($id) {
+        $loan = Loan::with('member', 'installments')->findOrFail($id);
+
+        return view('admin.pinjaman.detail', compact('loan'));
     }
 }

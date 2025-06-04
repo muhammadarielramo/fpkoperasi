@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Collector;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberCollector;
 use App\Models\User;
 use App\Models\ViewMemberCollector;
 use Collator;
@@ -136,6 +137,9 @@ class CollectorController extends Controller
 
     public function detailKolektor($id) {
         $collector = Collector::with('user')->findOrFail($id);
-        return view('admin.kolektor.info', compact('collector'));
+
+        $members = MemberCollector::with('member.user')->where('id_collector', $id)->get();
+        // dd($members->toArray());
+        return view('admin.kolektor.info', compact('collector', 'members'));
     }
 }

@@ -1,76 +1,67 @@
 @extends('layouts.admin.app', ['title' => 'Data Kolektor'])
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 @section('content')
-<div class="section-body">
-    <h2 class="section-title">Detail Kolektor</h2>
-    <p class="section-lead">Informasi lengkap kolektor: {{ $collector->user->name }}</p>
+<section>
 
-    <div class="card">
-        <div class="card-header">
-            <h4>Profil Kolektor</h4>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+        <!-- Tambah Kolektor -->
+        <a href="{{ route('kolektor.edit', $collector->id) }}" class="btn btn-warning btn-sm me-1">✏️ Edit</a>
+
+        <!-- Kembali -->
+        <a href="{{ route('admin.data-kolektor') }}" class="btn btn-secondary btn-sm">⬅️ Kembali</a>
         </div>
-        <div class="card-body">
-            <table class="table table-bordered table-sm">
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">ID</th>
-                    <td>{{ $collector->id }}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">Nama</th>
-                    <td>{{ $collector->user->name }}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">Email</th>
-                    <td>{{ $collector->user->email }}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">No. HP</th>
-                    <td>{{ $collector->user->phone_number }}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">Username</th>
-                    <td>{{ $collector->user->username }}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark" style="width: 180px;">Status</th>
-                    <td>{{ $collector->status}}</td>
-                </tr>
-                <tr>
-                    <th class="bg-light text-dark">Anggota Binaan</th>
-                    <td>
-                        <ul class="mb-0">
-                            <!-- Contoh statis -->
-                            <li>Ahmad Fauzi (NIK: 1234567890)</li>
-                            <li>Siti Aminah (NIK: 9876543210)</li>
-                            <li>Budi Santoso (NIK: 1122334455)</li>
-                        </ul>
-                    </td>
-                </tr>
 
-            </table>
-
-            <div class="d-flex justify-content-between mt-3">
-                <!-- Tombol Kembali -->
-                <form action="{{ route('admin.data-kolektor') }}" method="GET">
-                    <button type="submit" class="btn btn-primary">← Kembali ke Daftar</button>
-                </form>
-                <form action="{{ route('kolektor.anggota', $collector->id) }}" method="GET">
-                    <button type="submit" class="btn btn-secondary">Tambah Anggota</button>
-                </form>
-                <!-- Tombol Edit & Hapus -->
-                <div class="d-flex gap-2">
-                    <form action="{{ route('kolektor.edit', $collector->id) }}" method="GET">
-                        <button type="submit" class="btn btn-warning">Edit</button>
-                    </form>
-                    <form action="{{ route('kolektor.hapus', $collector->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <form action="{{ route('kolektor.hapus', $collector->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm me-1" onclick="return confirm('Yakin ingin menghapus anggota ini?')">🗑️ Hapus</button>
+        </form>
     </div>
+
+    <div class="card mb-3">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-sm-4">ID Kolektor</dt>
+        <dd class="col-sm-8">{{$collector->id}}</dd>
+
+        <dt class="col-sm-4">Nama Lengkap</dt>
+        <dd class="col-sm-8">{{$collector->user->name}}</dd>
+
+        <dt class="col-sm-4">No HP</dt>
+        <dd class="col-sm-8">{{$collector->user->phone_number}}</dd>
+
+        <dt class="col-sm-4">Email</dt>
+        <dd class="col-sm-8">{{$collector->user->email}}</dd>
+
+        <dt class="col-sm-4">Username</dt>
+        <dd class="col-sm-8">{{$collector->user->username}}</dd>
+
+      </dl>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header bg-info text-white">📄 Informasi Anggota</div>
+    <div class="card-body">
+      <h6 class="mt-4">Anggota Binaan</h6>
+      <ul class="list-group">
+        @forelse ($members as $member)
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ $member->member->user->name }} (NIK: {{ $member->member->nik }})
+            <a href="{{ route('anggota.info', $member->member->id) }}" class="btn btn-sm btn-primary">Lihat Profil Anggota</a>
+          </li>
+        @empty
+          <li class="list-group-item">Belum ada anggota binaan.</li>
+        @endforelse
+      </ul>
+    </div>
+  </div>
+
 </div>
+
+</section>
 
 @endsection

@@ -1,15 +1,24 @@
-@extends('layouts.admin.app', ['title' => 'Riwayat Pinjaman'])
+@extends('layouts.admin.app', ['title' => 'Riwayat Transaksi'])
 
 @section('content')
 <section>
 
-    <form action="{{ route('transactions.export') }}" method="GET" class="form-inline mb-3">
+    <form action="{{ route('history.daily') }}" method="GET" class="form-inline mb-3">
         <div class="form-group mr-2">
             <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD atau YYYY-MM" required>
         </div>
-        <button type="submit" class="btn btn-success">
-            <i class="fas fa-file-excel"></i> Export Excel
-        </button>
+
+        <div class="btn-group" role="group">
+            {{-- Tombol tampilkan data --}}
+            <button type="submit" name="action" value="filter" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tampilkan Data
+            </button>
+
+            {{-- export --}}
+            <button formaction="{{ route('transactions.export') }}" type="submit" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </button>
+        </div>
     </form>
 
 

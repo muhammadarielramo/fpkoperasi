@@ -97,8 +97,28 @@ class MemberController extends Controller
     }
 
     public function detailAnggota($id){
-        $member = Member::with('user')->findOrFail($id);
-        return view('admin.anggota.info', compact('member'));
+        $member = Member::with('user', 'loan', 'deposit')->findOrFail($id);
+        $kolektor = MemberCollector::with('collector')->where('id_member', $id)->first() ?? '-';
+
+        $simpananWajib = $member->deposit->where('jenis_simpanan', 'wajib')->sum('total_simpanan') ?? 0;
+        $simpananPokok = $member->deposit->where('jenis_simpanan', 'pokok')->sum('total_simpanan') ?? 0;
+        $simpananSukarela = $member->deposit->where('jenis_simpanan', 'sukarela')->sum('total_simpanan') ?? 0;
+        $totalSimpanan = $simpananWajib + $simpananPokok + $simpananSukarela;
+
+        $pastLoans = $member->loan->where('status', 'Lunas') ?? '-';
+        $loans = $member->loan->whereIn('status', ['Diterima', 'Berlangsung'])->first();
+        // dd($loans);
+        // dd($pastLoans);
+
+        return view('admin.anggota.info',
+            compact('member',
+                            'kolektor',
+                                    'simpananWajib',
+                                    'simpananPokok',
+                                    'simpananSukarela',
+                                    'totalSimpanan',
+                                    'pastLoans',
+                                    'loans'));
     }
 
     public function showAddMember($id) {

@@ -26,13 +26,29 @@ class TransactionController extends Controller
 
     public function dailyHistory(Request $request) {
 
-       $selectedDate = $request->input('date')
-        ? Carbon::parse($request->input('date'))->format('Y-m-d')
-        : Carbon::now()->format('Y-m-d');
+       $dateInput = $request->input('date');
 
-        $transactions = Transaction::with('member', 'collector')
-            ->whereDate('created_at', $selectedDate)
-            ->paginate(20);
+        if ($dateInput) {
+            if (preg_match('/^\d{4}-\d{2}$/', $dateInput)) {
+                // Format YYYY-MM → ambil range 1 bulan penuh
+                $startDate = Carbon::createFromFormat('Y-m', $dateInput)->startOfMonth();
+                $endDate = Carbon::createFromFormat('Y-m', $dateInput)->endOfMonth();
+
+                $transactions = Transaction::whereBetween('tgl_transaksi', [$startDate, $endDate])->get();
+            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
+                // Format YYYY-MM-DD → ambil satu tanggal
+                $selectedDate = Carbon::parse($dateInput)->format('Y-m-d');
+
+                $transactions = Transaction::whereDate('tgl_transaksi', $selectedDate)->get();
+            } else {
+                // Format tidak valid
+                return back()->withErrors(['date' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD atau YYYY-MM.']);
+            }
+        } else {
+            // Default ke hari ini
+            $selectedDate = Carbon::now()->format('Y-m-d');
+            $transactions = Transaction::whereDate('tgl_transaksi', $selectedDate)->get();
+        }
 
         // dd($transactions);
         $totalDebit = $transactions
@@ -45,42 +61,21 @@ class TransactionController extends Controller
         return view('admin.riwayat.transaksi', compact('transactions', 'totalDebit', 'totalKredit'));
     }
 
-    public function monthlyHistory(Request $request) {
-        $validated = Validator::make($request->all(), [
-        'month' => ['required', 'regex:/^\d{4}-(0[1-9]|1[0-2])$/'], // Format: YYYY-MM
-        ]);
-
-        if ($validated->fails()) {
-            return redirect()->back()->withErrors($validated->errors());
-        }
-
-        $month = $request->input('month');
-        $startDate = $month . '-01';
-        $endDate = date("Y-m-t", strtotime($startDate));
-
-        $transactions = Transaction::with('member', 'collector')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->get();
-        $totalDebit = $transactions
-            ->where('tipe_transaksi', 'debit')
-            ->sum('jumlah');
-        $totalKredit = $transactions
-            ->where('tipe_transaksi', 'kredit')
-            ->sum('jumlah');
-        dd($transactions);
-    }
-
     public function export(Request $request) {
         $request->validate([
             'date' => [
                 'nullable', // boleh tidak diisi, karena akan default ke hari ini
                 function ($attribute, $value, $fail) {
-                    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+                    if (
+                        !preg_match('/^\d{4}-\d{2}$/', $value) &&
+                        !preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
                         $fail('Format tanggal tidak valid. Gunakan format YYYY-MM-DD.');
                     }
                 },
             ],
         ]);
+
+
 
         return Excel::download(new TransactionExport($request->date), 'riwayat_transaksi.xlsx');
     }
