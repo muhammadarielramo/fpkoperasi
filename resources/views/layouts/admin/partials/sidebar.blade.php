@@ -23,11 +23,6 @@
                 <a href="{{route('admin.data-kolektor')}}" class="nav-link" ><i class="far fa-user"></i>
                     <span>Kolektor</span></a>
             </li>
-            {{-- <li class="nav-item">
-                <a href="{{route('admin.data-admin')}}" class="nav-link"><i class="far fa-user"></i>
-                    <span>Admin</span></a>
-            </li> --}}
-            {{-- Manajemen User End --}}
 
             {{-- Manajemen Simpanan Start --}}
             <li class="menu-header">Manajemen Simpanan</li>
@@ -60,7 +55,7 @@
             {{-- Laporan Keuangan Start --}}
             <li class="menu-header">Laporan Keuangan</li>
             <li class="nav-item">
-                  <a href="#" class="nav-link"><i class="fas fa-th-large"></i>
+                  <a href="{{route('history.daily')}}" class="nav-link"><i class="fas fa-th-large"></i>
                     <span>Laporan Harian</span></a>
             </i>
             <li class="nav-item">
