@@ -1,5 +1,4 @@
 <ion-content class="register-page" fullscreen>
-
   <!-- Dekorasi -->
   <div class="circle circle1"></div>
   <div class="circle circle2"></div>
@@ -19,7 +18,8 @@
       label-placement="floating"
       fill="outline"
       class="custom-outline"
-      type="text">
+      type="text"
+    >
     </ion-input>
 
     <ion-input
@@ -27,7 +27,8 @@
       label-placement="floating"
       fill="outline"
       class="custom-outline"
-      type="tel">
+      type="tel"
+    >
     </ion-input>
 
     <ion-input
@@ -35,7 +36,8 @@
       label-placement="floating"
       fill="outline"
       class="custom-outline"
-      type="email">
+      type="email"
+    >
     </ion-input>
 
     <ion-input
@@ -43,7 +45,8 @@
       label-placement="floating"
       fill="outline"
       class="custom-outline"
-      type="text">
+      type="text"
+    >
     </ion-input>
 
     <ion-input
@@ -51,9 +54,43 @@
       label-placement="floating"
       fill="outline"
       class="custom-outline"
+<<<<<<< Updated upstream
       type="number">
     </ion-input>
 
+=======
+      type="text"
+    >
+    </ion-input>
+
+    <!-- Gender Radio Buttons -->
+    <div class="gender-container">
+      <div class="gender-label">JENIS KELAMIN</div>
+      <div class="gender-options">
+        <div class="gender-option">
+          <input
+            type="radio"
+            id="laki-laki"
+            name="gender"
+            value="laki-laki"
+            [(ngModel)]="selectedGender"
+          />
+          <label for="laki-laki">Laki-laki</label>
+        </div>
+        <div class="gender-option">
+          <input
+            type="radio"
+            id="perempuan"
+            name="gender"
+            value="perempuan"
+            [(ngModel)]="selectedGender"
+          />
+          <label for="perempuan">Perempuan</label>
+        </div>
+      </div>
+    </div>
+
+>>>>>>> Stashed changes
     <div class="input-container">
       <ion-input
         label="Tanggal Lahir"
@@ -62,13 +99,25 @@
         class="custom-outline date-input"
         id="tanggalLahirInput"
         readonly
+<<<<<<< Updated upstream
         (click)="openDatePicker()">
+=======
+        (click)="openDatePicker()"
+      >
+        <ion-icon
+          name="calendar-outline"
+          slot="end"
+          class="calendar-icon"
+          (click)="openDatePicker()"
+        >
+        </ion-icon>
+>>>>>>> Stashed changes
       </ion-input>
-      <ion-modal 
-        [isOpen]="showDatePicker" 
-        [initialBreakpoint]="0.5" 
-        [breakpoints]="[0, 0.5, 0.75, 1]" 
-        (didDismiss)="showDatePicker = false" 
+      <ion-modal
+        [isOpen]="showDatePicker"
+        [initialBreakpoint]="0.5"
+        [breakpoints]="[0, 0.5, 0.75, 1]"
+        (didDismiss)="showDatePicker = false"
         class="date-picker-modal"
         [cssClass]="'custom-modal'"
       >
@@ -77,14 +126,15 @@
             <div class="date-modal-header">
               <h3>Pilih Tanggal Lahir</h3>
             </div>
-            <ion-datetime 
-              presentation="date" 
+            <ion-datetime
+              presentation="date"
               [showDefaultButtons]="true"
               [preferWheel]="true"
               doneText="Pilih"
               cancelText="Batal"
               (ionChange)="setDateValue($event)"
-              (ionCancel)="showDatePicker = false">
+              (ionCancel)="showDatePicker = false"
+            >
             </ion-datetime>
           </ion-content>
         </ng-template>
@@ -100,12 +150,25 @@
     </div>
 
     <div class="floating-button">
+<<<<<<< Updated upstream
       <ion-button (click)="showVerificationAlert()" shape="round" expand="block">Daftar</ion-button>
+=======
+      <ion-button
+        (click)="showVerificationAlert()"
+        class="btn-daftar"
+        shape="round"
+        expand="block"
+        >Daftar</ion-button
+      >
+>>>>>>> Stashed changes
     </div>
   </div>
 
   <!-- Verification Alert Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showVerification}">
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showVerification}"
+  >
     <div class="verification-modal">
       <div class="verification-icon">
         <ion-icon name="person-outline"></ion-icon>

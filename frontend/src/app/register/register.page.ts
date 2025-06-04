@@ -13,6 +13,10 @@ export class RegisterPage implements OnInit {
   showDatePicker = false;
   selectedDate = ''; 
   showPassword = false; 
+<<<<<<< Updated upstream
+=======
+  selectedGender: string = '';
+>>>>>>> Stashed changes
 
   constructor(private router: Router) { }
 
@@ -64,6 +68,10 @@ export class RegisterPage implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }  
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }
 
     

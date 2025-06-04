@@ -1,0 +1,144 @@
+<ion-content class="dashboard-page" fullscreen [scrollY]="false">
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+    </div>
+    <div class="user-info">
+      <h2>Hello, Izumi!</h2>
+      <p>Collector</p>
+    </div>
+    <div class="notification-icon" routerLink="/collector/notifications">
+      <img src="assets/notification.svg" alt="Notifikasi" />
+      <span class="notif-dot"></span>
+    </div>
+  </div>
+
+  <!-- Title Section -->
+  <div class="title-section">
+    <div class="btn-title">
+      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
+      Riwayat Transaksi
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <!-- Month Selector -->
+    <div class="month-selector">
+      <select class="month-dropdown">
+        <option value="">Pilih Bulan...</option>
+        <option value="january">Januari</option>
+        <option value="february">Februari</option>
+        <option value="march">Maret</option>
+        <option value="april">April</option>
+        <option value="may">Mei</option>
+        <option value="june">Juni</option>
+        <option value="july">Juli</option>
+        <option value="august">Agustus</option>
+        <option value="september">September</option>
+        <option value="october">Oktober</option>
+        <option value="november">November</option>
+        <option value="december">Desember</option>
+      </select>
+    </div>
+
+    <!-- Total Savings Card -->
+    <div class="total-savings-card">
+      <div class="savings-icon">
+        <img src="assets/chart-money.svg" alt="Chart Money" />
+      </div>
+      <div class="savings-info">
+        <p class="savings-label">Total Setoran pada Bulan Ini</p>
+        <div class="savings-amount">Rp7.000.000,00</div>
+      </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="transaction-history">
+      <div class="transaction-item">
+        <div class="transaction-avatar">
+          <img src="assets/avatar-tsukasa.jpg" alt="Tsukasa Suou" />
+        </div>
+        <div class="transaction-details">
+          <h3 class="member-name">Tsukasa Suou</h3>
+          <p class="transaction-date">14 Mei 2025</p>
+        </div>
+        <div class="transaction-amount">Rp200.000</div>
+        <div class="transaction-status">
+          <div class="status-badge success">
+            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
+            <span>Tepat Waktu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-avatar">
+          <img src="assets/avatar-alexander.jpg" alt="Alexander" />
+        </div>
+        <div class="transaction-details">
+          <h3 class="member-name">Alexander</h3>
+          <p class="transaction-date">13 Mei 2025</p>
+        </div>
+        <div class="transaction-amount">Rp500.000</div>
+        <div class="transaction-status">
+          <div class="status-badge success">
+            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
+            <span>Tepat Waktu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-avatar">
+          <img src="assets/avatar-james.jpg" alt="James Carter" />
+        </div>
+        <div class="transaction-details">
+          <h3 class="member-name">James Carter</h3>
+          <p class="transaction-date">8 Mei 2025</p>
+        </div>
+        <div class="transaction-amount">Rp500.000</div>
+        <div class="transaction-status">
+          <div class="status-badge success">
+            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
+            <span>Tepat Waktu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-tabbar">
+    <!-- SVG cekungan -->
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
+    
+    <!-- Kiri -->
+    <div class="tab-button" routerLink="/collector/savings">
+      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/collector/payments">
+      <img src="assets/payments.svg" alt="Pembayaran" class="icon" />
+    </div>
+
+    <!-- Spacer tengah -->
+    <div class="tab-spacer"></div>
+
+    <!-- Kanan -->
+    <div class="tab-button" routerLink="/collector/loans">
+      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/collector/histories">
+      <img src="assets/history.svg" alt="Riwayat" class="icon" />
+    </div>
+
+    <!-- Tombol Home di tengah -->
+    <div class="tab-home" routerLink="/collector/dashboard">
+      <div class="home-icon-wrapper">
+        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+      </div>
+      <span>Home</span>
+    </div>
+  </div>
+</ion-content>

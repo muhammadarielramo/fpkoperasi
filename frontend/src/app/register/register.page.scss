@@ -3,24 +3,41 @@
 
   .circle {
     position: absolute;
-    background-color: #9D94FF;
+    background-color: #9d94ff;
     border-radius: 50%;
   }
+<<<<<<< Updated upstream
   
   // CSS Circle yang pertama
+=======
+
+>>>>>>> Stashed changes
   .circle1 {
     width: 300px;
     height: 250px;
     top: -50px;
     right: -70px;
   }
+<<<<<<< Updated upstream
   
+=======
+
+  .circle2 {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    right: 100px;
+    background-color: #857afe;
+  }
+
+>>>>>>> Stashed changes
   .circle1b {
     width: 300px;
     height: 250px;
     bottom: -50px;
     left: -40px;
   }
+<<<<<<< Updated upstream
   
   // CSS Circle yang kedua 
   .circle2 {
@@ -39,6 +56,15 @@
     left: 150px;
     background-color: #857AFE;
     position: absolute;
+=======
+
+  .circle2b {
+    width: 80px;
+    height: 80px;
+    bottom: -220px;
+    left: 100px;
+    background-color: #857afe;
+>>>>>>> Stashed changes
   }
 
   .back-button {
@@ -59,12 +85,49 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+<<<<<<< Updated upstream
+=======
+    overflow: hidden;
+
+    max-width: 350px; /* <-- Lebar maksimal yang kecil */
+    width: 100%;
+    margin: 0 auto; /* <-- Pusatkan secara horizontal */
+>>>>>>> Stashed changes
 
     .title {
-      font-family: 'Montserrat Alternates', sans-serif;
+      font-family: "Montserrat Alternates", sans-serif;
       font-weight: 700;
+<<<<<<< Updated upstream
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
+=======
+      font-size: 1.875rem;
+      margin-bottom: 1.5rem;
+      color: #4b4b4b;
+      align-self: flex-start;
+    }
+
+    ion-input,
+    .input-container,
+    .upload-box,
+    .floating-button {
+      width: 100%;
+    }
+
+    /* Styling untuk mengecilkan tinggi input field */
+    ion-input {
+      --min-height: 10px !important;
+      height: 55px !important;
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      color: #494848;
+      font-size: 1rem;
+    }
+
+    /* Styling tambahan untuk input field khusus */
+    ion-input.ion-touched.ion-invalid {
+      --highlight-color: var(--ion-color-danger);
+>>>>>>> Stashed changes
     }
 
     .custom-outline {
@@ -75,18 +138,115 @@
       --border-radius: 12px;
     }
 
+<<<<<<< Updated upstream
     ion-item.custom-outline {
       border: 1px solid #828282;
       border-radius: 12px;
       --inner-border-width: 0;
       padding: 6px 4px;
+=======
+    /* Gender Radio Button Styling */
+    .gender-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: -0.5rem;
+    }
+
+    .gender-label {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem; 
+      color: #494848;
+      padding-left: 12px;
+      position: absolute;
+      top: 1px;
+      left: 10px;
+      background-color: var(--ion-background-color, #ffffff); 
+      padding: 0 5px;
+      z-index: 1;
+    }
+
+    .gender-options {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem; 
+      display: flex;
+      gap: 6rem;
+      padding: 0 12px;
+      min-height: 55px; 
+      height: 55px; 
+      align-items: center;
+      border: 1px solid #828282; 
+      border-radius: 12px; 
+      background-color: transparent; 
+      position: relative; 
+      margin-top: 10px; 
+    }
+
+    .gender-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+
+      input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        cursor: pointer;
+        accent-color: #000000;
+      }
+
+      label {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        color: #494848;
+        cursor: pointer;
+        margin: 0;
+      }
+>>>>>>> Stashed changes
     }
 
     .date-input {
       --padding-end: 10px;
     }
 
+<<<<<<< Updated upstream
     .upload-box {
+=======
+    .calendar-icon {
+      font-size: 1.4rem;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .upload-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .upload-label {
+      position: absolute;
+      top: -6px;
+      left: 11px;
+      padding: 0 5px;
+      background-color: white;
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: #494848;
+      z-index: 1;
+    }
+
+    .upload-area {
+      position: relative;
+      border: 1px solid #828282;
+      border-radius: 12px;
+      height: 80px;
+>>>>>>> Stashed changes
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
@@ -130,13 +290,28 @@
       gap: 0.5rem;
 
       ion-button {
+<<<<<<< Updated upstream
       --background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
       --color: #ffffff;
+=======
+        margin: 0 0rem;
+        font-size: 1rem;
+        font-family: "Montserrat Alternates", sans-serif;
+        font-weight: 700;
+        text-transform: capitalize;
+        --background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
+        --color: #ffffff;
+        --box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.36);
+>>>>>>> Stashed changes
       }
     }
   }
 
+<<<<<<< Updated upstream
     /* Verification Alert Styling */
+=======
+  /* Verification Alert Styling */
+>>>>>>> Stashed changes
   .verification-overlay {
     position: fixed;
     top: 0;
@@ -190,7 +365,7 @@
   }
 
   .verification-modal h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 700;
     font-size: 1.2rem;
     color: #333;
@@ -214,8 +389,12 @@
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @media (min-width: 768px) {
