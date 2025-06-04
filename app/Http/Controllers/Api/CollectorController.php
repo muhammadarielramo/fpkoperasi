@@ -71,13 +71,14 @@ class CollectorController extends Controller
 
 
         return response()->json([
-            'message' => 'success',
+            'status' => 'success',
+            'message' => 'Data pinjaman anggota',
             'data' => $data
         ], 200);
     }
 
     public function kunjunganHariIni() {
-        
+
     }
 
 }

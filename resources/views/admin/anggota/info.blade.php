@@ -53,6 +53,10 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
+
+                    <form action="{{ route('anggota.tambah-kolektor', $member->id) }}" method="GET">
+                        <button type="submit" class="btn btn-success">+ Tambah Kolektor</button>
+                    </form>
                 </div>
             </div>
         </div>

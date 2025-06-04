@@ -56,6 +56,8 @@ Route::group(['prefix' => 'anggota', 'as' => 'anggota.'], function(){
     Route::delete('/hapus/{id}', [MemberController::class, 'destroy'])->name('hapus');
     Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('edit');
     Route::put('/edit/{id}', [MemberController::class, 'update'])->name('update');
+    Route::get('/{id}/tambah-kolektor', [MemberController::class, 'showAddMember'])->name('tambah-kolektor');
+    Route::post('/{id}/tambah-kolektor', [MemberController::class, 'saveAddMember'])->name('simpan-kolektor');
 });
 
 // kolektor
@@ -95,6 +97,13 @@ Route::group(['prefix' => 'register', 'as' => 'register.'], function(){
 Route::get('/verifikasi/{id}', [RegisterController::class, 'verifPage'])->name('verifikasi.halaman');
 Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
 
+// history
+Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->name('history.daily');
+Route::get('/history/monthly', [TransactionController::class, 'monthlyHistory'])->name('history.monthly');
+// export
+Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
+
+
 
 
 
@@ -109,23 +118,6 @@ Route::post('relasi/simpan', [RelationController::class, 'store'])->name('relasi
 Route::get('/simpanan/pengajuan', [LoanController::class, 'getPengajuan']);
 Route::post('/simpanan/pengajuan/{id}', [LoanController::class, 'responPengajuan'])
     ->name('pinjaman.respon');
-
-
-// email
-Route::get('/send-email',function(){
-    $data = [
-        'name' => 'Syahrizal As',
-        'body' => 'Testing Kirim Email di Santri Koding'
-    ];
-
-    try {
-        Mail::to('keysyaulia20@gmail.com')->send(new SendMail($data));
-        return 'Email sent successfully!';
-    } catch (\Exception $e) {
-        Log::error('Email sending failed: ' . $e->getMessage());
-        return 'Failed to send email: ' . $e->getMessage();
-    }
-});
 
 
 
