@@ -57,4 +57,8 @@ class Transaction extends Model
     public function installments() {
         return $this->belongsTo(Installment::class, 'id_installment');
     }
+
+    public function location() {
+        return $this->hasOne(TransactionLocation::class, 'id_transaction');
+    }
 }

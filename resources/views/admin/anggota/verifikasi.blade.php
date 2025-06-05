@@ -2,72 +2,345 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Verifikasi Akun Anggota KOKITA</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Akun Anggota Kokita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #8B5CF6; /* Example primary color from the image */
+            --light-purple: #EDE9FE;   /* Example lighter purple for background elements */
+            --text-color: #333;
+            --border-color: #ccc;
+            --input-bg: #f9f9f9;
+            --button-gradient-start: #9D74E3;
+            --button-gradient-end: #8B5CF6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
 
-    <!-- Login Container -->
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5">
-            <div class="card shadow-lg">
-                <div class="card-body p-4">
-                    <h3 class="mb-4 text-center">Daftar Akun</h3>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #F8F8F8; /* Light grey background */
+            position: relative;
+            overflow: hidden; /* Hide overflow from background circles */
+        }
 
-                    <!-- Login Form -->
-                    <form id="loginForm" method="POST" href="{{route('verifikasi', ['id' => $id])}}">
-                        @csrf
+        /* Background circles - simplified for web */
+        .circle-bg {
+            position: absolute;
+            background-color: var(--light-purple);
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(50px); /* Soften the circles */
+        }
 
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" required>
-                        </div>
+        .circle-bg.top-left {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+        }
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
-                        </div>
+        .circle-bg.bottom-right {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            right: -150px;
+        }
 
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+        /* Login Container */
+        .login-container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px; /* Max width for web */
+            text-align: center;
+            position: relative; /* For z-index to be above circles */
+            z-index: 10;
+        }
 
-    <!-- Modal Info -->
-    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="infoModalLabel">Informasi Login</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                </div>
-                <div class="modal-body">
-                    Username dan Password wajib diisi!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        .login-container h1 {
+            font-size: 28px;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
 
-    <!-- Bootstrap JS + JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Validasi sederhana menggunakan JavaScript
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+        /* Form Group */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
 
-            if (username === '' || password === '') {
-                e.preventDefault(); // Batalkan submit
-                const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
-                infoModal.show(); // Tampilkan modal
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px); /* Adjust for padding */
+            padding: 12px 10px;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            outline: none;
+            font-size: 16px;
+            color: var(--text-color);
+            background-color: var(--input-bg); /* Light background for input */
+            border-radius: 5px 5px 0 0; /* Match the design's rounded top, flat bottom */
+        }
+
+        .form-group input:focus {
+            border-bottom-color: var(--primary-purple);
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle input {
+            width: calc(100% - 60px); /* Adjust for icon */
+            padding-right: 40px;
+        }
+
+        .password-toggle .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--border-color);
+            font-size: 20px;
+        }
+
+        .password-toggle .toggle-icon:hover {
+            color: var(--primary-purple);
+        }
+
+        /* Forgot Password Link */
+        .forgot-password {
+            text-align: right;
+            margin-top: -15px; /* Pull up a bit to be closer to password field */
+            margin-bottom: 25px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-purple);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-image: linear-gradient(to right, var(--button-gradient-start), var(--button-gradient-end));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Back Arrow for Mobile */
+        .back-arrow {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-size: 30px;
+            color: var(--text-color);
+            text-decoration: none;
+            display: none; /* Hidden by default on web */
+            z-index: 20; /* Ensure it's above everything */
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start; /* Start from top for mobile */
+                padding-top: 60px; /* Add some top padding */
             }
+
+            .back-arrow {
+                display: block; /* Show back arrow on mobile */
+                top: 20px;
+                left: 20px;
+            }
+
+            .login-container {
+                margin-top: 20px;
+                max-width: 90%; /* Adjust max width for mobile */
+                padding: 30px 20px; /* Adjust padding for mobile */
+                box-shadow: none; /* Remove box shadow on mobile for a cleaner look */
+                border-radius: 0; /* Remove border radius to span full width */
+                min-height: 100vh; /* Make it take full height on mobile */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .login-container h1 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input {
+                padding: 10px 10px;
+                font-size: 15px;
+            }
+
+            .forgot-password {
+                margin-top: -10px;
+                margin-bottom: 20px;
+            }
+
+            .btn-submit {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            /* Adjust background circles for mobile */
+            .circle-bg.top-left {
+                width: 200px;
+                height: 200px;
+                top: -50px;
+                left: -50px;
+                filter: blur(30px);
+            }
+
+            .circle-bg.bottom-right {
+                width: 250px;
+                height: 250px;
+                bottom: -80px;
+                right: -80px;
+                filter: blur(30px);
+            }
+
+            .modal-overlay {
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 999;
+            }
+
+            .modal-content {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                width: 90%;
+                max-width: 400px;
+                text-align: center;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-bg top-left"></div>
+    <div class="circle-bg bottom-right"></div>
+
+    <a href="#" class="back-arrow">&#8592;</a> <div class="login-container">
+        <h1>Verifikasi Akun Anggota</h1>
+        <form id="verifikasiForm" action="{{ route('verifikasi', ['id' => $id]) }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group password-toggle">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="********" required>
+                <span class="toggle-icon" onclick="togglePasswordVisibility()">👁️</span>
+            </div>
+
+            <button type="submit" class="btn-submit">Register</button>
+        </form>
+
+    </div>
+
+
+    <div id="registrationModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Registrasi Berhasil!</h2>
+            <p>Terima kasih telah mendaftar. Akun Anda berhasil dibuat. Silakan login untuk melanjutkan.</p>
+            <button class="btn-modal" onclick="closeModal()">Oke</button>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        function closeModal() {
+            document.getElementById("registrationModal").style.display = "none";
+        }
+
+        document.getElementById("verifikasiForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Gagal menyimpan.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("registrationModal").style.display = "flex";
+            })
+            .catch(error => {
+                alert("Terjadi kesalahan saat menyimpan: " + error.message);
+            });
         });
     </script>
 </body>

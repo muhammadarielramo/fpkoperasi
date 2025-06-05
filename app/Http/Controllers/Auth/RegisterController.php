@@ -74,5 +74,7 @@ class RegisterController extends Controller
             'is_verified' => 1,
             'updated_at' => now()
         ]);
+
+        return response()->json(['message' => 'Registrasi berhasil']);
     }
 }
