@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\uploadController;
 use App\Http\Controllers\Web\TransactionController;
 use App\Http\Controllers\Web\DepositController;
 use App\Http\Controllers\Web\LoanController;
@@ -87,6 +88,7 @@ Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.', 'middleware' => 'admi
     Route::get('/history/info/{id}', [TransactionController::class, 'infoHistori'])->name('histori.info');
 });
 
+// pendaftaran
 Route::group(['prefix' => 'register', 'as' => 'register.', 'middleware' => 'admin'], function(){
     Route::delete('/tolak/{id}', [RegisterController::class, 'tolak'])->name('tolak');
     Route::post('/terima/{id}', [RegisterController::class, 'terima'])->name('terima');
@@ -101,7 +103,6 @@ Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name
 // history
 Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->name('history.daily');
 Route::get('/history/monthly', [TransactionController::class, 'monthlyHistory'])->name('history.monthly');
-// export
 Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
 
 // relasi
@@ -111,6 +112,10 @@ Route::post('relasi/simpan', [RelationController::class, 'store'])->name('relasi
 Route::get('/simpanan/pengajuan', [LoanController::class, 'getPengajuan']);
 Route::post('/simpanan/pengajuan/{id}', [LoanController::class, 'responPengajuan'])
     ->name('pinjaman.respon');
+
+// upload kt
+Route::get('/upload-ktp', [uploadController::class, 'index'])->name('upload-ktp');
+Route::post('/upload-ktp', [uploadController::class, 'upload'])->name('upload-ktp');
 
 
 
