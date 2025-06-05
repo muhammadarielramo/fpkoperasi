@@ -73,6 +73,7 @@
   }
 
   .swipeable-cards {
+    z-index: 100;
     position: relative;
     padding-bottom: 0;
     margin-top: 0.5rem;
@@ -93,6 +94,7 @@
   }
   
   .card {
+    z-index: 100;
     background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
     margin: 0.5rem 0;
     padding: 1rem;
@@ -181,9 +183,11 @@
 }
   
 .quick-actions {
+  position: relative;
   display: flex;
   justify-content: space-around;
   margin: 1rem 1rem;
+  z-index: 101;
 
   .action-button {
     background: #ffffff;
@@ -211,12 +215,12 @@
 }
 
 .help-floating {
-  position: fixed;
-  bottom: 60px;
-  z-index: 1000;
+  position: relative;
+  bottom: 0px;
+  z-index: 1;
   display: flex;
   align-items: center;
-  padding-right: 16px; /* Ganti dari right: 16px ke padding */
+  padding-right: 16px;
   max-width: 100vw;
 }
 
@@ -236,7 +240,7 @@
 .chat-box {
   display: flex;
   flex-direction: column;
-  margin-left: -80px;
+  margin-left: -100px;
 }
 
 .whatsapp-button-container {
@@ -249,7 +253,7 @@
   right: -20px;
   width: 38px;
   height: 35px;
-  z-index: 1001;
+  z-index: 1;
 }
 
 .whatsapp-button {
@@ -265,7 +269,6 @@
   font-size: 14px;
   white-space: nowrap;
   --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.50);
-
 }
 
 
