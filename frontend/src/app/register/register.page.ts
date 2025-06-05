@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonAccordion } from '@ionic/angular';
 
 @Component({
   standalone: false,
@@ -15,14 +14,8 @@ export class RegisterPage implements OnInit {
   selectedDate = ''; 
   showPassword = false; 
 
-  // @ViewChild digunakan untuk mendapatkan akses ke komponen #accordion di HTML
-  @ViewChild('accordion', { static: true }) accordion!: IonAccordion;
-
   // Variabel untuk menyimpan nilai yang dipilih
   selectedGender: string = '';
-
-  // Daftar opsi yang akan ditampilkan
-  genderOptions: string[] = ['Pria', 'Wanita', 'Lainnya'];
 
   constructor(private router: Router) { }
 
@@ -79,12 +72,6 @@ export class RegisterPage implements OnInit {
   selectGender(gender: string) {
     // 1. Atur nilai yang dipilih
     this.selectedGender = gender;
-
-    // 2. Tutup accordion secara otomatis
-    // Kita set 'value' dari accordion menjadi undefined agar tertutup
-    if (this.accordion) {
-      this.accordion.value = "";
-    }
 
     console.log('Jenis kelamin terpilih:', this.selectedGender);
   }

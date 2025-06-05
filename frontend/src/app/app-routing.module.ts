@@ -44,7 +44,7 @@ const routes: Routes = [
     loadChildren: () => import('./member/histories/histories.module').then( m => m.HistoriesPageModule)
   },
   {
-    path: 'forgot-password',
+    path: 'login/forgot-password',
     loadChildren: () => import('./login/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
