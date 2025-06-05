@@ -1,10 +1,13 @@
 .dashboard-page {
   --background: none;
-  background-image: url('/assets/app-background.svg');
+  background-image: url("/assets/app-background.svg");
 
   .header {
-    background: #857AFE;
-    padding: 1rem 1rem 1rem;
+    background: #857afe;
+    padding-top: env(safe-area-inset-top);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
     border-bottom-left-radius: 35px;
     border-bottom-right-radius: 35px;
     position: relative;
@@ -13,39 +16,40 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    
+
       .logo {
         width: 100px;
         display: block;
         margin-top: 7px;
       }
-    
+
       .btn-logout {
-        font-family: 'Montserrat Alternates', sans-serif;
+        margin-top: 4px;
+        font-family: "Montserrat Alternates", sans-serif;
         font-weight: 700;
         font-size: 1rem;
-        text-transform: none; // agar hanya "L" yang kapital
+        text-transform: none;
         --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.36);
-        --background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
+        --background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
         --color: #ffffff;
       }
     }
-    
+
     .user-info {
       margin-top: 1.2rem;
       position: relative;
       width: max-content;
-    
+
       h2 {
-        font-family: 'Montserrat Alternates', sans-serif;
+        font-family: "Montserrat Alternates", sans-serif;
         font-size: 1.2rem;
         color: #ffffff;
         font-weight: bold;
         margin: 0;
       }
-    
+
       p {
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
         font-weight: 600;
         font-size: 0.9rem;
         color: #f3eaff;
@@ -79,23 +83,23 @@
     margin-top: 0.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    
+
     swiper-container {
-      --bullet-background: #DFD0FB;
-      --bullet-background-active: #9763F7;
+      --bullet-background: #dfd0fb;
+      --bullet-background-active: #9763f7;
       padding: 0;
     }
-    
+
     swiper-slide {
       display: flex;
       justify-content: flex-start;
       width: 100%;
     }
   }
-  
+
   .card {
     z-index: 100;
-    background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
+    background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
     margin: 0.5rem 0;
     padding: 1rem;
     border-radius: 16px;
@@ -111,7 +115,7 @@
       color: #fff;
       font-weight: bold;
       margin: 0 0 0.5rem;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
       font-size: 1.1rem;
     }
 
@@ -121,32 +125,32 @@
       border-radius: 12px;
       font-weight: bold;
       color: #ffffff;
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
     }
 
     .card-content {
       z-index: 2;
     }
-    
+
     .icon-title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 0.5rem;
-      
+
       .card-icon {
         width: 24px;
         height: 24px;
       }
     }
-    
+
     .card-illustration {
       width: 70px;
       height: auto;
       position: relative;
       z-index: 2;
     }
-    
+
     &::before {
       content: "";
       position: absolute;
@@ -159,19 +163,19 @@
       z-index: 1;
     }
   }
-  
+
   .pinjaman {
     margin: 0.5rem 1rem 0 1rem;
-    
+
     .pinjaman-content {
       text-align: right;
     }
-    
+
     .pinjaman-illustration {
       position: relative;
       min-width: 100px;
       height: 70px;
-      
+
       .calculator {
         position: absolute;
         width: 50px;
@@ -181,7 +185,7 @@
     }
   }
 }
-  
+
 .quick-actions {
   position: relative;
   display: flex;
@@ -192,15 +196,15 @@
   .action-button {
     background: #ffffff;
     border-radius: 24px;
-    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.8);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
     padding: 0.5rem;
     width: 30%;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 800;
     font-size: 0.7rem;
     color: #545454;
-    border: 1px solid #8D70A0;
+    border: 1px solid #8d70a0;
 
     img {
       width: 50px;
@@ -230,7 +234,7 @@
 }
 
 .chat-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
   margin: 0 0 4px 0;
@@ -257,9 +261,9 @@
 }
 
 .whatsapp-button {
-  --background: #25D366;
+  --background: #25d366;
   color: white;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   text-transform: capitalize;
   border-radius: 100px;
@@ -268,21 +272,21 @@
   align-items: center;
   font-size: 14px;
   white-space: nowrap;
-  --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.50);
+  --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
 }
-
 
 .custom-tabbar {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
-  background: #857AFE;
+  height: calc(60px + env(safe-area-inset-bottom));
+  background: #857afe;
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding-bottom: env(safe-area-inset-bottom);
+  padding-top: 0;
   z-index: 100;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   padding-left: 1rem;
@@ -309,6 +313,7 @@
     justify-content: center;
     position: relative;
     z-index: 2;
+    padding-bottom: env(safe-area-inset-bottom, 0);
 
     .icon {
       width: 32px;
@@ -336,7 +341,7 @@
       width: 50px;
       height: 48px;
       border-radius: 50%;
-      background: #AA7EFE;
+      background: #aa7efe;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -350,11 +355,46 @@
     }
 
     span {
-      font-family: 'Lato', sans-serif;
+      font-family: "Lato", sans-serif;
       font-weight: 800;
       font-size: 12px;
       margin-top: 14px;
       color: #ffffff;
+      margin-bottom: env(safe-area-inset-bottom, 0);
     }
+  }
+}
+
+/* Alternatif jika env() tidak bekerja di semua browser */
+@supports not (padding: env(safe-area-inset-top)) {
+  .dashboard-page .header {
+    padding-top: 0; /* fallback tanpa padding */
+  }
+}
+
+/* Untuk perangkat dengan notch yang lebih besar */
+@media screen and (min-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .dashboard-page .header {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+// Tambahkan support untuk viewport dengan safe area
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .custom-tabbar {
+    // Pastikan tinggi minimum untuk perangkat tanpa safe area
+    min-height: 60px;
+    
+    // Untuk perangkat dengan safe area, tinggi akan otomatis menyesuaikan
+    height: calc(60px + env(safe-area-inset-bottom));
+  }
+}
+
+// Fallback untuk browser yang tidak mendukung env()
+@supports not (padding-bottom: env(safe-area-inset-bottom)) {
+  .custom-tabbar {
+    // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
+    padding-bottom: 20px;
+    height: 80px;
   }
 }
