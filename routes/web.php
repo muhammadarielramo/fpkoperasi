@@ -98,7 +98,7 @@ Route::group(['prefix' => 'register', 'as' => 'register.', 'middleware' => 'admi
 
 // verifikasi
 Route::get('/verifikasi/{id}', [RegisterController::class, 'verifPage'])->name('verifikasi.halaman');
-Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
+Route::post('/verifikasi/{id}', [RegisterControlaler::class, 'verifikasi'])->name('verifikasi');
 
 // history
 Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->name('history.daily');

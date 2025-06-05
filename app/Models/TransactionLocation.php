@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionLocation extends Model
 {
-    protected $table = 'transaction_location';
+    protected $table = 'location_transaction';
 
     use HasFactory;
 
