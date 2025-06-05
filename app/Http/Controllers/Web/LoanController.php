@@ -50,6 +50,7 @@ class LoanController extends Controller
 
     public function responPengajuan (Request $request, $id) {
         $pengajuan = Loan::findOrFail($id);
+        dd($pengajuan);w
 
         $status = $request->status;
         if($status == 'Diterima') {
