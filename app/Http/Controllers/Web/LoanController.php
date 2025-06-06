@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\LoanRespon;
 use App\Http\Controllers\Controller;
 use App\Models\Loan;
+use App\Models\Notification;
 use Doctrine\DBAL\Schema\Index;
 use Illuminate\Http\Request;
+
 
 class LoanController extends Controller
 {
@@ -49,18 +52,31 @@ class LoanController extends Controller
     }
 
     public function responPengajuan (Request $request, $id) {
-        $pengajuan = Loan::findOrFail($id);
-        dd($pengajuan);w
+        $loan = Loan::with('member.user')->findOrFail($id)->first();
 
         $status = $request->status;
+
         if($status == 'Diterima') {
-            $pengajuan->tgl_persetujuan = now();
-        }
-        $pengajuan->status = $status;
-        $pengajuan->updated_at = now();
+            $loan->tgl_persetujuan = now();}
+
+        $loan->status = $status;
+        $loan->updated_at = now();
+
 
         try{
-            $pengajuan->save();
+            // update tabel Loan
+            $loan->save();
+
+            $recipientUser = $loan->member->user;
+            dd($rec);
+
+            // kirim notif
+            if($status == 'Diterima') {
+                event(new LoanRespon($loan, $recipientUser, 'approved'));
+            } else {
+                event(new LoanRespon($loan, $recipientUser, 'rejected'));
+            }
+
             return redirect()->indexPengajuan();
         } catch(\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
