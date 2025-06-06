@@ -1,3 +1,8 @@
+:root {
+  --tabbar-height: 60px;
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px); /* Fallback ke 0px jika tidak didukung */
+}
+
 .dashboard-page {
   --background: none;
   background-image: url('/assets/app-background.svg');

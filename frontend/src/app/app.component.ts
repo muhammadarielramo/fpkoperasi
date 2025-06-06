@@ -1,6 +1,8 @@
+// Tambahan import untuk isPlatform dan plugin NavigationBar
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, isPlatform } from '@ionic/angular'; // <-- TAMBAHKAN isPlatform
 import { ScreenOrientation } from '@capacitor/screen-orientation';
+import { NavigationBar } from '@capgo/capacitor-navigation-bar'; // <-- TAMBAHKAN import ini
 
 @Component({
   standalone: false,
@@ -10,64 +12,63 @@ import { ScreenOrientation } from '@capacitor/screen-orientation';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  private orientationChangeListener: any = null; // Variabel untuk menyimpan referensi listener
+  private orientationChangeListener: any = null;
 
   constructor(private platform: Platform) {}
 
   async ngOnInit() {
     await this.platform.ready();
 
-    if (this.platform.is('capacitor')) {
-      try {
-        // Mengunci orientasi ke mode potret primer
-        await ScreenOrientation.lock({ orientation: 'portrait-primary' });
-        console.log('Orientasi layar dikunci ke potret primer.');
-
-        // (Opsional) Listener untuk mendeteksi perubahan.
-        // 'info' akan memiliki properti 'type' yang berisi string orientasi.
-        this.orientationChangeListener = ScreenOrientation.addListener('screenOrientationChange', (info) => {
-          console.log('Orientasi layar berubah menjadi:', info.type);
-          // Anda bisa menambahkan logika di sini jika diperlukan,
-          // misalnya mencoba mengunci kembali jika terlepas (meskipun jarang terjadi).
-          // if (info.type !== 'portrait-primary' && info.type !== 'portrait-secondary') {
-          //   ScreenOrientation.lock({ orientation: 'portrait-primary' }).catch(err => {
-          //     console.error('Gagal mengunci ulang orientasi:', err);
-          //   });
-          // }
-        });
-
-      } catch (error) {
-        console.error('Gagal mengunci orientasi layar:', error);
-      }
+    if (isPlatform('capacitor')) {
+      // Panggil kedua fungsi inisialisasi untuk perangkat seluler
+      this.lockScreenOrientation();
+      this.setDarkNavigationStyle(); // <-- PANGGIL FUNGSI BARU DI SINI
     } else {
-      console.log('Tidak berjalan di perangkat seluler (Capacitor), penguncian orientasi dilewati.');
+      console.log('Tidak berjalan di perangkat seluler (Capacitor), inisialisasi dilewati.');
+    }
+  }
+
+  // --- FUNGSI BARU UNTUK BILAH NAVIGASI ---
+  private setDarkNavigationStyle(): void {
+    // Fungsi ini hanya relevan untuk Android
+    if (isPlatform('android')) {
+      NavigationBar.setNavigationBarColor({
+        color: '#121212',      // Atur warna latar menjadi gelap
+        darkButtons: true,    // Gunakan ikon navigasi yang terang (putih)
+      }).catch(error => {
+        console.error('Gagal mengatur warna bilah navigasi', error);
+      });
+      console.log('Warna bilah navigasi diatur ke mode gelap.');
+    }
+  }
+  // --- AKHIR FUNGSI BARU ---
+
+  private async lockScreenOrientation() {
+    try {
+      // Mengunci orientasi ke mode potret primer
+      await ScreenOrientation.lock({ orientation: 'portrait-primary' });
+      console.log('Orientasi layar dikunci ke potret primer.');
+
+      // Listener untuk mendeteksi perubahan.
+      this.orientationChangeListener = ScreenOrientation.addListener('screenOrientationChange', (info) => {
+        console.log('Orientasi layar berubah menjadi:', info.type);
+      });
+
+    } catch (error) {
+      console.error('Gagal mengunci orientasi layar:', error);
     }
   }
 
   async ngOnDestroy() {
-    if (this.platform.is('capacitor')) {
-      // Hapus listener jika sudah ditambahkan
-      if (this.orientationChangeListener) {
+    if (isPlatform('capacitor')) {
+      // Hapus listener orientasi layar jika ada
+      if (this.orientationChangeListener && typeof this.orientationChangeListener.remove === 'function') {
         try {
-          // Opsi 1: Jika listener memiliki metode remove() sendiri (umum di Capacitor v5+)
-          if (typeof this.orientationChangeListener.remove === 'function') {
-            await this.orientationChangeListener.remove();
-          } else {
-            // Opsi 2: Fallback ke removeAllListeners jika remove() per listener tidak ada
-            // Ini akan menghapus SEMUA listener untuk 'screenOrientationChange'
-            await ScreenOrientation.removeAllListeners();
-          }
+          await this.orientationChangeListener.remove();
           console.log('Listener orientasi layar berhasil dihapus.');
           this.orientationChangeListener = null;
         } catch (error) {
           console.error('Gagal menghapus listener orientasi layar:', error);
-          // Sebagai fallback tambahan jika semua gagal, coba removeAllListeners
-           try {
-             await ScreenOrientation.removeAllListeners();
-             console.log('Semua listener orientasi layar berhasil dihapus (fallback).');
-           } catch (e) {
-             console.error('Gagal menghapus semua listener (fallback):', e);
-           }
         }
       }
     }

@@ -68,12 +68,8 @@ const routes: Routes = [
     loadChildren: () => import('./collector/savings/deposit-savings/deposit-savings.module').then( m => m.DepositSavingsPageModule)
   },
   {
-    path: 'collector/payments',
-    loadChildren: () => import('./collector/payments/payments.module').then( m => m.PaymentsPageModule)
-  },
-  {
-    path: 'collector/payments/payment-entry',
-    loadChildren: () => import('./collector/payments/payment-entry/payment-entry.module').then( m => m.PaymentEntryPageModule)
+    path: 'collector/loans/payment-entry',
+    loadChildren: () => import('./collector/loans/payment-entry/payment-entry.module').then( m => m.PaymentEntryPageModule)
   },
   {
     path: 'collector/loans',
@@ -90,6 +86,10 @@ const routes: Routes = [
   {
     path: 'collector/histories',
     loadChildren: () => import('./collector/histories/histories.module').then( m => m.HistoriesPageModule)
+  },
+  {
+    path: 'collector/members',
+    loadChildren: () => import('./collector/members/members.module').then( m => m.MembersPageModule)
   }
 
 ];

@@ -1,3 +1,11 @@
+:root {
+  --tabbar-height: 60px;
+  --safe-area-bottom: env(
+    safe-area-inset-bottom,
+    0px
+  ); /* Fallback ke 0px jika tidak didukung */
+}
+
 .dashboard-page {
   --background: none;
   background-image: url("/assets/app-background.svg");
@@ -76,13 +84,15 @@
     }
   }
 
+  .main-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
   .swipeable-cards {
     z-index: 100;
     position: relative;
-    padding-bottom: 0;
     margin-top: 0.5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
 
     swiper-container {
       --bullet-background: #dfd0fb;
@@ -100,7 +110,7 @@
   .card {
     z-index: 100;
     background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
-    margin: 0.5rem 0;
+    margin: 0.5rem 0rem;
     padding: 1rem;
     border-radius: 16px;
     display: flex;
@@ -125,7 +135,7 @@
       border-radius: 12px;
       font-weight: bold;
       color: #ffffff;
-      font-family: "Montserrat", sans-serif;
+      font-family: "Lato", sans-serif;
     }
 
     .card-content {
@@ -145,7 +155,7 @@
     }
 
     .card-illustration {
-      width: 70px;
+      width: 80px;
       height: auto;
       position: relative;
       z-index: 2;
@@ -165,23 +175,65 @@
   }
 
   .pinjaman {
-    margin: 0.5rem 1rem 0 1rem;
+    margin: 0.5rem 0 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 
-    .pinjaman-content {
-      text-align: right;
-    }
-
+    // Ilustrasi calculator di sebelah kiri
     .pinjaman-illustration {
       position: relative;
-      min-width: 100px;
+      min-width: 80px;
       height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      order: 1; // Posisi pertama (kiri)
 
       .calculator {
-        position: absolute;
-        width: 50px;
-        left: 0;
-        top: 10px;
+        width: 100px;
+        height: auto;
+        position: relative;
       }
+    }
+
+    // Content text di sebelah kanan
+    .card-content {
+      flex: 1;
+      z-index: 2;
+      order: 2; // Posisi kedua (kanan)
+      text-align: right; // Teks rata kanan
+    }
+
+    .pinjaman-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; // Align ke kanan
+      gap: 0.5rem;
+
+      h3 {
+        color: #fff;
+        font-weight: bold;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+      }
+
+      .amount {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.4rem 0.8rem;
+        border-radius: 12px;
+        font-weight: bold;
+        color: #ffffff;
+        font-family: "Lato", sans-serif;
+        font-size: 1rem;
+      }
+    }
+
+    // Remove the general card illustration positioning for loan card
+    .card-illustration {
+      display: none;
     }
   }
 }
@@ -219,13 +271,16 @@
 }
 
 .help-floating {
-  position: relative;
-  bottom: 0px;
+  position: fixed;
+  bottom: calc(var(--tabbar-height) + var(--safe-area-bottom));
+  left: 0;
+  width: 100%;
   z-index: 1;
   display: flex;
   align-items: center;
   padding-right: 16px;
   max-width: 100vw;
+  margin-top: 35px;
 }
 
 .helper-image {
@@ -280,12 +335,12 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: calc(60px + env(safe-area-inset-bottom));
+  height: calc(var(--tabbar-height) + var(--safe-area-bottom));
   background: #857afe;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-area-bottom);
   padding-top: 0;
   z-index: 100;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
@@ -384,7 +439,7 @@
   .custom-tabbar {
     // Pastikan tinggi minimum untuk perangkat tanpa safe area
     min-height: 60px;
-    
+
     // Untuk perangkat dengan safe area, tinggi akan otomatis menyesuaikan
     height: calc(60px + env(safe-area-inset-bottom));
   }
@@ -396,5 +451,15 @@
     // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
     padding-bottom: 20px;
     height: 80px;
+  }
+}
+
+/* Aturan untuk layar dengan tinggi 620px atau kurang.
+  Angka 620px adalah titik awal yang baik, Anda bisa menyesuaikannya.
+*/
+@media (max-height: 620px) {
+  .help-floating {
+    /* Sembunyikan elemen sepenuhnya agar tidak mengganggu */
+    display: none;
   }
 }

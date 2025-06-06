@@ -3,7 +3,13 @@
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/login" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/login"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, John!</h2>
@@ -13,66 +19,79 @@
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
-  </div>  
-
-  <!-- Swipeable Cards -->
-  <div class="swipeable-cards">
-    
-    <swiper-container pager="false" slides-per-view="1.1" space-between="10">
-      <!-- Simpanan Wajib -->
-      <swiper-slide>
-        <div class="card saldo">
-          <div class="card-content">
-            <div class="icon-title">
-              <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
-              <h3>Simpanan Wajib</h3>
-            </div>
-            <div class="amount">Rp10.000.000</div>
-          </div>
-          <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration" />
-        </div>
-      </swiper-slide>
-      
-      <!-- Simpanan Pokok -->
-      <swiper-slide>
-        <div class="card saldo">
-          <div class="card-content">
-            <div class="icon-title">
-              <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
-              <h3>Simpanan Wajib</h3>
-            </div>
-            <div class="amount">Rp10.000.000</div>
-          </div>
-          <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration" />
-        </div>
-      </swiper-slide>
-      
-      <!-- Simpanan Sukarela -->
-      <swiper-slide>
-        <div class="card saldo">
-          <div class="card-content">
-            <div class="icon-title">
-              <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
-              <h3>Simpanan Suka</h3>
-            </div>
-            <div class="amount">Rp7.500.000</div>
-          </div>
-          <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration" />
-        </div>
-      </swiper-slide>
-    </swiper-container>
   </div>
 
-  <!-- Total Pinjaman -->
-  <div class="card pinjaman">
-    <div class="card-content">
-      <div class="pinjaman-content">
-        <h3>Total Pinjaman</h3>
-        <div class="amount">----</div>
-      </div>
+  <!-- Swipeable Cards -->
+  <div class="main-content">
+    <div class="swipeable-cards">
+      <swiper-container pager="false" slides-per-view="1.1" space-between="10">
+        <!-- Simpanan Wajib -->
+        <swiper-slide>
+          <div class="card saldo">
+            <div class="card-content">
+              <div class="icon-title">
+                <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
+                <h3>Simpanan Wajib</h3>
+              </div>
+              <div class="amount">Rp10.000.000</div>
+            </div>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
+          </div>
+        </swiper-slide>
+
+        <!-- Simpanan Pokok -->
+        <swiper-slide>
+          <div class="card saldo">
+            <div class="card-content">
+              <div class="icon-title">
+                <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
+                <h3>Simpanan Wajib</h3>
+              </div>
+              <div class="amount">Rp10.000.000</div>
+            </div>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
+          </div>
+        </swiper-slide>
+
+        <!-- Simpanan Sukarela -->
+        <swiper-slide>
+          <div class="card saldo">
+            <div class="card-content">
+              <div class="icon-title">
+                <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
+                <h3>Simpanan Suka</h3>
+              </div>
+              <div class="amount">Rp7.500.000</div>
+            </div>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
+          </div>
+        </swiper-slide>
+      </swiper-container>
     </div>
-    <div class="pinjaman-illustration">
-      <img src="assets/calculator.svg" alt="Calculator" class="calculator" />
+
+    <!-- Total Pinjaman -->
+    <div class="card pinjaman">
+      <div class="card-content">
+        <div class="pinjaman-content">
+          <h3>Total Pinjaman</h3>
+          <div class="amount">Rp50.000.000</div>
+        </div>
+      </div>
+      <div class="pinjaman-illustration">
+        <img src="assets/calculator.svg" alt="Calculator" class="calculator" />
+      </div>
     </div>
   </div>
 
@@ -97,21 +116,31 @@
     <img src="assets/icon-orang.svg" alt="Butuh bantuan" class="helper-image" />
     <div class="chat-box">
       <p class="chat-title">Butuh Bantuan?</p>
-        <div class="whatsapp-button-container">
-          <a href="https://wa.me/6285771282700">
-            <img href="https://wa.me/6285771282700" src="assets/wa.svg" alt="WhatsApp" class="whatsapp-floating-icon" />
-          </a>
-          <ion-button href="https://wa.me/6285771282700" class="whatsapp-button" shape="round" size="small">Chat on WhatsApp</ion-button>
-        </div>
+      <div class="whatsapp-button-container">
+        <a href="https://wa.me/6285771282700">
+          <img
+            href="https://wa.me/6285771282700"
+            src="assets/wa.svg"
+            alt="WhatsApp"
+            class="whatsapp-floating-icon"
+          />
+        </a>
+        <ion-button
+          href="https://wa.me/6285771282700"
+          class="whatsapp-button"
+          shape="round"
+          size="small"
+          >Chat on WhatsApp</ion-button
+        >
+      </div>
     </div>
   </div>
 </ion-content>
 
-
 <div class="custom-tabbar">
   <!-- SVG cekungan -->
   <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-  
+
   <!-- Kiri -->
   <div class="tab-button" routerLink="/member/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
