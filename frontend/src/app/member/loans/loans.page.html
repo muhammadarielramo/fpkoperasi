@@ -3,7 +3,13 @@
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/home"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, John!</h2>
@@ -15,74 +21,105 @@
     </div>
   </div>
 
-  <!-- Section Detail Pinjaman -->
-  <div class="loan-section">
-    <div class="loan-header">
+  <!-- Content Section -->
+  <div class="content-section">
+    <div class="title-bar">
       <h3>Pinjaman</h3>
-      <ion-button class="btn-ajukan" routerLink="/member/loans/loan-application" shape="round" size="small">
-        <ion-icon name="add-circle-outline"></ion-icon> Ajukan Pinjaman
+      <ion-button
+        class="btn-ajukan"
+        routerLink="/member/loans/loan-application"
+        shape="round"
+        size="small"
+      >
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon> Ajukan
+        Pinjaman
       </ion-button>
     </div>
 
-    <!-- Kartu Tagihan 1 -->
-    <div class="loan-card card-ungu">
-      <h4>Rincian Tagihan</h4>
-      <p><strong>1. Pinjaman Jangka Pendek:</strong> <span class="nominal">Rp500.000</span></p>
-      <p>Angsuran ke-3</p>
-      <p>Sisa Hutang: <strong>Rp100.000</strong></p>
-      <p>Jadwal Angsuran berikutnya: <strong>2 Juni 2025</strong></p>
-      <ion-button class="btn-setor" shape="round" size="small">Setor</ion-button>
-    </div>
+    <div class="loan-list">
+      <div class="loan-card">
+        <div class="loan-item">
+          <span class="label primary">Nominal:</span>
+          <span class="value primary">Rp500.000</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Tanggal Pengajuan:</span>
+          <span class="value">2 April 2025</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Tanggal Disetujui:</span>
+          <span class="value">2 April 2025</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Jangka Waktu:</span>
+          <span class="value">3 Bulan</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Status:</span>
+          <span class="status-badge status-approved" routerLink="/member/loans/billing-details">Diterima</span>
+        </div>
+      </div>
 
-    <!-- Kartu Tagihan 2 -->
-    <div class="loan-card card-kuning">
-      <div class="badge kuning">Tepat Waktu</div>
-      <h4>Rincian Tagihan</h4>
-      <p><strong>1. Pinjaman Jangka Pendek:</strong> <span class="nominal">Rp500.000</span></p>
-      <p>Angsuran ke-2</p>
-      <p>Pembayaran: <strong>Rp200.000</strong></p>
-      <p>Sisa Hutang: <strong>Rp100.000</strong></p>
-      <p><small>14 Mei 2025 - 10:32:12</small></p>
-    </div>
+      <div class="loan-card">
+        <div class="loan-item">
+          <span class="label primary">Nominal:</span>
+          <span class="value primary">Rp5.000.000</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Tanggal Pengajuan:</span>
+          <span class="value">13 Maret 2025</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Jangka Waktu:</span>
+          <span class="value">3 Bulan</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Status:</span>
+          <span class="status-badge status-rejected" routerLink="/member/loans/billing-details">Ditolak</span>
+        </div>
+      </div>
 
-    <!-- Kartu Tagihan 3 -->
-    <div class="loan-card card-hijau">
-      <div class="badge hijau">Lunas</div>
-      <h4>Rincian Tagihan</h4>
-      <p><strong>1. Pinjaman Jangka Panjang:</strong> <span class="nominal">Rp3.000.000</span></p>
-      <p>Angsuran ke-3</p>
-      <p>Pembayaran: <strong>Rp3.000.000</strong></p>
+      <div class="loan-card">
+        <div class="loan-item">
+          <span class="label primary">Nominal:</span>
+          <span class="value primary">Rp1.000.000</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Tanggal Pengajuan:</span>
+          <span class="value">10 Januari 2025</span>
+        </div>
+        <div class="loan-item">
+          <span class="label">Tanggal Disetujui:</span>
+          <span class="value">10 Januari 2025</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="custom-tabbar">
-  <!-- SVG cekungan -->
-  <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-  
-  <!-- Kiri -->
-  <div class="tab-button" routerLink="/member/histories">
-    <img src="assets/history.svg" alt="Riwayat" class="icon" />
-  </div>
-  <div class="tab-button" routerLink="/member/savings">
-    <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
-  </div>
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
 
-  <!-- Spacer tengah -->
-  <div class="tab-spacer"></div>
-
-  <!-- Kanan -->
-  <div class="tab-button" routerLink="/member/loans">
-    <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
-  </div>
-  <div class="tab-button" routerLink="/member/profile">
-    <img src="assets/profile.svg" alt="Profil" class="icon" />
-  </div>
-
-  <!-- Tombol Home di tengah -->
-  <div class="tab-home" routerLink="/member/dashboard">
-    <div class="home-icon-wrapper">
-      <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+    <div class="tab-button" routerLink="/member/histories">
+      <img src="assets/history.svg" alt="Riwayat" class="icon" />
     </div>
-    <span>Home</span>
+    <div class="tab-button" routerLink="/member/savings">
+      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+    </div>
+
+    <div class="tab-spacer"></div>
+
+    <div class="tab-button" routerLink="/member/loans">
+      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/member/profile">
+      <img src="assets/profile.svg" alt="Profil" class="icon" />
+    </div>
+
+    <div class="tab-home" routerLink="/member/dashboard">
+      <div class="home-icon-wrapper">
+        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+      </div>
+      <span>Home</span>
+    </div>
   </div>
-</div>
+</ion-content>

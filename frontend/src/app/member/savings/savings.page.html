@@ -1,9 +1,15 @@
-<ion-content class="savings-page" fullscreen [scrollY]="false">
+<ion-content class="savings-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/home"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, John!</h2>
@@ -17,9 +23,8 @@
 
   <div class="content-section">
     <h3>Detail Simpanan</h3>
-    
-    <div class="content-wrapper">
 
+    <div class="content-wrapper">
       <!-- Savings Cards -->
       <div class="card">
         <div class="card-content">
@@ -28,8 +33,8 @@
             <p>Total saldo:</p>
             <div class="date-container">
               <p>
-                Tanggal dan waktu<br>
-                terakhir<br>
+                Tanggal dan waktu<br />
+                terakhir<br />
                 penyetoran:
               </p>
             </div>
@@ -40,7 +45,7 @@
             </div>
             <div class="date-container">
               <p>
-                1 April 2025<br>
+                1 April 2025<br />
                 15:35:02
               </p>
             </div>
@@ -55,8 +60,8 @@
             <p>Total saldo:</p>
             <div class="date-container">
               <p>
-                Tanggal dan waktu<br>
-                terakhir<br>
+                Tanggal dan waktu<br />
+                terakhir<br />
                 penyetoran:
               </p>
             </div>
@@ -67,7 +72,7 @@
             </div>
             <div class="date-container">
               <p>
-                1 April 2025<br>
+                1 April 2025<br />
                 15:35:02
               </p>
             </div>
@@ -82,8 +87,8 @@
             <p>Total saldo:</p>
             <div class="date-container">
               <p>
-                Tanggal dan waktu<br>
-                terakhir<br>
+                Tanggal dan waktu<br />
+                terakhir<br />
                 penyetoran:
               </p>
             </div>
@@ -94,7 +99,7 @@
             </div>
             <div class="date-container">
               <p>
-                1 April 2025<br>
+                1 April 2025<br />
                 15:35:02
               </p>
             </div>
@@ -105,28 +110,34 @@
   </div>
 
   <div class="custom-tabbar">
-    <!-- Histories dengan notch -->
-    <div class="tab-wrapper active">
-      <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-      <div class="tab-button" routerLink="/member/histories">
-        <div class="icon-wrapper">
-          <img src="assets/history.svg" alt="Riwayat" class="icon" />
-        </div>
-      </div>
+    <!-- SVG cekungan -->
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
+
+    <!-- Kiri -->
+    <div class="tab-button" routerLink="/member/histories">
+      <img src="assets/history.svg" alt="Riwayat" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/member/savings">
+      <img src="assets/money-bag.svg" alt="Savings" class="icon" />
     </div>
 
-    <!-- Tab Lain -->
-    <div class="tab-button" routerLink="/member/savings">
-      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
-    </div>
-    <div class="tab-button" routerLink="/member/dashboard">
-      <img src="assets/home.svg" alt="Dashboard" class="icon" />
-    </div>
+    <!-- Spacer tengah -->
+    <div class="tab-spacer"></div>
+
+    <!-- Kanan -->
     <div class="tab-button" routerLink="/member/loans">
       <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
     </div>
     <div class="tab-button" routerLink="/member/profile">
       <img src="assets/profile.svg" alt="Profil" class="icon" />
+    </div>
+
+    <!-- Tombol Home di tengah -->
+    <div class="tab-home" routerLink="/member/dashboard">
+      <div class="home-icon-wrapper">
+        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+      </div>
+      <span>Home</span>
     </div>
   </div>
 </ion-content>

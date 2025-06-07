@@ -52,8 +52,12 @@ const routes: Routes = [
     loadChildren: () => import('./member/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'member/loan-application',
+    path: 'member/loans/loan-application',
     loadChildren: () => import('./member/loans/loan-application/loan-application.module').then(m => m.LoanApplicationPageModule)
+  },
+  {
+    path: 'member/loans/billing-details',
+    loadChildren: () => import('./member/loans/billing-details/billing-details.module').then(m => m.BillingDetailsPageModule)
   },
   {
     path: 'collector/dashboard',

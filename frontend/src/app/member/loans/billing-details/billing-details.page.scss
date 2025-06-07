@@ -6,7 +6,7 @@
   ); /* Fallback ke 0px jika tidak didukung */
 }
 
-.loan-application-page {
+.billing-details-page {
   --ion-background-color: #ffffff;
   overflow: hidden;
   height: 100vh;
@@ -129,6 +129,99 @@
   right: 0;
   background: #f2ebff;
   z-index: -1;
+}
+
+.billing-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.billing-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  .billing-card-title {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #646464;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.billing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: "Lato", sans-serif;
+}
+
+.billing-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.billing-label-primary {
+  font-size: 15px;
+  color: #646464;
+  font-weight: 700;
+}
+
+.billing-label {
+  font-size: 13px;
+  color: #646464;
+  font-weight: 400;
+}
+
+.billing-value {
+  font-weight: 400;
+  font-size: 13px;
+  color: #646464;
+}
+
+.billing-value-primary {
+  font-weight: 700;
+  font-size: 15px;
+  color: #646464;
+}
+
+.billing-value-italic {
+  font-weight: 400;
+  font-size: 13px;
+  color: #646464;
+  font-style: italic;
+}
+
+.status-badge {
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+
+  &.lunas {
+    background-color: #2CD324;
+    display: flex;
+    align-items: center;
+    ion-icon {
+      padding-right: 0.2rem;
+      font-size: 1rem;
+    }
+  }
+
+  &.tepat-waktu {
+    background-color: #FFA100;
+    color: #ffffff;
+  }
 }
 
 .custom-tabbar {

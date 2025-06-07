@@ -104,15 +104,13 @@
   </div>
 
 <div class="custom-tabbar">
-  <!-- SVG cekungan dipindah ke kiri -->
-  <img src="assets/tab-notch.svg" alt="notch" class="tab-notch tab-notch-left" />
+  <!-- SVG cekungan -->
+  <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
 
-  <!-- Riwayat: melayang di kiri -->
-  <div class="tab-button tab-floating-left" routerLink="/member/histories">
+  <!-- Kiri -->
+  <div class="tab-button" routerLink="/member/histories">
     <img src="assets/history.svg" alt="Riwayat" class="icon" />
   </div>
-
-  <!-- Savings -->
   <div class="tab-button" routerLink="/member/savings">
     <img src="assets/money-bag.svg" alt="Savings" class="icon" />
   </div>
@@ -120,19 +118,20 @@
   <!-- Spacer tengah -->
   <div class="tab-spacer"></div>
 
-  <!-- Loans -->
+  <!-- Kanan -->
   <div class="tab-button" routerLink="/member/loans">
     <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
   </div>
-
-  <!-- Profile -->
   <div class="tab-button" routerLink="/member/profile">
     <img src="assets/profile.svg" alt="Profil" class="icon" />
   </div>
 
-  <!-- Tombol Home -->
-  <div class="tab-button" routerLink="/member/dashboard">
-    <img src="assets/home.svg" alt="Dashboard" class="icon" />
+  <!-- Tombol Home di tengah -->
+  <div class="tab-home" routerLink="/member/dashboard">
+    <div class="home-icon-wrapper">
+      <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+    </div>
+    <span>Home</span>
   </div>
 </div>
 
