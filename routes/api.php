@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\DepositController;
 use App\Http\Controllers\Api\InstallmentController;
 use App\Http\Controllers\Api\LoanController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SlipController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Models\Collector;
@@ -71,6 +72,12 @@ Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2'
 
     // kunjungan hari ini
     Route::get('/kunjungan-hari-ini', [CollectorController::class, 'kunjunganHariIni'])->name('kunjungan-hari-ini');
+});
+
+// notifikasi
+Route::group(['prefix' => 'notifikasi', 'middleware' => 'auth:api'], function () {
+    Route::get('/get', [NotificationController::class, 'getByUser'])->name('get');
+    Route::post('/read/{id}', [NotificationController::class, 'read'])->name('read');
 });
 
 

@@ -53,13 +53,17 @@ class SendLoanRespondNotification implements ShouldQueue
                 break;
         }
 
-        Notification::create([
-            'user_id' => $recipientUser->id,
-            'type'    => $type,
-            'title'   => $title,
-            'message' => $message,
-            'data'    => json_encode(['loan_id' => $loan->id, 'amount' => $loan->jumlah_pinjaman, 'installment' => $loan->installment, 'status' => $status]),
-        ]);
+        try {
+            Notification::create([
+                'id_user' => $recipientUser->id,
+                'type'    => $type,
+                'title'   => $title,
+                'message' => $message,
+                'data'    => json_encode(['loan_id' => $loan->id, 'amount' => $loan->jumlah_pinjaman, 'installment' => $loan->installment, 'status' => $status]),
+            ]);
+        } catch (\Exception $e) {
+            dd($e);
+        }
 
     }
 }

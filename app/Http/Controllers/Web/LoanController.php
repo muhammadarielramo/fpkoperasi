@@ -52,7 +52,8 @@ class LoanController extends Controller
     }
 
     public function responPengajuan (Request $request, $id) {
-        $loan = Loan::with('member.user')->findOrFail($id)->first();
+        $loan = Loan::with('member.user')->findOrFail($id);
+
 
         $status = $request->status;
 
@@ -68,7 +69,7 @@ class LoanController extends Controller
             $loan->save();
 
             $recipientUser = $loan->member->user;
-            dd($rec);
+            // dd($recipientUser);
 
             // kirim notif
             if($status == 'Diterima') {
