@@ -1,15 +1,21 @@
-<ion-content class="deposit-savings-page" fullscreen [scrollY]="false">
+<ion-content class="deposit-savings-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/home"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, Izumi!</h2>
       <p>Collector</p>
     </div>
-    <div class="notification-icon" routerLink="/collector/notifications">
+    <div class="notification-icon" (click)="openLocationModal()">
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
@@ -25,54 +31,116 @@
 
   <!-- Content Section -->
   <div class="content-section">
+    <!-- Back Button -->
+    <div class="back-button-container">
+      <img
+        src="assets/back.svg"
+        alt="Kembali"
+        class="back-button"
+        routerLink="/collector/savings"
+      />
+    </div>
 
-    <!-- Form Section -->
-    <div class="form-section">
-      <!-- Tsukasa Suou Field -->
-      <div class="input-group">
-        <ion-input 
-          placeholder="TSUKASA SUOU" 
-          class="member-input"
-          readonly>
-        </ion-input>
+    <form>
+      <!-- Member Name -->
+      <div class="form-group">
+        <input type="text" class="form-input" value="TSUKASA SUOU" readonly />
       </div>
 
-      <!-- Tanggal Simpanan -->
-      <div class="input-group">
-        <label class="input-label">Tanggal Simpanan</label>
-        <ion-input 
-          placeholder="--/--/--" 
-          class="date-input">
-          <ion-icon name="calendar-outline" slot="end"></ion-icon>
-        </ion-input>
+      <!-- Deposit Date -->
+      <div class="form-group">
+        <label class="form-label">Tanggal Simpanan</label>
+        <div class="date-input-wrapper">
+          <input type="text" class="form-input" placeholder="--/--/--" />
+          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+        </div>
       </div>
 
-      <!-- Nominal -->
-      <div class="input-group">
-        <label class="input-label">Nominal</label>
-        <ion-input 
-          placeholder="Masukkan Nominal....." 
-          class="nominal-input">
-          <span slot="end" class="currency">Rp.</span>
-        </ion-input>
+      <!-- Deposit Amount -->
+      <div class="form-group">
+        <label class="form-label">Nominal</label>
+        <div class="currency-input-wrapper">
+          <span class="currency-prefix">Rp</span>
+          <input
+            type="text"
+            class="form-input currency-input"
+            placeholder="Masukkan Nominal....."
+          />
+        </div>
       </div>
 
-      <!-- Jenis Simpanan -->
-      <div class="input-group">
-        <ion-select 
-          placeholder="Jenis Simpanan" 
-          class="type-select"
-          interface="popover">
-          <ion-select-option value="wajib">Simpanan Wajib</ion-select-option>
-          <ion-select-option value="sukarela">Simpanan Sukarela</ion-select-option>
-          <ion-select-option value="pokok">Simpanan Pokok</ion-select-option>
-        </ion-select>
+      <!-- Savings Type -->
+      <div class="form-group savings-type-section">
+        <label class="form-label">Jenis Simpanan</label>
+        <select class="form-input savings-dropdown">
+          <option value="pokok">Simpanan Pokok</option>
+          <option value="wajib">Simpanan Wajib</option>
+          <option value="sukarela">Simpanan Sukarela</option>
+        </select>
       </div>
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <ion-button class="btn-submit" shape="round" size="large">
-          Setor Simpanan
+        <ion-button
+          (click)="onDepositSubmissionSuccess()"
+          class="btn-submit"
+          fill="solid"
+        >
+          Submit
+        </ion-button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Deposit Success Modal -->
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showDepositSuccess}"
+  >
+    <div class="verification-modal">
+      <div class="deposit-success-icon">
+        <img src="assets/checkmark.svg" alt="Success" />
+      </div>
+      <h2>SETOR SIMPANAN BERHASIL!</h2>
+    </div>
+  </div>
+
+  <!-- Location Permission Modal -->
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showLocationModal}"
+    (click)="showLocationModal = false"
+  >
+    <div class="verification-modal" (click)="$event.stopPropagation()">
+      <div class="verification-icon">
+        <img
+          src="assets/location.svg"
+          alt="Location Icon"
+          class="location-icon"
+        />
+      </div>
+      <h2>Aktifkan Layanan Lokasi</h2>
+      <p class="location-description">
+        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan
+        lokasi (GPS). Silakan berikan izin akses lokasi untuk melanjutkan.
+      </p>
+
+      <div class="modal-action-button-container">
+        <ion-button
+          shape="round"
+          class="btn-modal-primary"
+          (click)="enableLocation()"
+        >
+          IZINKAN LOKASI
+        </ion-button>
+
+        <ion-button
+          shape="round"
+          class="btn-modal-secondary"
+          fill="clear"
+          (click)="showLocationModal = false"
+        >
+          JANGAN IZINKAN
         </ion-button>
       </div>
     </div>
@@ -81,7 +149,7 @@
   <div class="custom-tabbar">
     <!-- SVG cekungan -->
     <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-    
+
     <!-- Kiri -->
     <div class="tab-button" routerLink="/collector/histories">
       <img src="assets/history.svg" alt="Riwayat" class="icon" />

@@ -1,15 +1,21 @@
-<ion-content class="payment-entry-page" fullscreen [scrollY]="false">
+<ion-content class="payment-entry-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/home"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, Izumi!</h2>
       <p>Collector</p>
     </div>
-    <div class="notification-icon" routerLink="/collector/notifications">
+    <div class="notification-icon" (click)="openLocationModal()">
       <img src="assets/notification.svg" alt="Notifikasi" />
       <span class="notif-dot"></span>
     </div>
@@ -18,13 +24,23 @@
   <!-- Title Section -->
   <div class="title-section">
     <div class="btn-title">
-      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
+      <img src="assets/file-input.svg" alt="File Input" class="btn-icon" />
       Input Pembayaran
     </div>
   </div>
 
   <!-- Content Section -->
   <div class="content-section">
+    <!-- Back Button -->
+    <div class="back-button-container">
+      <img
+        src="assets/back.svg"
+        alt="Kembali"
+        class="back-button"
+        routerLink="/collector/loans"
+      />
+    </div>
+
     <form>
       <!-- Member Name -->
       <div class="form-group">
@@ -40,7 +56,12 @@
       <!-- Installment -->
       <div class="form-group installment-section">
         <label class="form-label">Angsuran ke-</label>
-        <input type="text" class="form-input installment-input" value="1/2/3 dst" readonly />
+        <input
+          type="text"
+          class="form-input installment-input"
+          value="1/2/3 dst"
+          readonly
+        />
       </div>
 
       <!-- Payment Date -->
@@ -64,17 +85,67 @@
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <button type="submit" class="btn-submit">
-          Simpan
-        </button>
+        <ion-button (click)="onPaymentSubmissionSuccess()" class="btn-submit" fill="solid"> Submit </ion-button>
       </div>
     </form>
   </div>
 
+  <!-- Payment Success Modal -->
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showPaymentSuccess}"
+  >
+    <div class="verification-modal">
+      <div class="payment-success-icon">
+        <img src="assets/checkmark.svg" alt="Success" />
+      </div>
+      <h2>PEMBAYARAN PINJAMAN ANGGOTA BERHASIL DISIMPAN!</h2>
+    </div>
+  </div>
+
+  <!-- Location Permission Modal -->
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showLocationModal}"
+    (click)="showLocationModal = false"
+  >
+    <div class="verification-modal" (click)="$event.stopPropagation()">
+      <div class="verification-icon">
+        <img src="assets/location.svg" alt="Location Icon" class="location-icon">
+      </div>
+      <h2>Aktifkan Layanan Lokasi</h2>
+      <p class="location-description">
+        Untuk melanjutkan proses setor tunai, Anda wajib
+        mengaktifkan layanan lokasi (GPS). Silakan berikan izin
+        akses lokasi untuk melanjutkan.
+      </p>
+
+      <div class="modal-action-button-container">
+        <ion-button
+          shape="round"
+          class="btn-modal-primary"
+          (click)="enableLocation()"
+        >
+          IZINKAN LOKASI
+        </ion-button>
+        
+        <ion-button
+          shape="round"
+          class="btn-modal-secondary"
+          fill="clear"
+          (click)="showLocationModal = false"
+        >
+          JANGAN IZINKAN
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Tabbar -->
   <div class="custom-tabbar">
     <!-- SVG cekungan -->
     <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-    
+
     <!-- Kiri -->
     <div class="tab-button" routerLink="/collector/histories">
       <img src="assets/history.svg" alt="Riwayat" class="icon" />

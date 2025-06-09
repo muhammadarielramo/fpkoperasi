@@ -60,7 +60,7 @@
             class="form-input date-input"
             placeholder="--/--/--"
           />
-          <ion-icon name="calendar" class="calendar-icon"></ion-icon>
+          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
         </div>
       </div>
 
@@ -80,7 +80,20 @@
 
     <!-- Submit Button -->
     <div class="submit-section">
-      <ion-button class="btn-ajukan" fill="solid"> Ajukan Pinjaman </ion-button>
+      <ion-button (click)="onLoanSubmissionSuccess()" class="btn-ajukan" fill="solid">Ajukan Pinjaman</ion-button>
+    </div>
+  </div>
+
+  <!-- Loan Success Modal -->
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showLoanSuccess}"
+  >
+    <div class="verification-modal">
+      <div class="loan-success-icon">
+        <img src="assets/checkmark.svg" alt="Success" />
+      </div>
+      <h2>PENGAJUAN PINJAMAN BERHASIL DIBUAT!</h2>
     </div>
   </div>
 
