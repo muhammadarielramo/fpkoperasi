@@ -118,6 +118,115 @@
   z-index: 1;
   margin-bottom: 100px;
   overflow: visible;
+
+  // Loan Form Styles
+  .loan-form {
+    padding: 1rem 0;
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+
+      .form-label {
+        display: block;
+        font-family: "Lato", sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        color: #4d4d4d;
+        margin-bottom: 0.5rem;
+      }
+
+      .dropdown-wrapper {
+        position: relative;
+
+        .form-select {
+          width: 100%;
+          padding: 0.75rem 2.5rem 0.75rem 1rem;
+          background: #ffffff;
+          border: 2px solid #e5e5e5;
+          border-radius: 15px;
+          font-family: "Poppins", sans-serif;
+          font-size: 14px;
+          color: #666666;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #857afe;
+            box-shadow: 0 2px 12px rgba(133, 122, 254, 0.2);
+          }
+        }
+
+        .dropdown-icon {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #999999;
+          font-size: 20px;
+          pointer-events: none;
+        }
+      }
+
+      .date-input-wrapper {
+        position: relative;
+
+        .form-input {
+          width: 100%;
+          padding: 0.75rem 2.5rem 0.75rem 1rem;
+          background: #ffffff;
+          border: 2px solid #e5e5e5;
+          border-radius: 15px;
+          font-family: "Poppins", sans-serif;
+          font-size: 14px;
+          color: #4d4d4d;
+          box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #857afe;
+            box-shadow: 0 2px 12px rgba(133, 122, 254, 0.2);
+          }
+
+          &::placeholder {
+            color: #999999;
+          }
+        }
+
+        .calendar-icon {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #999999;
+          font-size: 20px;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .submit-section {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 0 2rem 0;
+
+    .btn-ajukan {
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      --background: #9556ff;
+      --color: white;
+      --border-radius: 20px;
+      text-transform: none;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+  }
 }
 
 .content-section::before {
@@ -252,15 +361,5 @@
     // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
     padding-bottom: 20px;
     height: 80px;
-  }
-}
-
-/* Aturan untuk layar dengan tinggi 620px atau kurang.
-  Angka 620px adalah titik awal yang baik, Anda bisa menyesuaikannya.
-*/
-@media (max-height: 620px) {
-  .help-floating {
-    /* Sembunyikan elemen sepenuhnya agar tidak mengganggu */
-    display: none;
   }
 }

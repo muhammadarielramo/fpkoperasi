@@ -1,4 +1,4 @@
-<ion-content class="dashboard-page" fullscreen [scrollY]="false">
+<ion-content class="histories-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
@@ -18,14 +18,72 @@
   <!-- Title Section -->
   <div class="title-section">
     <div class="btn-title">
-      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
       Riwayat Transaksi
     </div>
   </div>
 
   <!-- Content Section -->
   <div class="content-section">
-    
+    <!-- Month Selector -->
+    <div class="month-selector">
+      <div class="dropdown-wrapper">
+        <select class="form-select">
+          <option value="">Pilih Bulan...</option>
+          <option value="jan">Januari 2025</option>
+          <option value="feb">Februari 2025</option>
+          <option value="mar">Maret 2025</option>
+          <option value="apr">April 2025</option>
+          <option value="may">Mei 2025</option>
+          <option value="jun">Juni 2025</option>
+        </select>
+        <ion-icon name="chevron-down" class="dropdown-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Total Card -->
+    <div class="total-card">
+      <div class="card-content">
+        <div class="card-info">
+          <h3>Total Setoran Bulan Desember</h3>
+          <div class="amount">Rp7.000.000,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction List -->
+    <div class="transaction-list">
+      <div class="transaction-item">
+        <div class="user-avatar">
+          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
+        </div>
+        <div class="transaction-info">
+          <div class="user-name">Tsukasa Suou</div>
+          <div class="transaction-date">14 Mei 2025</div>
+        </div>
+        <div class="transaction-details">
+          <div class="amount">Rp200.000.000</div>
+          <div class="status tepat-waktu">
+            <span>Tepat Waktu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="user-avatar">
+          <img src="assets/avatar-alexander.jpg" alt="Alexander" />
+        </div>
+        <div class="transaction-info">
+          <div class="user-name">Alexander</div>
+          <div class="transaction-date">13 Mei 2025</div>
+        </div>
+        <div class="transaction-details">
+          <div class="amount">Rp500.000</div>
+          <div class="status overdue">
+            <span>Terlambat</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="custom-tabbar">

@@ -187,13 +187,13 @@
     font-weight: 600;
     font-size: 13px;
     color: #646464;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
     transition: box-shadow 0.2s ease;
 }
 
 .input-field:focus {
     outline: none;
-    box-shadow: 0 4px 12px rgba(133, 122, 254, 0.2);
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
 }
 
 .input-field::placeholder {
@@ -326,15 +326,5 @@
     // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
     padding-bottom: 20px;
     height: 80px;
-  }
-}
-
-/* Aturan untuk layar dengan tinggi 620px atau kurang.
-  Angka 620px adalah titik awal yang baik, Anda bisa menyesuaikannya.
-*/
-@media (max-height: 620px) {
-  .help-floating {
-    /* Sembunyikan elemen sepenuhnya agar tidak mengganggu */
-    display: none;
   }
 }

@@ -1,10 +1,21 @@
+:root {
+  --tabbar-height: 60px;
+  --safe-area-bottom: env(
+    safe-area-inset-bottom,
+    0px
+  ); /* Fallback ke 0px jika tidak didukung */
+}
+
 .loans-page {
   --background: none;
-  background-image: url("/assets/app-background.svg");
+  background-image: #ffffff;
 
   .header {
     background: #857afe;
-    padding: 1rem 1rem 2.5rem;
+    padding-top: env(safe-area-inset-top);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2.5rem;
     border-bottom-left-radius: 35px;
     border-bottom-right-radius: 35px;
     position: relative;
@@ -170,11 +181,12 @@
   background: #ffffff;
   border-radius: 25px;
   padding: 1rem;
-  border: 1px solid #646464;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.50);
+  border: 1px solid #e0e0e0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
 }
 
 .member-info {
@@ -184,41 +196,139 @@
 }
 
 .member-avatar {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #f0f0f0;
 }
 
-.member-details h3 {
-  font-family: "Lato", sans-serif;
-  font-weight: 800;
-  font-size: 14px;
-  color: #646464;
-  margin: 0 0 0.25rem 0;
+.member-details {
+  flex: 1;
+
+  h3 {
+    font-family: "Lato", sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #646464;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .debt-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .debt-label {
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      color: #646464;
+    }
+
+    .debt-amount {
+      font-family: "Lato", sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: #646464;
+    }
+  }
 }
 
-.member-badge {
-  background: #ffd700;
-  color: #646464;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-size: 11px;
-  padding: 0.25rem 0.5rem;
-  border-radius: 8px;
+.member-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
   display: inline-block;
+  text-align: center;
+  min-width: 60px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+
+  &.aktif {
+    background: #2cd2fc;
+    color: #ffffff;
+  }
+
+  &.denda {
+    background: #d32427;
+    color: #ffffff;
+  }
 }
 
-.btn-setor {
-  background: #857afe;
+.btn-detail {
+  background: #9556ff;
   color: white;
   border: none;
   border-radius: 15px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
+  text-transform: none;
   font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
+  letter-spacing: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: background-color 0.2s ease;
+
+  ion-icon {
+    margin-right: 0.3rem;
+  }
+
+  &:hover {
+    background: #8a4aff;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.btn-setor {
+  background: #9556ff;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.5rem 0.75rem;
+  text-transform: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: background-color 0.2s ease;
+
+  ion-icon {
+    font-size: 0.9rem;
+    margin-right: 0.1rem;
+    margin-left: -0.1rem;
+  }
+
+  &:hover {
+    background: #8a4aff;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .custom-tabbar {
@@ -226,23 +336,25 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: calc(var(--tabbar-height) + var(--safe-area-bottom));
   background: #857afe;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-area-bottom);
+  padding-top: 0;
   z-index: 100;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   padding-left: 1rem;
   padding-right: 1rem;
 
+  // Tambahkan cekungan putih
   .tab-notch {
     position: absolute;
-    top: -7px;
+    top: -7px; // sesuaikan posisi vertikal SVG
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 100px; // ukuran notch SVG
     height: auto;
     z-index: 1;
     pointer-events: none;
@@ -257,6 +369,7 @@
     justify-content: center;
     position: relative;
     z-index: 2;
+    padding-bottom: env(safe-area-inset-bottom, 0);
 
     .icon {
       width: 32px;
@@ -266,13 +379,13 @@
   }
 
   .tab-spacer {
-    width: 64px;
+    width: 64px; // space untuk tombol Home
     pointer-events: none;
   }
 
   .tab-home {
     position: absolute;
-    top: -30px;
+    top: -30px; // sedikit naik agar bertumpuk di atas cekungan
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -303,6 +416,41 @@
       font-size: 12px;
       margin-top: 14px;
       color: #ffffff;
+      margin-bottom: env(safe-area-inset-bottom, 0);
     }
+  }
+}
+
+/* Alternatif jika env() tidak bekerja di semua browser */
+@supports not (padding: env(safe-area-inset-top)) {
+  .loans-page .header {
+    padding-top: 0; /* fallback tanpa padding */
+  }
+}
+
+/* Untuk perangkat dengan notch yang lebih besar */
+@media screen and (min-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .loans-page .header {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+// Tambahkan support untuk viewport dengan safe area
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .custom-tabbar {
+    // Pastikan tinggi minimum untuk perangkat tanpa safe area
+    min-height: 60px;
+
+    // Untuk perangkat dengan safe area, tinggi akan otomatis menyesuaikan
+    height: calc(60px + env(safe-area-inset-bottom));
+  }
+}
+
+// Fallback untuk browser yang tidak mendukung env()
+@supports not (padding-bottom: env(safe-area-inset-bottom)) {
+  .custom-tabbar {
+    // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
+    padding-bottom: 20px;
+    height: 80px;
   }
 }

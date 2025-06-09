@@ -96,7 +96,7 @@
     background: white;
     border-radius: 15px;
     padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -262,14 +262,14 @@
 
 /* Alternatif jika env() tidak bekerja di semua browser */
 @supports not (padding: env(safe-area-inset-top)) {
-  .dashboard-page .header {
+  .notifications-page .header {
     padding-top: 0; /* fallback tanpa padding */
   }
 }
 
 /* Untuk perangkat dengan notch yang lebih besar */
 @media screen and (min-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-  .dashboard-page .header {
+  .notifications-page .header {
     padding-top: env(safe-area-inset-top);
   }
 }
@@ -291,15 +291,5 @@
     // Tambahkan padding ekstra untuk perangkat iPhone yang lebih lama
     padding-bottom: 20px;
     height: 80px;
-  }
-}
-
-/* Aturan untuk layar dengan tinggi 620px atau kurang.
-  Angka 620px adalah titik awal yang baik, Anda bisa menyesuaikannya.
-*/
-@media (max-height: 620px) {
-  .help-floating {
-    /* Sembunyikan elemen sepenuhnya agar tidak mengganggu */
-    display: none;
   }
 }

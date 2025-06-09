@@ -3,7 +3,13 @@
   <div class="header">
     <div class="top-bar">
       <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+      <ion-button
+        routerLink="/home"
+        class="btn-logout"
+        shape="round"
+        size="small"
+        >Logout</ion-button
+      >
     </div>
     <div class="user-info">
       <h2>Hello, Izumi!</h2>
@@ -17,19 +23,27 @@
 
   <!-- Title Section -->
   <div class="title-section">
-    <div class="btn-title">
-      Detail Pinjaman
-    </div>
+    <div class="btn-title">Detail Pinjaman</div>
   </div>
 
   <!-- Content Section -->
   <div class="content-section">
+    <!-- Back Button -->
+    <div class="back-button-container">
+      <img
+        src="assets/back.svg"
+        alt="Kembali"
+        class="back-button"
+        routerLink="/collector/loans"
+      />
+    </div>
+
     <div class="loan-detail-card">
       <div class="detail-item">
         <span class="label">Jumlah Pinjaman:</span>
         <span class="value">Rp500.000</span>
       </div>
-      
+
       <div class="detail-item">
         <span class="label">Tanggal Pengajuan:</span>
         <div class="date-value">
@@ -37,20 +51,15 @@
           <span class="time">08:12:12</span>
         </div>
       </div>
-      
+
       <div class="detail-item">
         <span class="label">Jangka Waktu:</span>
         <span class="value">3 Bulan</span>
       </div>
-      
+
       <div class="detail-item">
         <span class="label">Status Pengajuan:</span>
-      </div>
-      
-      <div class="status-section">
-        <div class="status-badge approved">
-          Pengajuan Disetujui
-        </div>
+        <div class="status-badge approved">Disetujui</div>
       </div>
     </div>
   </div>
@@ -58,7 +67,7 @@
   <div class="custom-tabbar">
     <!-- SVG cekungan -->
     <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-    
+
     <!-- Kiri -->
     <div class="tab-button" routerLink="/collector/histories">
       <img src="assets/history.svg" alt="Riwayat" class="icon" />

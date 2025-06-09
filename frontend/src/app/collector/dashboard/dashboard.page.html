@@ -1,4 +1,4 @@
-<ion-content class="dashboard-page" fullscreen scrollY="false">
+<ion-content class="dashboard-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
@@ -22,11 +22,15 @@
     </div>
   </div>
 
-  <!-- Title Section -->
   <div class="title-section">
     <div class="btn-title">
-      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
-      Total Anggota Binaan: 100 Anggota
+      <div class="title-text">
+        <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
+        <span>Total Anggota Binaan:</span>
+      </div>
+      <div class="title-value">
+        <span>100</span>
+      </div>
     </div>
   </div>
 
@@ -34,31 +38,47 @@
   <div class="content-section">
     <h2>Kunjungan Hari Ini:</h2>
 
+    <!-- Visit Cards -->
     <div class="visit-card">
-      <div class="visit-icon">🏠</div>
-      <div class="visit-info">
-        <h3>Mia Collins</h3>
-        <p class="visit-address">Sumarecon Residence<br />AA4/No.10 KARAWANG</p>
-        <div class="visit-details">
-          <span class="visit-date">Batas Pembayaran: 15 Mei 2025</span>
-          <span class="visit-status">Terlambat</span>
+      <div class="card-header">
+        <div class="home-icon">
+          <img src="assets/house.svg" alt="Home" />
         </div>
-        <div class="visit-actions">
-          <button class="btn-detail">👁 Lihat Detail</button>
-          <button class="btn-input">Input Pembayaran</button>
+        <div class="member-info">
+          <h3>Mia Collins</h3>
+          <p class="address">Sumarecon Residence<br />AA4/No.10 KARAWANG</p>
+          <div class="payment-info">
+            <span class="payment-label">Batas Pembayaran:</span>
+            <span class="payment-date">15 Mei 2025</span>
+          </div>
+          <div class="status-info">
+            <span class="status-label">Status Pinjaman:</span>
+            <span class="status-badge overdue">Terlambat</span>
+          </div>
         </div>
+      </div>
+      <div class="card-actions">
+        <ion-button class="action-btn detail-btn" shape="round" size="small">
+          Lihat Detail
+        </ion-button>
+        <ion-button class="action-btn payment-btn" shape="round" size="small">
+          Input Pembayaran
+        </ion-button>
       </div>
     </div>
 
     <div class="visit-card">
-      <div class="visit-icon">🏠</div>
-      <div class="visit-info">
-        <h3>Tsukasa Suou</h3>
-        <p class="visit-address">
-          Jl. Citra Kebun Mas RT 01/<br />RW 12 KARAWANG
-        </p>
-        <div class="visit-details">
-          <span class="visit-date">Batas Pembayaran: 2 Juni 2025</span>
+      <div class="card-header">
+        <div class="home-icon">
+          <img src="assets/house.svg" alt="Home" />
+        </div>
+        <div class="member-info">
+          <h3>Tsukasa Suou</h3>
+          <p class="address">Jl. Citra Kebun Mas RT 01/<br />RW 12 KARAWANG</p>
+          <div class="payment-info">
+            <span class="payment-label">Batas Pembayaran:</span>
+            <span class="payment-date">2 Juni 2025</span>
+          </div>
         </div>
       </div>
     </div>

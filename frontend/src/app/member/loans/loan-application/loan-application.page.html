@@ -12,7 +12,7 @@
       >
     </div>
     <div class="user-info">
-      <h2>Hello, John!</h2>
+      <h2>Hello, Tsukasa!</h2>
       <p>Member</p>
     </div>
     <div class="notification-icon" routerLink="/member/notifications">
@@ -32,8 +32,57 @@
       />
       <h3>Pengajuan Pinjaman</h3>
     </div>
+
+    <!-- Loan Application Form -->
+    <div class="loan-form">
+      <!-- Nominal Pinjaman -->
+      <div class="form-group">
+        <label class="form-label">Nominal Pinjaman</label>
+        <div class="dropdown-wrapper">
+          <select class="form-select">
+            <option value="">Select Amount</option>
+            <option value="500000">Rp500.000</option>
+            <option value="1000000">Rp1.000.000</option>
+            <option value="2000000">Rp2.000.000</option>
+            <option value="3000000">Rp3.000.000</option>
+            <option value="5000000">Rp5.000.000</option>
+          </select>
+          <ion-icon name="chevron-down" class="dropdown-icon"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Tanggal Pengajuan -->
+      <div class="form-group">
+        <label class="form-label">Tanggal Pengajuan</label>
+        <div class="date-input-wrapper">
+          <input
+            type="text"
+            class="form-input date-input"
+            placeholder="--/--/--"
+          />
+          <ion-icon name="calendar" class="calendar-icon"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Jangka Waktu -->
+      <div class="form-group">
+        <label class="form-label">Jangka Waktu</label>
+        <div class="dropdown-wrapper">
+          <select class="form-select">
+            <option value="">Select Duration</option>
+            <option value="1">1 Bulan (Jangka Pendek)</option>
+            <option value="3">3 Bulan</option>
+          </select>
+          <ion-icon name="chevron-down" class="dropdown-icon"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-section">
+      <ion-button class="btn-ajukan" fill="solid"> Ajukan Pinjaman </ion-button>
+    </div>
   </div>
-  
 
   <div class="custom-tabbar">
     <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />

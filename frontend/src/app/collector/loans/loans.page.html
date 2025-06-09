@@ -1,4 +1,4 @@
-<ion-content class="loans-page" fullscreen [scrollY]="false">
+<ion-content class="loans-page" fullscreen>
   <!-- Header -->
   <div class="header">
     <div class="top-bar">
@@ -30,52 +30,100 @@
 
       <!-- Member List -->
       <div class="member-list">
+          <!-- Tsukasa Suou -->
+          <div class="member-card">
+              <span class="status-badge aktif">Aktif</span>
+              <div class="member-info">
+                  <img src="https://images.unsplash.com/photo-1494790108755-2616b612b047?w=100&h=100&fit=crop&crop=face" alt="Tsukasa Suou" class="member-avatar">
+                  <div class="member-details">
+                      <h3>Tsukasa Suou</h3>
+                      <div class="debt-info">
+                          <span class="debt-label">Sisa Hutang:</span>
+                          <span class="debt-amount">Rp100.000</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="member-actions">
+                  <button class="btn-detail" routerLink="/collector/loans/loan-details">
+                      Lihat Detail
+                  </button>
+                  <button class="btn-setor" routerLink="/collector/loans/payment-entry">
+                      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+                      Setor
+                  </button>
+              </div>
+          </div>
+
           <!-- Alexander -->
           <div class="member-card">
+              <span class="status-badge aktif">Aktif</span>
               <div class="member-info">
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Alexander" class="member-avatar">
                   <div class="member-details">
                       <h3>Alexander</h3>
-                      <span class="member-badge">Member</span>
+                      <div class="debt-info">
+                          <span class="debt-label">Sisa Hutang:</span>
+                          <span class="debt-amount">Rp2.000.000</span>
+                      </div>
                   </div>
               </div>
-              <button class="btn-setor" routerLink="/collector/savings/deposit-savings">Setor Simpanan</button>
+              <div class="member-actions">
+                  <button class="btn-detail" routerLink="/collector/loans/loan-details">
+                      Lihat Detail
+                  </button>
+                  <button class="btn-setor" routerLink="/collector/loans/payment-entry">
+                      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+                      Setor
+                  </button>
+              </div>
           </div>
 
-          <!-- Cloe Adams -->
+          <!-- James Carter -->
           <div class="member-card">
+              <span class="status-badge aktif">Aktif</span>
               <div class="member-info">
-                  <img src="https://images.unsplash.com/photo-1494790108755-2616b612b047?w=100&h=100&fit=crop&crop=face" alt="Cloe Adams" class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="James Carter" class="member-avatar">
                   <div class="member-details">
-                      <h3>Cloe Adams</h3>
-                      <span class="member-badge">Member</span>
+                      <h3>James Carter</h3>
+                      <div class="debt-info">
+                          <span class="debt-label">Sisa Hutang:</span>
+                          <span class="debt-amount">Rp700.000</span>
+                      </div>
                   </div>
               </div>
-              <button class="btn-setor" routerLink="/collector/savings/deposit-savings">Setor Simpanan</button>
+              <div class="member-actions">
+                  <button class="btn-detail" routerLink="/collector/loans/loan-details">
+                      Lihat Detail
+                  </button>
+                  <button class="btn-setor" routerLink="/collector/loans/payment-entry">
+                      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+                      Setor
+                  </button>
+              </div>
           </div>
 
-          <!-- Emma Brooks -->
+          <!-- Mia Collins -->
           <div class="member-card">
+              <span class="status-badge denda">Denda</span>
               <div class="member-info">
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Emma Brooks" class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Mia Collins" class="member-avatar">
                   <div class="member-details">
-                      <h3>Emma Brooks</h3>
-                      <span class="member-badge">Member</span>
+                      <h3>Mia Collins</h3>
+                      <div class="debt-info">
+                          <span class="debt-label">Sisa Hutang:</span>
+                          <span class="debt-amount">Rp5.000.000</span>
+                      </div>
                   </div>
               </div>
-              <button class="btn-setor" routerLink="/collector/savings/deposit-savings">Setor Simpanan</button>
-          </div>
-
-          <!-- Ethan Walker -->
-          <div class="member-card">
-              <div class="member-info">
-                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Ethan Walker" class="member-avatar">
-                  <div class="member-details">
-                      <h3>Ethan Walker</h3>
-                      <span class="member-badge">Member</span>
-                  </div>
+              <div class="member-actions">
+                  <button class="btn-detail" routerLink="/collector/loans/loan-details">
+                      Lihat Detail
+                  </button>
+                  <button class="btn-setor" routerLink="/collector/loans/payment-entry">
+                      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+                      Setor
+                  </button>
               </div>
-              <button class="btn-setor" routerLink="/collector/savings/deposit-savings">Setor Simpanan</button>
           </div>
       </div>
   </div>
