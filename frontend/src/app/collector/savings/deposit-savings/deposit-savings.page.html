@@ -147,34 +147,44 @@
   </div>
 
   <div class="custom-tabbar">
-    <!-- SVG cekungan -->
-    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
-
-    <!-- Kiri -->
-    <div class="tab-button" routerLink="/collector/histories">
-      <img src="assets/history.svg" alt="Riwayat" class="icon" />
-    </div>
-    <div class="tab-button" routerLink="/collector/savings">
-      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+    <div
+      class="tab-button"
+      routerLink="/collector/dashboard"
+      routerLinkActive="active-link"
+    >
+      <img src="assets/home.svg" alt="Home" class="icon" />
     </div>
 
-    <!-- Spacer tengah -->
-    <div class="tab-spacer"></div>
+    <div
+      class="tab-button"
+      routerLink="/collector/savings"
+      routerLinkActive="active-link"
+    >
+      <img src="assets/money-bag.svg" alt="Savings" class="icon" />
+    </div>
 
-    <!-- Kanan -->
-    <div class="tab-button" routerLink="/collector/loans">
+    <div
+      class="tab-button"
+      routerLink="/collector/loans"
+      routerLinkActive="active-link"
+    >
       <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
     </div>
-    <div class="tab-button" routerLink="/collector/members">
-      <img src="assets/members.svg" alt="Anggota" class="icon" />
+
+    <div
+      class="tab-button"
+      routerLink="/collector/histories"
+      routerLinkActive="active-link"
+    >
+      <img src="assets/history.svg" alt="Riwayat" class="icon" />
     </div>
 
-    <!-- Tombol Home di tengah -->
-    <div class="tab-home" routerLink="/collector/dashboard">
-      <div class="home-icon-wrapper">
-        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
-      </div>
-      <span>Home</span>
+    <div
+      class="tab-button"
+      routerLink="/collector/members"
+      routerLinkActive="active-link"
+    >
+      <img src="assets/members.svg" alt="Anggota" class="icon" />
     </div>
   </div>
 </ion-content>

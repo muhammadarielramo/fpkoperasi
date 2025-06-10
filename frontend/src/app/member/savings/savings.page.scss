@@ -1,15 +1,7 @@
-:root {
-  --tabbar-height: 60px;
-  --safe-area-bottom: env(
-    safe-area-inset-bottom,
-    0px
-  ); /* Fallback ke 0px jika tidak didukung */
-}
-
 .savings-page {
-    --ion-background-color: #ffffff;
-    overflow: hidden;
-    height: 100vh;
+  --ion-background-color: #ffffff;
+  overflow: hidden;
+  height: 100vh;
 
   .header {
     background: #857afe;
@@ -95,18 +87,18 @@
   overflow: visible;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 40px;
     bottom: -999px;
     left: 0;
     right: 0;
-    background: #F2EBFF;
+    background: #f2ebff;
     z-index: -1;
   }
 
   h3 {
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     font-weight: 700;
     font-size: 20px;
     color: #646464;
@@ -120,14 +112,17 @@
 }
 
 .card {
-  background: 
-    url('/../../assets/background-card-savings.svg'),
-    linear-gradient(157deg,rgba(135, 104, 204, 1) 0%, rgba(179, 79, 250, 1) 100%);
+  background: url("/../../assets/background-card-savings.svg"),
+    linear-gradient(
+      157deg,
+      rgba(135, 104, 204, 1) 0%,
+      rgba(179, 79, 250, 1) 100%
+    );
   color: white;
   border-radius: 14px;
   padding: 1rem 1rem 0.5rem;
   margin-bottom: 1rem;
-  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .card-content {
@@ -146,9 +141,8 @@
   justify-content: space-between;
 }
 
-
 .card-left h4 {
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
   font-weight: 800;
   margin: 0;
   font-size: 16px;
@@ -156,13 +150,13 @@
 }
 
 .card-left p {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 15px;
 }
 
 .date-container p {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 13px;
   color: #f0e9ff;
@@ -179,10 +173,15 @@
 }
 
 .amount {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 17px;
   color: white;
+}
+
+:root {
+  --tabbar-height: 60px;
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .custom-tabbar {
@@ -196,83 +195,62 @@
   justify-content: space-around;
   align-items: center;
   padding-bottom: var(--safe-area-bottom);
-  padding-top: 0;
-  z-index: 100;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-  padding-left: 1rem;
-  padding-right: 1rem;
+  z-index: 100;
+}
 
-  // Tambahkan cekungan putih
-  .tab-notch {
-    position: absolute;
-    top: -7px; // sesuaikan posisi vertikal SVG
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px; // ukuran notch SVG
-    height: auto;
-    z-index: 1;
-    pointer-events: none;
-  }
+.tab-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer; /* Menambahkan radius untuk efek latar belakang */
+  position: relative; /* Diperlukan untuk elemen pseudo ::before */
+  /* Transisi untuk efek hover yang halus */
+  transition: background-color 0.3s ease;
+}
 
-  .tab-button {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-    padding-bottom: env(safe-area-inset-bottom, 0);
+.tab-button .icon {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) invert(1);
+  /* Transisi untuk efek skala pada ikon */
+  transition: transform 0.3s ease;
+}
 
-    .icon {
-      width: 32px;
-      height: 32px;
-      filter: brightness(0) invert(1);
-    }
-  }
+/* 1. Efek Hover (Saat kursor mouse di atas tombol) */
+.tab-button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Latar belakang sedikit cerah */
+}
+.tab-button:hover .icon {
+  transform: scale(1.1); /* Ikon sedikit membesar */
+}
 
-  .tab-spacer {
-    width: 64px; // space untuk tombol Home
-    pointer-events: none;
-  }
+/* 2. Efek Aktif (Saat berada di halaman yang sesuai) */
+/* Biasanya, framework seperti Angular/React akan menambahkan kelas 'active' atau 'active-link' secara otomatis */
+.tab-button.active-link {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Latar belakang lebih jelas untuk menandakan aktif */
+}
 
-  .tab-home {
-    position: absolute;
-    top: -30px; // sedikit naik agar bertumpuk di atas cekungan
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.tab-button.active-link .icon {
+  transform: scale(1.15); /* Ikon lebih besar untuk menandakan aktif */
+}
 
-    .home-icon-wrapper {
-      width: 50px;
-      height: 48px;
-      border-radius: 50%;
-      background: #aa7efe;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-
-      .home-icon {
-        width: 30px;
-        height: 30px;
-        filter: none;
-      }
-    }
-
-    span {
-      font-family: "Lato", sans-serif;
-      font-weight: 800;
-      font-size: 12px;
-      margin-top: 14px;
-      color: #ffffff;
-      margin-bottom: env(safe-area-inset-bottom, 0);
-    }
-  }
+/* [Opsi Visual Tambahan] Tambahkan titik di bawah ikon aktif */
+.tab-button.active-link::before {
+  content: "";
+  position: absolute;
+  bottom: 6px; /* Sesuaikan posisi vertikal titik */
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 50%;
 }
 
 /* Alternatif jika env() tidak bekerja di semua browser */
