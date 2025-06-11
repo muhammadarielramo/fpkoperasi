@@ -26,13 +26,20 @@ class CollectorController extends Controller
             'data' => $collector
         ], 200);
     }
-    public function getMember() {
+    public function getMember(Request $request) {
         $user = auth()->user();
         $collector = $user->collector;
 
-        $relasi = MemberCollector::with('member.user')->where('id_collector', $collector->id)->get();
-        // dd($relasi);
+        $search = $request->input('search');
 
+        $relasi = MemberCollector::with('member.user')
+            ->where('id_collector', $collector->id)
+            ->when($search, function ($query, $search) {
+                $query->whereHas('member.user', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%$search%");
+                });
+            })
+            ->get();
 
         if($relasi->isNotEmpty()) {
             return response()->json([
@@ -77,8 +84,18 @@ class CollectorController extends Controller
         ], 200);
     }
 
-    public function kunjunganHariIni() {
+    public function detailMember($id) {
+        $member = Member::with('user')->find($id);
 
+        $data = [
+            'name' => $member->user->name,
+            'phone' => $member->user->phone_number,
+            'address' => $member->address
+        ];
+        return response()->json([
+            'message' => 'success',
+            'data' => $data
+        ], 200);
     }
 
 }

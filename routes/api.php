@@ -61,6 +61,8 @@ Route::get('/unduh/slip', [SlipController::class, 'generate']);
 Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2']], function () {
     Route::get('/index', [CollectorController::class, 'index'])->name('kolektor');
     Route::get('/anggota-binaan', [CollectorController::class, 'getMember'])->name('anggota-binaan');
+    Route::get('/detail-anggota/{id}', [CollectorController::class, 'detailMember'])->name('detail-anggota');
+
     Route::post('/tambah-simpanan/{id}', [DepositController::class, 'saveDeposit'])->name('tambah-simpanan');
     Route::get('/anggota-pinjaman', [CollectorController::class, 'memberLoan'])->name('pinjaman');
     Route::get('/info-pembayaran/{id_loan}', [LoanController::class, 'loanPaymentInfo'])->name('info-pembayaran');

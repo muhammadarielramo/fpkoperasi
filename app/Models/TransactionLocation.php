@@ -16,10 +16,16 @@ class TransactionLocation extends Model
         'latitude',
         'longitude',
         'location_name',
+        'collector_id'
     ];
 
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    public function collector()
+    {
+        return $this->belongsTo(Collector::class);
     }
 }
