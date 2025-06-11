@@ -1,101 +1,146 @@
 @extends('layouts.admin.app', ['title' => 'Dashboard'])
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 @section('content')
 
 <section class="section">
-    <div class="row">
-    <!-- Total Anggota -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-        <div class="card-icon bg-primary">
-            <i class="fas fa-users fa-sm"></i>
-        </div>
-        <div class="card-wrap">
-            <div class="card-header">
-            <h4>Total Anggota</h4>
-            </div>
-            <div class="card-body">
-                {{$countMembers}}
-            </div>
-        </div>
-        </div>
-    </div>
 
-    <!-- Total Pendaftaran Anggota -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-        <div class="card-icon bg-warning">
-            <i class="fas fa-user"></i>
-        </div>
-        <div class="card-wrap">
-            <div class="card-header">
-            <h4>Pendaftaran Anggota</h4>
-            </div>
-            <div class="card-body">
-            {{$countRegisters}}
-            </div>
-        </div>
-        </div>
-    </div>
 
-    <!-- Pengajuan Pinjaman Baru -->
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-        <div class="card card-statistic-1">
-        <div class="card-icon bg-danger">
-            <i class="fas fa-file-alt"></i>
-        </div>
-        <div class="card-wrap">
-            <div class="card-header">
-            <h4>Pengajuan Baru</h4>
-            </div>
-            <div class="card-body">
-            {{$countPengajuan}}
-            </div>
-        </div>
-        </div>
-    </div>
-    </div>
+    <div class="container mt-5">
+        <div class="row g-4">
 
-              <div class="row">
-            <div class="col-lg-8 col-md-12 col-12 col-sm-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4>Statistics</h4>
-                  <div class="card-header-action">
-                    <div class="btn-group">
-                      <a href="#" class="btn btn-primary">Week</a>
-                      <a href="#" class="btn">Month</a>
+        {{-- notifikasi --}}
+        @if($notifPinjamanBaru > 0 || $notifAnggotaBaru > 0)
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <div>
+                        <strong>🔔 Notifikasi:</strong>
+                        <ul class="mb-0">
+                            @if($notifPinjamanBaru > 0)
+                                <li>{{ $notifPinjamanBaru }} pengajuan pinjaman baru menunggu ditinjau.</li>
+                            @endif
+                            @if($notifAnggotaBaru > 0)
+                                <li>{{ $notifAnggotaBaru }} pendaftaran anggota baru menunggu verifikasi.</li>
+                            @endif
+                        </ul>
                     </div>
-                  </div>
                 </div>
-                <div class="card-body">
-                  <canvas id="myChart" height="182"></canvas>
-                  <div class="statistic-details mt-sm-4">
-                    <div class="statistic-details-item">
-                      <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 7%</span>
-                      <div class="detail-value">$243</div>
-                      <div class="detail-name">Today's Sales</div>
-                    </div>
-                    <div class="statistic-details-item">
-                      <span class="text-muted"><span class="text-danger"><i class="fas fa-caret-down"></i></span> 23%</span>
-                      <div class="detail-value">$2,902</div>
-                      <div class="detail-name">This Week's Sales</div>
-                    </div>
-                    <div class="statistic-details-item">
-                      <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span>9%</span>
-                      <div class="detail-value">$12,821</div>
-                      <div class="detail-name">This Month's Sales</div>
-                    </div>
-                    <div class="statistic-details-item">
-                      <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 19%</span>
-                      <div class="detail-value">$92,142</div>
-                      <div class="detail-name">This Year's Sales</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        @endif
+
+            <!-- Jumlah Anggota -->
+        <div class="col-md-4">
+          <div class="card border-primary shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Jumlah Anggota</h5>
+              <h3 class="card-text">{{$countMember}}</h3>
             </div>
           </div>
-</section>
+        </div>
 
+        <div class="col-md-4">
+          <div class="card border-success shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-success">Total Simpanan</h5>
+                <h3 class="card-text">Rp {{ number_format($countDeposit, 0, ',', '.') }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-warning shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-warning">Pinjaman Aktif</h5>
+              <h3 class="card-text">Rp {{ number_format($loanActive, 0, ',', '.') }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-dark shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-dark">Kolektor Aktif</h5>
+              <h3 class="card-text">{{$countCollector}}</h3>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <div class="container mt-5">
+      <h2 class="mb-4">Statistik Keuangan</h2>
+      <div class="row g-4">
+
+        <!-- Grafik Simpanan per Bulan -->
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Simpanan per Bulan</h5>
+              <canvas id="simpananChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grafik Pinjaman per Bulan -->
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Pinjaman per Bulan</h5>
+              <canvas id="pinjamanChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+</section>
+<script>
+        const labels = @json($labels);
+        const dataSimpanan = @json($simpanan);
+        const dataPinjaman = @json($pinjaman);
+
+        const ctx1 = document.getElementById('simpananChart');
+        if (ctx1) {
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Simpanan',
+                        data: dataSimpanan,
+                        backgroundColor: 'green'
+                    }]
+                }
+            });
+        }
+
+        const ctx2 = document.getElementById('pinjamanChart');
+        if (ctx2) {
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pinjaman',
+                        data: dataPinjaman,
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0,0,255,0.1)',
+                        fill: true
+                    }]
+                }
+            });
+        }
+    </script>
 @endsection

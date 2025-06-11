@@ -9,6 +9,7 @@ use App\Models\Collector;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\MemberCollector;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -98,4 +99,15 @@ class CollectorController extends Controller
         ], 200);
     }
 
+    // riwayat
+    public function history() {
+        $user = auth()->user();
+        $collector = $user->collector;
+
+        $transaksi = Transaction::with('member.user', 'loan', 'installment', 'deposit')
+            ->where('id_collector', $collector->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $totalSetoran = 
 }
