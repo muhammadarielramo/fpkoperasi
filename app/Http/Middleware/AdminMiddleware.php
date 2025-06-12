@@ -20,9 +20,6 @@ class AdminMiddleware
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        if (Auth::user()->id_role !== '1') {
-            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses.');
-        }
 
         return $next($request);
     }
