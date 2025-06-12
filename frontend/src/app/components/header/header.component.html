@@ -18,8 +18,8 @@
       <h2>Hello, {{ userName }}!</h2>
       <p>{{ userRole }}</p>
     </div>
-    <div class="notification-icon" [routerLink]="['/member/notifications']">
-      <ion-icon name="notifications-outline"></ion-icon>
+    <div class="notification-icon" [routerLink]="getNotificationRoute()">
+      <ion-icon [name]="getNotificationIconName()"></ion-icon>
       <ion-badge *ngIf="notificationCount > 0" class="notif-badge" color="danger">
         {{ notificationCount }}
       </ion-badge>

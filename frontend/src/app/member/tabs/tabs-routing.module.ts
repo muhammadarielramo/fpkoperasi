@@ -12,32 +12,46 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard', // URL menjadi: /member/dashboard
-        loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardPageModule)
+        loadChildren: () =>
+          import('../dashboard/dashboard.module').then(
+            (m) => m.DashboardPageModule
+          ),
       },
       {
         path: 'savings', // URL menjadi: /member/savings
-        loadChildren: () => import('../savings/savings.module').then(m => m.SavingsPageModule)
+        loadChildren: () =>
+          import('../savings/savings.module').then((m) => m.SavingsPageModule),
       },
       {
         path: 'loans', // URL menjadi: /member/loans
-        loadChildren: () => import('../loans/loans.module').then(m => m.LoansPageModule)
+        loadChildren: () =>
+          import('../loans/loans.module').then((m) => m.LoansPageModule),
       },
       {
         path: 'histories', // URL menjadi: /member/histories
-        loadChildren: () => import('../histories/histories.module').then(m => m.HistoriesPageModule)
+        loadChildren: () =>
+          import('../histories/histories.module').then(
+            (m) => m.HistoriesPageModule
+          ),
       },
       {
         path: 'profile', // URL menjadi: /member/profile
-        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+        loadChildren: () =>
+          import('../profile/profile.module').then((m) => m.ProfilePageModule),
+      },
+      {
+        path: 'notifications', // URL menjadi: /member/profile
+        loadChildren: () =>
+          import('../notifications/notifications.module').then((m) => m.NotificationsPageModule),
       },
       {
         // Jika pengguna membuka /member, arahkan otomatis ke /member/dashboard
         path: '',
         redirectTo: 'dashboard',
-        pathMatch: 'full'
-      }
-    ]
-  }
+        pathMatch: 'full',
+      },
+    ],
+  },
 ];
 
 @NgModule({

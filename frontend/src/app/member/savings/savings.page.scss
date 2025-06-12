@@ -8,8 +8,6 @@
   padding: 0 1rem 0;
   position: relative;
   z-index: 1;
-  margin-top: 130px; // Space for fixed header
-  margin-bottom: 80px; // Space for tab bar - penting untuk memberi ruang
   overflow: visible;
 
   &::before {

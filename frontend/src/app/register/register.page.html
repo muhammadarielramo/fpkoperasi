@@ -131,11 +131,41 @@
       </ion-modal>
     </div>
 
+    <!-- Kontainer Upload Foto KTP -->
     <div class="upload-container">
       <span class="upload-label">FOTO KTP</span>
-      <div class="upload-area">
-        <ion-icon name="image-outline"></ion-icon>
-        <ion-icon name="camera-outline" class="camera-icon"></ion-icon>
+
+      <!-- Area untuk menampilkan gambar yang sudah dipilih -->
+      <div *ngIf="idCardImageUrl" class="image-preview-area">
+        <img [src]="idCardImageUrl" alt="Pratinjau KTP" />
+        <ion-button
+          (click)="clearImage()"
+          fill="clear"
+          size="small"
+          class="delete-button"
+        >
+          <ion-icon name="close-circle" color="danger"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Area upload awal (tampil jika belum ada gambar) -->
+      <div *ngIf="!idCardImageUrl" class="upload-area">
+        <!-- Icon Galeri -->
+        <ion-icon
+          name="image-outline"
+          (click)="selectPictureFromGallery()"
+          aria-label="Pilih dari Galeri"
+          role="button"
+        ></ion-icon>
+
+        <!-- Icon Kamera -->
+        <ion-icon
+          name="camera-outline"
+          class="camera-icon"
+          (click)="takePictureWithCamera()"
+          aria-label="Ambil Foto dengan Kamera"
+          role="button"
+        ></ion-icon>
       </div>
     </div>
 
@@ -159,7 +189,10 @@
       <div class="verification-icon">
         <ion-icon name="person-outline"></ion-icon>
       </div>
-      <h2>Pendaftaran berhasil! Tunggu verifikasi Admin. Login via email konfirmasi.</h2>
+      <h2>
+        Pendaftaran berhasil! Tunggu verifikasi Admin. Login via email
+        konfirmasi.
+      </h2>
       <div class="loading-icon">
         <ion-icon name="sync-outline"></ion-icon>
       </div>
