@@ -36,7 +36,7 @@ class TransactionExport implements FromView
             $endDate = Carbon::parse($startDate)->endOfMonth()->format('Y-m-d');
 
             $transactions = Transaction::with('member', 'collector')
-                ->whereBetween('tgl_transaksis', [$startDate, $endDate])
+                ->whereBetween('tgl_transaksi', [$startDate, $endDate])
                 ->get();
         } else {
             abort(400, 'Format tanggal tidak valid. Gunakan format YYYY-MM-DD atau YYYY-MM.');
