@@ -8,12 +8,16 @@ import { DepositSavingsPageRoutingModule } from './deposit-savings-routing.modul
 
 import { DepositSavingsPage } from './deposit-savings.page';
 
+import { ComponentsModule } from '../../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DepositSavingsPageRoutingModule
+    DepositSavingsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [DepositSavingsPage]
 })

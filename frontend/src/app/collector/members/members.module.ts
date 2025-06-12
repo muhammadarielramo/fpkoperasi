@@ -8,12 +8,16 @@ import { MembersPageRoutingModule } from './members-routing.module';
 
 import { MembersPage } from './members.page';
 
+import { ComponentsModule } from '../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MembersPageRoutingModule
+    MembersPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [MembersPage]
 })

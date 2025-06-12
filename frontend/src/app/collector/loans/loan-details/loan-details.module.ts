@@ -8,12 +8,16 @@ import { LoanDetailsPageRoutingModule } from './loan-details-routing.module';
 
 import { LoanDetailsPage } from './loan-details.page';
 
+import { ComponentsModule } from '../../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LoanDetailsPageRoutingModule
+    LoanDetailsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [LoanDetailsPage]
 })

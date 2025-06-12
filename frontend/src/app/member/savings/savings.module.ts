@@ -8,12 +8,17 @@ import { SavingsPageRoutingModule } from './savings-routing.module';
 
 import { SavingsPage } from './savings.page';
 
+import { ComponentsModule } from '../../components/components/components.module';
+
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SavingsPageRoutingModule
+    SavingsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [SavingsPage]
 })

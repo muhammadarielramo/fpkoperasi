@@ -8,12 +8,16 @@ import { PaymentEntryPageRoutingModule } from './payment-entry-routing.module';
 
 import { PaymentEntryPage } from './payment-entry.page';
 
+import { ComponentsModule } from '../../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PaymentEntryPageRoutingModule
+    PaymentEntryPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [PaymentEntryPage]
 })

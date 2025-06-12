@@ -1,25 +1,10 @@
 <ion-content class="loan-details-page" fullscreen [scrollY]="false">
   <!-- Header -->
-  <div class="header">
-    <div class="top-bar">
-      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button
-        routerLink="/home"
-        class="btn-logout"
-        shape="round"
-        size="small"
-        >Logout</ion-button
-      >
-    </div>
-    <div class="user-info">
-      <h2>Hello, Izumi!</h2>
-      <p>Collector</p>
-    </div>
-    <div class="notification-icon" routerLink="/collector/notifications">
-      <img src="assets/notification.svg" alt="Notifikasi" />
-      <span class="notif-dot"></span>
-    </div>
-  </div>
+  <app-header
+    [userName]="'Izumi!'"
+    [userRole]="'Collector'"
+    [notificationCount]="1"
+  ></app-header>
 
   <!-- Title Section -->
   <div class="title-section">

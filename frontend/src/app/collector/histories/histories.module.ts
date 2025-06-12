@@ -8,12 +8,16 @@ import { HistoriesPageRoutingModule } from './histories-routing.module';
 
 import { HistoriesPage } from './histories.page';
 
+import { ComponentsModule } from '../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HistoriesPageRoutingModule
+    HistoriesPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [HistoriesPage]
 })

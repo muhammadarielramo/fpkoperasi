@@ -1,0 +1,56 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button
+      tab="dashboard"
+      routerLink="/collector/dashboard"
+      routerLinkActive="tab-selected"
+      #rlaDashboard="routerLinkActive"
+    >
+      <ion-icon
+        [name]="rlaDashboard.isActive ? 'home' : 'home-outline'"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button
+      tab="savings"
+      routerLink="/collector/savings"
+      routerLinkActive="tab-selected"
+      #rlaSavings="routerLinkActive"
+    >
+      <ion-icon
+        [name]="rlaSavings.isActive ? 'wallet' : 'wallet-outline'"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button
+      tab="loans"
+      routerLink="/collector/loans"
+      routerLinkActive="tab-selected"
+      #rlaLoans="routerLinkActive"
+    >
+      <ion-icon [name]="rlaLoans.isActive ? 'card' : 'card-outline'"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button
+      tab="histories"
+      routerLink="/collector/histories"
+      routerLinkActive="tab-selected"
+      #rlaHistories="routerLinkActive"
+    >
+      <ion-icon
+        [name]="rlaHistories.isActive ? 'time' : 'time-outline'"
+      ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button
+      tab="profile"
+      routerLink="/collector/members"
+      routerLinkActive="tab-selected"
+      #rlaProfile="routerLinkActive"
+    >
+      <ion-icon
+        [name]="rlaProfile.isActive ? 'people' : 'people-outline'"
+      ></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

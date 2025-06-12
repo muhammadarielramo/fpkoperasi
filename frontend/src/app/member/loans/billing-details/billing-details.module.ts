@@ -8,12 +8,16 @@ import { BillingDetailsPageRoutingModule } from './billing-details-routing.modul
 
 import { BillingDetailsPage } from './billing-details.page';
 
+import { ComponentsModule } from '../../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BillingDetailsPageRoutingModule
+    BillingDetailsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [BillingDetailsPage]
 })

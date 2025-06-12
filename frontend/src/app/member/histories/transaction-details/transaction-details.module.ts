@@ -8,12 +8,16 @@ import { TransactionDetailsPageRoutingModule } from './transaction-details-routi
 
 import { TransactionDetailsPage } from './transaction-details.page';
 
+import { ComponentsModule } from '../../../components/components/components.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TransactionDetailsPageRoutingModule
+    TransactionDetailsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [TransactionDetailsPage]
 })

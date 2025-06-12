@@ -1,25 +1,10 @@
 <ion-content class="payment-entry-page" fullscreen>
   <!-- Header -->
-  <div class="header">
-    <div class="top-bar">
-      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button
-        routerLink="/home"
-        class="btn-logout"
-        shape="round"
-        size="small"
-        >Logout</ion-button
-      >
-    </div>
-    <div class="user-info">
-      <h2>Hello, Izumi!</h2>
-      <p>Collector</p>
-    </div>
-    <div class="notification-icon" (click)="openLocationModal()">
-      <img src="assets/notification.svg" alt="Notifikasi" />
-      <span class="notif-dot"></span>
-    </div>
-  </div>
+  <app-header
+    [userName]="'Izumi!'"
+    [userRole]="'Collector'"
+    [notificationCount]="1"
+  ></app-header>
 
   <!-- Title Section -->
   <div class="title-section">
@@ -150,45 +135,4 @@
     </div>
   </div>
 
-  <div class="custom-tabbar">
-    <div
-      class="tab-button"
-      routerLink="/collector/dashboard"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/home.svg" alt="Home" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/savings"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/money-bag.svg" alt="Savings" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/loans"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/histories"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/history.svg" alt="Riwayat" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/members"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/members.svg" alt="Anggota" class="icon" />
-    </div>
-  </div>
 </ion-content>
