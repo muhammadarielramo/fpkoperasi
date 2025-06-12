@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -54,5 +56,6 @@ class LoginController extends Controller
                 'message' => 'Logout successful'
             ], 200);
     }
+
 }
 

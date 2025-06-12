@@ -50,7 +50,7 @@
                         <th class="bg-light text-dark">Status</th>
                             <td>
                                 <select name="status" class="form-control" required>
-                                    <option value="aktif" {{ $kolektor->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="Aktif" {{ $kolektor->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                                     <option value="Nonaktif" {{ $kolektor->status == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                                     <option value="Cuti" {{ $kolektor->status == 'Cuti' ? 'selected' : '' }}>Cuti</option>
                                 </select>

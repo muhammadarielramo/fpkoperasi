@@ -40,6 +40,10 @@ Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
+// reset password
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('show-reset-password');
+Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('reset-password');
+
 // dashboard
 Route::group(['prefix' => 'admin', 'as' => 'admin.' ], function(){
     Route::get('/dashboard', DashboardController::class)->name('dashboard');

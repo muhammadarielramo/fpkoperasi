@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\LoanController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SlipController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Mail\ResetPassword;
 use App\Models\Collector;
 use App\Models\Installment;
 use App\Models\Member;
@@ -32,6 +35,9 @@ use Illuminate\Auth\Events\Login;
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 Route::post('/login', [LoginController::class, 'login']) ->name('login');
 Route::middleware('auth:api')->post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// forgot password
+Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('email-reset');
 
 
 Route::group(['middleware' => ['auth:api']], function () {

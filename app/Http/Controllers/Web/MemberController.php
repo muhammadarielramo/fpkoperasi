@@ -85,16 +85,6 @@ class MemberController extends Controller
         return view('member.register');
     }
 
-    public function register(Request $request) {
-        $request->validate([
-            'name' => 'required',
-            'no_hp' => 'required',
-            'email' => 'required|email',
-            'username' => 'required',
-            'password' => 'required',
-            'address' => 'required',
-        ]);
-    }
 
     public function detailAnggota($id){
         $member = Member::with('user', 'loan', 'deposit')->findOrFail($id);
