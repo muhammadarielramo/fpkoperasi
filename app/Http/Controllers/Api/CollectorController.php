@@ -108,6 +108,5 @@ class CollectorController extends Controller
             ->where('id_collector', $collector->id)
             ->orderBy('created_at', 'desc')
             ->get();
-
-        $totalSetoran = 
+    }
 }

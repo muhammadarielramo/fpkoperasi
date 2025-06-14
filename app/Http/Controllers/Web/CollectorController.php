@@ -17,13 +17,23 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 class CollectorController extends Controller
 {
-    public function getDatas()  {
+    public function getDatas(Request $request)  {
+        $search = $request->get('search');
 
         $collectors = Collector::with('user')
-            ->whereHas('user', function ($query) {
-                $query->where('is_active', 1);
-            })->paginate(20);
-        return view('admin.kolektor.index')->with('collectors',$collectors);
+            ->whereHas('user', function ($query) use ($search) {
+                $query->where('is_active', 1)
+                    ->when($search, function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+            })
+            ->paginate(20);
+
+        return view('admin.kolektor.index', [
+            'collectors' => $collectors,
+            'search' => $search, // jika ingin tampilkan di form pencarian
+        ]);
+
     }
 
     public function create() {
