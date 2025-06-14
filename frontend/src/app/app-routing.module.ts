@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
-  // --- Rute Awal dan Umum (Tidak Berubah) ---
   {
     path: 'splash',
     loadChildren: () => import('./splash/splash.module').then((m) => m.SplashPageModule),
@@ -28,20 +28,22 @@ const routes: Routes = [
     path: 'login/forgot-password',
     loadChildren: () => import('./login/forgot-password/forgot-password.module').then( (m) => m.ForgotPasswordPageModule ),
   },
-
-  // --- Rute Induk untuk MEMBER dengan Tab Bar ---
   {
     path: 'member',
     loadChildren: () => import('./member/tabs/tabs.module').then(m => m.TabsPageModule)
   },
-
-  // --- Rute Induk untuk COLLECTOR dengan Tab Bar ---
   {
     path: 'collector',
     loadChildren: () => import('./collector/tabs/tabs.module').then(m => m.TabsPageModule)
   },
-
-  // --- Rute Member Tanpa Tab Bar (Halaman Penuh) ---
+  {
+    path: 'member/dashboard',
+    canActivate: [RoleGuard],
+    data: {
+      role: '3'
+    },
+    loadChildren: () => import('./member/dashboard/dashboard.module').then(m => m.DashboardPageModule),
+  },
   {
     path: 'member/notifications',
     loadChildren: () => import('./member/notifications/notifications.module').then( (m) => m.NotificationsPageModule ),
@@ -54,8 +56,14 @@ const routes: Routes = [
     path: 'member/loans/billing-details',
     loadChildren: () => import('./member/loans/billing-details/billing-details.module').then( (m) => m.BillingDetailsPageModule ),
   },
-  
-  // --- Rute Collector Tanpa Tab Bar (Halaman Penuh) ---
+  {
+    path: 'collector/dashboard',
+    canActivate: [RoleGuard],
+    data: {
+      role: '2'
+    },
+    loadChildren: () => import('./collector/dashboard/dashboard.module').then(m => m.DashboardPageModule),
+  },
   {
     path: 'collector/notifications',
     loadChildren: () => import('./collector/notifications/notifications.module').then( (m) => m.NotificationsPageModule ),

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoanApplicationPage implements OnInit {
   showDatePicker = false;
-  tanggalPengajuan: string = '';
+  selectedDate: string = '';
   showLoanSuccess = false;
 
   constructor(private router: Router) { }
@@ -22,10 +22,17 @@ export class LoanApplicationPage implements OnInit {
     this.showDatePicker = true;
   }
 
-  setTanggalPengajuan(event: any) {
-    const selectedDate = new Date(event.detail.value);
-    const formatted = selectedDate.toLocaleDateString('id-ID'); // misal: 23/05/2025
-    this.tanggalPengajuan = formatted;
+  setDateValue(event: any) {
+    const selectedDate = event.detail.value;
+    if (selectedDate) {
+      // Format the date to DD/MM/YYYY
+      const date = new Date(selectedDate);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      
+      this.selectedDate = `${day}/${month}/${year}`;
+    }
     this.showDatePicker = false;
   }
 

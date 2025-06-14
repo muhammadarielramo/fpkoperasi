@@ -1,32 +1,37 @@
-<ion-content class="transaction-details-page" fullscreen [scrollY]="false">
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
 
+<div class="title-bar">
+  <img
+    src="assets/back.svg"
+    alt="Kembali"
+    class="back-button"
+    routerLink="/member/histories"
+  />
+  <h3>Detail Transaksi</h3>
+</div>
+
+<ion-content class="transaction-details-page" fullscreen>
   <div class="content-section">
-    <div class="title-bar">
-      <img src="assets/back.svg" alt="Kembali" class="back-button" routerLink="/member/histories" />
-      <h3>Detail Transaksi</h3>
-    </div>
-    
     <!-- Transaction Card -->
     <div class="transaction-card">
       <h4>Pinjaman Jangka Pendek</h4>
-      
+
       <div class="transaction-details">
         <div class="detail-row">
           <span class="label">Jumlah Pinjaman:</span>
           <span class="value">Rp500.000</span>
         </div>
-        
+
         <div class="detail-row">
           <span class="label">Nominal Pembayaran:</span>
           <span class="value">Rp200.000</span>
         </div>
-        
+
         <div class="detail-row row-tanggal">
           <span class="label">Tanggal Transaksi:</span>
           <div class="value">
@@ -34,22 +39,22 @@
             <span class="time">10:32:12</span>
           </div>
         </div>
-        
+
         <div class="detail-row">
           <span class="label">Angsuran Ke:</span>
           <span class="value">Ke-2</span>
         </div>
-        
+
         <div class="detail-row">
           <span class="label">Sisa Hutang:</span>
           <span class="value">Rp100.000</span>
         </div>
-        
+
         <div class="detail-row">
           <span class="label">Status Pembayaran:</span>
           <span class="status-badge">Tepat Waktu</span>
         </div>
-        
+
         <div class="detail-row">
           <span class="label">Lokasi Pembayaran:</span>
           <ion-button class="location-btn" size="small" shape="round">
@@ -59,7 +64,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Download Button -->
     <div class="download-section">
       <ion-button class="download-btn" expand="block" shape="round">
@@ -68,5 +73,4 @@
       </ion-button>
     </div>
   </div>
-
 </ion-content>

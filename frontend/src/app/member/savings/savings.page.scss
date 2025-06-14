@@ -3,35 +3,59 @@
   overflow: hidden;
 }
 
+.title-section {
+  background-color: #ffffff;
+  padding: 1rem 1rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.title-section h3 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #646464;
+  margin: 0;
+}
+
 .content-section {
   background-color: #ffffff;
-  padding: 0 1rem 0;
+  padding: 0 1rem 60px;
   position: relative;
   z-index: 1;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 
   &::before {
     content: "";
     position: absolute;
-    top: 40px;
-    bottom: -999px;
+    top: 0px;
+    bottom: 0;
     left: 0;
     right: 0;
     background: #f2ebff;
     z-index: -1;
   }
 
-  h3 {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: #646464;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
   .content-wrapper {
-    margin-top: 2rem;
+    flex: 1; /* Mengambil sisa ruang yang tersedia */
+    overflow-y: auto; /* Hanya content-wrapper yang scroll */
+    margin-top: 1rem;
+
+    /* Custom scrollbar styling (optional) */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(135, 104, 204, 0.3);
+      border-radius: 2px;
+    }
   }
 }
 

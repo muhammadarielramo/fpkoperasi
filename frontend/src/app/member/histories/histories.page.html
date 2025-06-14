@@ -1,14 +1,18 @@
-<ion-content class="histories-page" fullscreen>
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Member'"
+  [notificationCount]="1"
+></app-header>
 
+<ion-content class="histories-page" fullscreen>
   <div class="content-section">
     <h3>Riwayat Transaksi</h3>
-    <ion-segment value="semua" (ionChange)="filterChanged($event)" class="filter-segment">
+    <ion-segment
+      value="semua"
+      (ionChange)="filterChanged($event)"
+      class="filter-segment"
+    >
       <ion-segment-button value="semua">
         <ion-label>Semua</ion-label>
       </ion-segment-button>
@@ -36,7 +40,9 @@
             <div class="amount-container">
               <p><span class="amount">Rp100.000</span></p>
             </div>
-            <a href="member/histories/transaction-details">Lihat detail transaksi</a>
+            <a href="member/histories/transaction-details"
+              >Lihat detail transaksi</a
+            >
           </div>
         </div>
       </div>
@@ -53,7 +59,9 @@
             <div class="amount-container">
               <p><span class="amount">Rp100.000</span></p>
             </div>
-            <a href="member/histories/transaction-details">Lihat detail transaksi</a>
+            <a href="member/histories/transaction-details"
+              >Lihat detail transaksi</a
+            >
           </div>
         </div>
       </div>
@@ -70,7 +78,9 @@
             <div class="amount-container">
               <p><span class="amount">Rp100.000</span></p>
             </div>
-            <a href="member/histories/transaction-details">Lihat detail transaksi</a>
+            <a href="member/histories/transaction-details"
+              >Lihat detail transaksi</a
+            >
           </div>
         </div>
       </div>

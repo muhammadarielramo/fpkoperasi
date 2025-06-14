@@ -39,13 +39,50 @@
       <!-- Tanggal Pengajuan -->
       <div class="form-group">
         <label class="form-label">Tanggal Pengajuan</label>
-        <div class="date-input-wrapper">
-          <input
-            type="text"
-            class="form-input date-input"
+        <div class="input-container">
+          <ion-input
+            fill="outline"
+            class="custom-outline date-input"
+            id="tanggalPengajuanInput"
+            readonly
+            [value]="selectedDate"
             placeholder="--/--/--"
-          />
-          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+            (click)="openDatePicker()"
+          >
+            <ion-icon
+              name="calendar-outline"
+              slot="end"
+              class="calendar-icon"
+              (click)="openDatePicker()"
+            >
+            </ion-icon>
+          </ion-input>
+          <ion-modal
+            [isOpen]="showDatePicker"
+            [initialBreakpoint]="0.5"
+            [breakpoints]="[0, 0.25, 0.5, 0.75, 1]"
+            (didDismiss)="showDatePicker = false"
+            class="date-picker-modal"
+            [cssClass]="'custom-modal'"
+          >
+            <ng-template>
+              <ion-content class="ion-padding">
+                <div class="date-modal-header">
+                  <h3>Pilih Tanggal Pengajuan</h3>
+                </div>
+                <ion-datetime
+                  presentation="date"
+                  [showDefaultButtons]="true"
+                  [preferWheel]="true"
+                  doneText="Pilih"
+                  cancelText="Batal"
+                  (ionChange)="setDateValue($event)"
+                  (ionCancel)="showDatePicker = false"
+                >
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
         </div>
       </div>
 
@@ -86,5 +123,4 @@
       <h2>PENGAJUAN PINJAMAN BERHASIL DIBUAT!</h2>
     </div>
   </div>
-
 </ion-content>
