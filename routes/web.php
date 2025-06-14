@@ -44,61 +44,64 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout'
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('show-reset-password');
 Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('reset-password');
 
-// dashboard
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin' ], function(){
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::get('/anggota', [MemberController::class, 'getDatas'])->name('data-anggota');
-    Route::get('/kolektor', [CollectorController::class, 'getDatas'])->name('data-kolektor');
-    Route::get('/pendaftaran-anggota', [RegisterController::class, 'show'])->name('pendaftaran-anggota');
-    Route::get('/pendaftaran-anggota/{status}', [RegisterController::class, 'show'])->name('pendaftaran.status');
-    Route::get('/data', AdminController::class)->name('data-admin');
-});
+Route::middleware(['admin'])->group(function () {
+    // dashboard
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/anggota', [MemberController::class, 'getDatas'])->name('data-anggota');
+        Route::get('/kolektor', [CollectorController::class, 'getDatas'])->name('data-kolektor');
+        Route::get('/pendaftaran-anggota', [RegisterController::class, 'show'])->name('pendaftaran-anggota');
+        Route::get('/pendaftaran-anggota/{status}', [RegisterController::class, 'show'])->name('pendaftaran.status');
+        Route::get('/data', AdminController::class)->name('data-admin');
+    });
 
-// anggota
-Route::group(['prefix' => 'anggota', 'as' => 'anggota.', 'middleware' => 'admin' ], function(){
-    Route::get('/info/{id}', [MemberController::class, 'detailAnggota'])->name('info');
-    Route::delete('/hapus/{id}', [MemberController::class, 'destroy'])->name('hapus');
-    Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('edit');
-    Route::put('/edit/{id}', [MemberController::class, 'update'])->name('update');
-    Route::get('/{id}/tambah-kolektor', [MemberController::class, 'showAddMember'])->name('tambah-kolektor');
-    Route::post('/{id}/tambah-kolektor', [MemberController::class, 'saveAddMember'])->name('simpan-kolektor');
-});
+    // anggota
+    Route::group(['prefix' => 'anggota', 'as' => 'anggota.'], function(){
+        Route::get('/info/{id}', [MemberController::class, 'detailAnggota'])->name('info');
+        Route::delete('/hapus/{id}', [MemberController::class, 'destroy'])->name('hapus');
+        Route::get('/edit/{id}', [MemberController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [MemberController::class, 'update'])->name('update');
+        Route::get('/{id}/tambah-kolektor', [MemberController::class, 'showAddMember'])->name('tambah-kolektor');
+        Route::post('/{id}/tambah-kolektor', [MemberController::class, 'saveAddMember'])->name('simpan-kolektor');
+    });
 
-// kolektor
-Route::group(['prefix' => 'kolektor', 'as' => 'kolektor.', 'middleware' => 'admin' ], function(){
-    Route::get('/info/{id}', [CollectorController::class, 'detailKolektor'])->name('info');
-    Route::get('/edit/{id}', [CollectorController::class, 'edit'])->name('edit');
-    Route::put('/edit/{id}', [CollectorController::class, 'update'])->name('update');
-    Route::delete('/hapus/{id}', [CollectorController::class, 'destroy'])->name('hapus');
-    Route::get('/anggota/{id}', [RelationController::class, 'showMembers'])->name('anggota');
-    Route::get('/tambah', [CollectorController::class, 'create'])->name('tambah');
-    Route::post('/simpan', [CollectorController::class, 'store'])->name('simpan');
-});
+    // kolektor
+    Route::group(['prefix' => 'kolektor', 'as' => 'kolektor.'], function(){
+        Route::get('/info/{id}', [CollectorController::class, 'detailKolektor'])->name('info');
+        Route::get('/edit/{id}', [CollectorController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [CollectorController::class, 'update'])->name('update');
+        Route::delete('/hapus/{id}', [CollectorController::class, 'destroy'])->name('hapus');
+        Route::get('/anggota/{id}', [RelationController::class, 'showMembers'])->name('anggota');
+        Route::get('/tambah', [CollectorController::class, 'create'])->name('tambah');
+        Route::post('/simpan', [CollectorController::class, 'store'])->name('simpan');
+    });
 
-// pinjaman
-Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.', 'middleware' => 'admin' ], function(){
-    Route::get('/pengajuan', [LoanController::class, 'indexPengajuan'])->name('pengajuan');
-    Route::get('/data',[LoanController::class, 'index'])->name('index');
-    Route::get('/history',[LoanController::class, 'history'])->name('history');
-    Route::put('/pengajuan/update/{id}', [LoanController::class, 'responPengajuan'])->name('updateStatus');
-    Route::get('/detail/{id}', [LoanController::class, 'detailPinjaman'])->name('detail');
-    Route::patch('/pinjaman/{id}/lunas', [LoanController::class, 'lunas'])->name('lunas');
-});
+    // pinjaman
+    Route::group(['prefix' => 'pinjaman', 'as' => 'pinjaman.'], function(){
+        Route::get('/pengajuan', [LoanController::class, 'indexPengajuan'])->name('pengajuan');
+        Route::get('/data',[LoanController::class, 'index'])->name('index');
+        Route::get('/history',[LoanController::class, 'history'])->name('history');
+        Route::put('/pengajuan/update/{id}', [LoanController::class, 'responPengajuan'])->name('updateStatus');
+        Route::get('/detail/{id}', [LoanController::class, 'detailPinjaman'])->name('detail');
+        Route::patch('/pinjaman/{id}/lunas', [LoanController::class, 'lunas'])->name('lunas');
+    });
 
-// simpanan
-Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.', 'middleware' => 'admin' ], function(){
-    Route::get('/data', [DepositController::class, 'index'])->name('index');
-    Route::get('/history',[TransactionController::class, 'deposit'])->name('history');
-    Route::get('/history/info/{id}', [TransactionController::class, 'infoHistori'])->name('histori.info');
-});
+    // simpanan
+    Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.'], function(){
+        Route::get('/data', [DepositController::class, 'index'])->name('index');
+        Route::get('/history',[TransactionController::class, 'deposit'])->name('history');
+        Route::get('/history/info/{id}', [TransactionController::class, 'infoHistori'])->name('histori.info');
+    });
 
-// pendaftaran
-Route::group(['prefix' => 'register', 'as' => 'register.', 'middleware' => 'admin' ], function(){
-    Route::delete('/tolak/{id}', [RegisterController::class, 'tolak'])->name('tolak');
-    Route::post('/terima/{id}', [RegisterController::class, 'terima'])->name('terima');
-    Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
-});
+    // pendaftaran
+    Route::group(['prefix' => 'register', 'as' => 'register.',], function(){
+        Route::delete('/tolak/{id}', [RegisterController::class, 'tolak'])->name('tolak');
+        Route::post('/terima/{id}', [RegisterController::class, 'terima'])->name('terima');
+        Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
+    });
 
+
+});
 
 // verifikasi
 Route::get('/verifikasi/{id}', [RegisterController::class, 'verifPage'])->name('verifikasi.halaman');
