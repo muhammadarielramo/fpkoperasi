@@ -88,7 +88,12 @@ class MemberController extends Controller
 
     public function detailAnggota($id){
         $member = Member::with('user', 'loan', 'deposit')->findOrFail($id);
-        $kolektor = MemberCollector::with('collector')->where('id_member', $id)->first() ?? '-';
+        $kolektor = MemberCollector::with('collector')
+            ->where('id_member', $id)
+            ->whereHas('collector', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->first() ?? '-';
 
         $simpananWajib = $member->deposit->where('jenis_simpanan', 'wajib')->sum('total_simpanan') ?? 0;
         $simpananPokok = $member->deposit->where('jenis_simpanan', 'pokok')->sum('total_simpanan') ?? 0;

@@ -13,7 +13,11 @@ class RelationController extends Controller
 {
     public function create($id_member) {
 
-        $member = Member::with('user')->findOrFail($id_member);
+        $member = Member::with('user')
+                ->whereHas('user', function($query) {
+                    $query->where('is_active', 1);
+                })
+                ->findOrFail($id_member);
         $kolektor = Collector::with('user')->where('is_active', true)->get();
         return view('relation.create',compact('member', 'kolektor'));
     }

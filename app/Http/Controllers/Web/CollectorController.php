@@ -148,8 +148,11 @@ class CollectorController extends Controller
     public function detailKolektor($id) {
         $collector = Collector::with('user')->findOrFail($id);
 
-        $members = MemberCollector::with('member.user')->where('id_collector', $id)->get();
-        // dd($members->toArray());
+        $members = MemberCollector::with('member.user')
+            ->whereHas('user', function($query) {
+                    $query->where('is_active', 1);
+                })
+            ->where('id_collector', $id)->get();
         return view('admin.kolektor.info', compact('collector', 'members'));
     }
 }
