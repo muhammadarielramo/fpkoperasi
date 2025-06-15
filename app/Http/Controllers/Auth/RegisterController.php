@@ -19,12 +19,17 @@ use App\Providers\RouteServiceProvider;
 class RegisterController extends Controller
 {
       public function show(Request $request) {
+
+        $search = $request->input('search');
         $registers = User::where('id_role', 3)
             ->whereHas('member', function ($query) {
                 $query->where('is_verified', 0);
             })
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
-        // dd($registers->toArray());
 
         return view('admin.anggota.registers', compact('registers'));
     }
@@ -39,18 +44,16 @@ class RegisterController extends Controller
         ];
 
         try {
-            Mail::to($email)->send(new SendMail($data));
-            return 'Email sent successfully!';
-        } catch (Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            return 'Failed to send email: ' . $e->getMessage();
+                Mail::to($email)->send(new SendMail($data));
+                return redirect()->back()->with('success', 'Email sent successfully!');
+        } catch (\Exception $e) {
+                Log::error('Email sending failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
     }
 
     public function tolak($id) {
-        $register = User::findOrFail($id);
-        Member::where('id_user', $register->id)->delete();
-        $register->delete();
+        User::findOrFail($id)->delete();
 
         return redirect()->back();
     }

@@ -82,4 +82,11 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->notify(new ResetPasswordCustom($token));
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            $user->member()->delete();
+        });
+    }
 }
