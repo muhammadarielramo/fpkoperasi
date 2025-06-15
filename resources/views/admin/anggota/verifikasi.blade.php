@@ -294,54 +294,29 @@
             <button type="submit" class="btn-submit">Register</button>
         </form>
 
-    </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-    <div id="registrationModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h2>Registrasi Berhasil!</h2>
-            <p>Terima kasih telah mendaftar. Akun Anda berhasil dibuat. Silakan login untuk melanjutkan.</p>
-            <button class="btn-modal" onclick="closeModal()">Oke</button>
-        </div>
-    </div>
-
-    <script>
-        function togglePasswordVisibility() {
-            const password = document.getElementById("password");
-            password.type = password.type === "password" ? "text" : "password";
-        }
-
-        function closeModal() {
-            document.getElementById("registrationModal").style.display = "none";
-        }
-
-        document.getElementById("verifikasiForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Gagal menyimpan.");
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("registrationModal").style.display = "flex";
-            })
-            .catch(error => {
-                alert("Terjadi kesalahan saat menyimpan: " + error.message);
+        @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') }}',
             });
-        });
-    </script>
+        </script>
+        @endif
+
+        @if(session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: '{{ session('error') }}',
+            });
+        </script>
+        @endif
+
+    </div>
+
 </body>
 </html>

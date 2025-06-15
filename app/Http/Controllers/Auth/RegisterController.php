@@ -78,6 +78,6 @@ class RegisterController extends Controller
             'updated_at' => now()
         ]);
 
-        return response()->json(['message' => 'Registrasi berhasil']);
+        return redirect()->back()->with('success', 'Registrasi berhasil. Silakan Login di Aplikasi');
     }
 }
