@@ -1,0 +1,149 @@
+<ion-content class="register-page" fullscreen>
+
+  <!-- Dekorasi -->
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle1b"></div>
+  <div class="circle circle2b"></div>
+
+  <!-- Tombol kembali -->
+  <ion-button fill="clear" class="back-button" size="small" routerLink="/home">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+
+  <div class="form-container">
+    <h2 class="title">Register</h2>
+
+    <ion-input
+      label="NAMA LENGKAP"
+      label-placement="stacked"
+      fill="outline"
+      class="custom-outline"
+      type="text">
+    </ion-input>
+
+    <ion-input
+      label="NOMOR HP"
+      label-placement="stacked"
+      fill="outline"
+      class="custom-outline"
+      type="tel">
+    </ion-input>
+
+    <ion-input
+      label="EMAIL"
+      label-placement="stacked"
+      fill="outline"
+      class="custom-outline"
+      type="email">
+    </ion-input>
+
+    <ion-input
+      label="ALAMAT LENGKAP"
+      label-placement="stacked"
+      fill="outline"
+      class="custom-outline"
+      type="text">
+    </ion-input>
+
+    <ion-input
+      label="NIK"
+      label-placement="stacked"
+      fill="outline"
+      class="custom-outline"
+      type="text">
+    </ion-input>
+
+    <ion-accordion-group>
+      <ion-accordion #accordion>
+        
+        <ion-item slot="header" color="light">
+          <ion-label>
+            {{ selectedGender || 'Pilih Jenis Kelamin' }}
+          </ion-label>
+          <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+        </ion-item>
+
+        <div class="ion-padding" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let gender of genderOptions" 
+                      (click)="selectGender(gender)" 
+                      button 
+                      detail="false">
+              <ion-label>{{ gender }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <div class="input-container">
+      <ion-input
+        label="TANGGAL LAHIR"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline date-input"
+        id="tanggalLahirInput"
+        readonly
+        (click)="openDatePicker()">
+        <ion-icon 
+          name="calendar-outline" 
+          slot="end" 
+          class="calendar-icon" 
+          (click)="openDatePicker()">
+        </ion-icon>
+      </ion-input>
+      <ion-modal 
+        [isOpen]="showDatePicker" 
+        [initialBreakpoint]="0.5" 
+        [breakpoints]="[0, 0.5, 0.75, 1]" 
+        (didDismiss)="showDatePicker = false" 
+        class="date-picker-modal"
+        [cssClass]="'custom-modal'"
+      >
+        <ng-template>
+          <ion-content class="ion-padding">
+            <div class="date-modal-header">
+              <h3>Pilih Tanggal Lahir</h3>
+            </div>
+            <ion-datetime 
+              presentation="date" 
+              [showDefaultButtons]="true"
+              [preferWheel]="true"
+              doneText="Pilih"
+              cancelText="Batal"
+              (ionChange)="setDateValue($event)"
+              (ionCancel)="showDatePicker = false">
+            </ion-datetime>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="upload-container">
+      <span class="upload-label">FOTO KTP</span>
+      <div class="upload-area">
+        <ion-icon name="image-outline"></ion-icon>
+        <ion-icon name="camera-outline" class="camera-icon"></ion-icon>
+      </div>
+    </div>
+
+    <div class="floating-button">
+      <ion-button (click)="showVerificationAlert()" class="btn-daftar" shape="round" expand="block">Daftar</ion-button>
+    </div>
+  </div>
+
+  <!-- Verification Alert Modal -->
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showVerification}">
+    <div class="verification-modal">
+      <div class="verification-icon">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+      <h2>Menunggu Verifikasi dari Admin</h2>
+      <div class="loading-icon">
+        <ion-icon name="sync-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

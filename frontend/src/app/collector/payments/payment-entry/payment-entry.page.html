@@ -1,0 +1,105 @@
+<ion-content class="dashboard-page" fullscreen [scrollY]="false">
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
+    </div>
+    <div class="user-info">
+      <h2>Hello, Izumi!</h2>
+      <p>Collector</p>
+    </div>
+    <div class="notification-icon" routerLink="/collector/notifications">
+      <img src="assets/notification.svg" alt="Notifikasi" />
+      <span class="notif-dot"></span>
+    </div>
+  </div>
+
+  <!-- Title Section -->
+  <div class="title-section">
+    <div class="btn-title">
+      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
+      Input Pembayaran
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <form>
+      <!-- Member Name -->
+      <div class="form-group">
+        <input type="text" class="form-input" value="TSUKASA SUOU" readonly />
+      </div>
+
+      <!-- Payment Amount -->
+      <div class="form-group">
+        <label class="form-label">Jumlah Pembayaran</label>
+        <input type="text" class="form-input" placeholder="Rp. ....." />
+      </div>
+
+      <!-- Installment -->
+      <div class="form-group installment-section">
+        <label class="form-label">Angsuran ke-</label>
+        <input type="text" class="form-input installment-input" value="1/2/3 dst" readonly />
+      </div>
+
+      <!-- Payment Date -->
+      <div class="form-group">
+        <label class="form-label">Tanggal Pembayaran</label>
+        <div class="date-input-wrapper">
+          <input type="text" class="form-input" placeholder="--/--/----" />
+          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Payment Status -->
+      <div class="form-group payment-status-section">
+        <label class="form-label">Status Pembayaran</label>
+        <select class="form-input status-dropdown">
+          <option value="lunas">Lunas/Terlambat(Denda)</option>
+          <option value="terlambat">Terlambat</option>
+          <option value="pending">Pending</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" class="btn-submit">
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="custom-tabbar">
+    <!-- SVG cekungan -->
+    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
+    
+    <!-- Kiri -->
+    <div class="tab-button" routerLink="/collector/savings">
+      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/collector/payments">
+      <img src="assets/payments.svg" alt="Pembayaran" class="icon" />
+    </div>
+
+    <!-- Spacer tengah -->
+    <div class="tab-spacer"></div>
+
+    <!-- Kanan -->
+    <div class="tab-button" routerLink="/collector/loans">
+      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
+    </div>
+    <div class="tab-button" routerLink="/collector/histories">
+      <img src="assets/history.svg" alt="Riwayat" class="icon" />
+    </div>
+
+    <!-- Tombol Home di tengah -->
+    <div class="tab-home" routerLink="/collector/dashboard">
+      <div class="home-icon-wrapper">
+        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+      </div>
+      <span>Home</span>
+    </div>
+  </div>
+</ion-content>
