@@ -45,7 +45,7 @@ class RegisterController extends Controller
 
         try {
                 Mail::to($email)->send(new SendMail($data));
-                return redirect()->back()->with('success', 'Email sent successfully!');
+                return redirect()->back()->with('success', 'Registrasi Diterima. Email Berhasil Terkirim');
         } catch (\Exception $e) {
                 Log::error('Email sending failed: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'Failed to send email: ' . $e->getMessage());
@@ -55,7 +55,7 @@ class RegisterController extends Controller
     public function tolak($id) {
         User::findOrFail($id)->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Registrasi Ditolak');
     }
 
     public function verifPage($id) {

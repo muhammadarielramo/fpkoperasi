@@ -36,7 +36,7 @@
                                     <td>{{ $p->phone_number }}</td>
                                     <td>
                                         @if($p->ktp)
-                                            <a href="{{ asset('storage/' . $p->ktp) }}" target="_blank">Lihat KTP</a>
+                                            <a href="{{ asset('storage/ktp_uploads/' . $p->ktp) }}" target="_blank">Lihat KTP</a>
                                         @else
                                             <span>-</span>
                                         @endif
