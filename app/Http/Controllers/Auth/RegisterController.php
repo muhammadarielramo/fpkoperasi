@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Str;
 
 
 class RegisterController extends Controller
@@ -38,11 +39,15 @@ class RegisterController extends Controller
         $register = User::findOrFail($id);
         $email = $register->email;
 
+        $token = Str::random(60);
+        $register->update([
+            'kode_otp' => $token
+        ]);
+
         $data = [
             'name' => $register->name,
-            'link' => route('verifikasi.halaman', ['id' => $register->id]),
+            'link' => route('verifikasi.halaman', ['id' => $register->kode_otp]),
         ];
-
         try {
                 Mail::to($email)->send(new SendMail($data));
                 return redirect()->back()->with('success', 'Registrasi Diterima. Email Berhasil Terkirim');
@@ -63,7 +68,18 @@ class RegisterController extends Controller
     }
 
     public function verifikasi(Request $request, $id) {
-        $register = User::findOrFail($id);
+
+        // ambil user berdasarkan token
+        $register = User::where('kode_otp', $id)->first();
+        if(!$register) {
+            return redirect()->back()->with('error', 'Token tidak valid.');
+        }
+
+        if($register->email_verified_at) {
+            return redirect()->back()->with('error', 'Akun sudah diverifikasi.');
+        }
+
+        // token valid
         $register->update([
             'username' => $request->username,
             'password' => Hash::make($request->password),
