@@ -1,16 +1,16 @@
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">Riwayat Transaksi</div>
+</div>
+
 <ion-content class="histories-page" fullscreen>
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
-
-  <!-- Title Section -->
-  <div class="title-section">
-    <div class="btn-title">Riwayat Transaksi</div>
-  </div>
-
   <!-- Content Section -->
   <div class="content-section">
     <!-- Month Selector -->
@@ -69,6 +69,38 @@
           <div class="amount">Rp500.000</div>
           <div class="status overdue">
             <span>Terlambat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="user-avatar">
+          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
+        </div>
+        <div class="transaction-info">
+          <div class="user-name">Tsukasa Suou</div>
+          <div class="transaction-date">14 Mei 2025</div>
+        </div>
+        <div class="transaction-details">
+          <div class="amount">Rp200.000.000</div>
+          <div class="status tepat-waktu">
+            <span>Tepat Waktu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="user-avatar">
+          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
+        </div>
+        <div class="transaction-info">
+          <div class="user-name">Tsukasa Suou</div>
+          <div class="transaction-date">14 Mei 2025</div>
+        </div>
+        <div class="transaction-details">
+          <div class="amount">Rp200.000.000</div>
+          <div class="status tepat-waktu">
+            <span>Tepat Waktu</span>
           </div>
         </div>
       </div>

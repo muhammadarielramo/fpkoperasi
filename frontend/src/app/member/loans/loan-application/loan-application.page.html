@@ -1,23 +1,23 @@
-<ion-content class="loan-application-page" fullscreen>
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
 
+<div class="title-bar">
+  <img
+    src="assets/back.svg"
+    alt="Kembali"
+    class="back-button"
+    routerLink="/member/loans"
+  />
+  <h3>Pengajuan Pinjaman</h3>
+</div>
+
+<ion-content class="loan-application-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <div class="title-bar">
-      <img
-        src="assets/back.svg"
-        alt="Kembali"
-        class="back-button"
-        routerLink="/member/loans"
-      />
-      <h3>Pengajuan Pinjaman</h3>
-    </div>
-
     <!-- Loan Application Form -->
     <div class="loan-form">
       <!-- Nominal Pinjaman -->
@@ -41,7 +41,6 @@
         <label class="form-label">Tanggal Pengajuan</label>
         <div class="input-container">
           <ion-input
-            fill="outline"
             class="custom-outline date-input"
             id="tanggalPengajuanInput"
             readonly

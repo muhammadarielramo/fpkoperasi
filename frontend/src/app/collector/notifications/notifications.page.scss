@@ -1,13 +1,14 @@
 .notifications-page {
-  --background: none;
+  --ion-background-color: #ffffff;
 }
 
 /* Notification Cards Section */
 .notifications-content {
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: 60px;
 }
 
 .notification-card {

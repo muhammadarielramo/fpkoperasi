@@ -5,22 +5,21 @@
   [notificationCount]="1"
 ></app-header>
 
+<div class="title-bar">
+  <h3>Pinjaman</h3>
+  <ion-button
+    class="btn-ajukan"
+    routerLink="/member/loans/loan-application"
+    shape="round"
+    size="small"
+  >
+    <ion-icon name="add-circle-outline" slot="start"></ion-icon> Ajukan Pinjaman
+  </ion-button>
+</div>
+
 <ion-content class="loans-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <div class="title-bar">
-      <h3>Pinjaman</h3>
-      <ion-button
-        class="btn-ajukan"
-        routerLink="/member/loans/loan-application"
-        shape="round"
-        size="small"
-      >
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon> Ajukan
-        Pinjaman
-      </ion-button>
-    </div>
-
     <div class="loan-list">
       <div class="loan-card">
         <div class="loan-item">

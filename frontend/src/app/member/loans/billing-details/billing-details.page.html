@@ -1,22 +1,22 @@
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
+
+<div class="title-bar">
+  <img
+    src="assets/back.svg"
+    alt="Kembali"
+    class="back-button"
+    routerLink="/member/loans"
+  />
+  <h3>Detail Tagihan</h3>
+</div>
+
 <ion-content class="billing-details-page" fullscreen>
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
-
   <div class="content-section">
-    <div class="title-bar">
-      <img
-        src="assets/back.svg"
-        alt="Kembali"
-        class="back-button"
-        routerLink="/member/loans"
-      />
-      <h3>Detail Tagihan</h3>
-    </div>
-
     <div class="billing-cards-container">
       <div class="billing-card">
         <h4 class="billing-card-title">Rincian Tagihan</h4>
@@ -67,5 +67,4 @@
       </div>
     </div>
   </div>
-
 </ion-content>

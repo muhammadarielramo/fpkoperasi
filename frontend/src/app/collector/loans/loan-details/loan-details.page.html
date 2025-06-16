@@ -1,28 +1,24 @@
-<ion-content class="loan-details-page" fullscreen [scrollY]="false">
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
 
-  <!-- Title Section -->
-  <div class="title-section">
-    <div class="btn-title">Detail Pinjaman</div>
-  </div>
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">Detail Pinjaman</div>
+</div>
 
+<div class="back-button-container">
+  <ion-button class="back-button" routerLink="/collector/loans" fill="clear" size="small">
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="loan-details-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <!-- Back Button -->
-    <div class="back-button-container">
-      <img
-        src="assets/back.svg"
-        alt="Kembali"
-        class="back-button"
-        routerLink="/collector/loans"
-      />
-    </div>
-
     <div class="loan-detail-card">
       <div class="detail-item">
         <span class="label">Jumlah Pinjaman:</span>
@@ -46,48 +42,6 @@
         <span class="label">Status Pengajuan:</span>
         <div class="status-badge approved">Disetujui</div>
       </div>
-    </div>
-  </div>
-
-  <div class="custom-tabbar">
-    <div
-      class="tab-button"
-      routerLink="/collector/dashboard"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/home.svg" alt="Home" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/savings"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/money-bag.svg" alt="Savings" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/loans"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/histories"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/history.svg" alt="Riwayat" class="icon" />
-    </div>
-
-    <div
-      class="tab-button"
-      routerLink="/collector/members"
-      routerLinkActive="active-link"
-    >
-      <img src="assets/members.svg" alt="Anggota" class="icon" />
     </div>
   </div>
 </ion-content>

@@ -1,31 +1,32 @@
-<ion-content class="deposit-savings-page" fullscreen>
-  <!-- Header -->
-  <app-header
-    [userName]="'Izumi!'"
-    [userRole]="'Collector'"
-    [notificationCount]="1"
-  ></app-header>
+<!-- Header -->
+<app-header
+  [userName]="'Izumi!'"
+  [userRole]="'Collector'"
+  [notificationCount]="1"
+></app-header>
 
-  <!-- Title Section -->
-  <div class="title-section">
-    <div class="btn-title">
-      <img src="assets/file-input.svg" alt="File Input" class="btn-icon" />
-      Setor Simpanan Anggota
-    </div>
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">
+    <img src="assets/file-input.svg" alt="File Input" class="btn-icon" />
+    Setor Simpanan Anggota
   </div>
+</div>
 
+<div class="back-button-container">
+  <ion-button
+    class="back-button"
+    routerLink="/collector/savings"
+    fill="clear"
+    size="small"
+  >
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="deposit-savings-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <!-- Back Button -->
-    <div class="back-button-container">
-      <img
-        src="assets/back.svg"
-        alt="Kembali"
-        class="back-button"
-        routerLink="/collector/savings"
-      />
-    </div>
-
     <form>
       <!-- Member Name -->
       <div class="form-group">
@@ -130,5 +131,4 @@
       </div>
     </div>
   </div>
-
 </ion-content>

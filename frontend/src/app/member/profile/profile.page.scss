@@ -1,50 +1,64 @@
 .profile-page {
-  --background: none;
-  background-image: url("/assets/app-background.svg");
+  --background: #ffffff;
+  overflow: hidden;
 }
 
-/* Profile Content */
-.profile-content {
-  padding: 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.profile-header {
+.title-bar {
+  margin-top: -5rem;
+  background: #f2ebff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  .edit-profile-btn {
+    margin-top: 5rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #9556ff;
+    --color: white;
+    --border-radius: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+
+    ion-icon {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
 }
 
-.profile-title {
+.title-bar h3 {
+  margin-top: 5rem;
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 20px;
-  color: #646464;
-  margin: 0;
+  color: #4d4d4d;
 }
 
-.edit-profile-btn {
-  background: #9556ff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 0.9rem;
-  cursor: pointer;
+.content-section {
+  padding: 0 1rem 60px;
+  position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 2px 8px rgba(133, 122, 254, 0.3);
+  flex-direction: column;
+  min-height: 100%;
 }
 
-.icon-edit {
-  width: 16px;
-  height: 16px;
+.content-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background: #f2ebff;
 }
 
 .profile-avatar-section {
@@ -58,7 +72,6 @@
 .profile-avatar {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
   object-fit: cover;
   display: flex;
   align-items: center;
@@ -70,18 +83,29 @@
 .avatar-icon {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: contain;
 }
 
-.icon-edit-avatar {
-  width: 16px;
-  height: 16px;
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  --background: #9556ff;
+  --color: white;
+  cursor: pointer;
+
+  ion-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .form-section {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .input-group {

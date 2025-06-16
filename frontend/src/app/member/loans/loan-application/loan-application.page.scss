@@ -1,7 +1,6 @@
 .loan-application-page {
   --ion-background-color: #ffffff;
   overflow: hidden;
-  height: 100vh;
 }
 
 .title-bar {
@@ -15,7 +14,7 @@
 
 .title-bar .back-button {
   position: absolute;
-  left: 1rem;
+  left: 1.5rem;
   font-size: 24px;
   color: #4d4d4d;
   cursor: pointer;
@@ -29,17 +28,28 @@
   margin: 0;
 }
 
+.content-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f2ebff;
+  z-index: -1;
+}
+
 .content-section {
-  background-color: #ffffff;
-  padding: 0 1rem 0;
+  padding: 0 1rem 60px;
   position: relative;
   z-index: 1;
-  margin-bottom: 100px;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 
   // Loan Form Styles
   .loan-form {
-    padding: 1rem 0;
+    margin-top: 1rem;
 
     .form-group {
       margin-bottom: 1.5rem;
@@ -93,21 +103,22 @@
       // Updated input container styles for ion-input
       .input-container {
         .custom-outline {
-          --border-radius: 15px;
-          --border-width: 2px;
-          --border-color: #e5e5e5;
-          --border-style: solid;
-          --background: #ffffff;
-          --color: #4d4d4d;
-          --placeholder-color: #999999;
+          --padding-start: 1rem;
+          --padding-end: 1rem;
+          width: 100%;
+          padding: 0.75rem 2.5rem 0.75rem 1rem;
+          background: #ffffff;
+          border: 2px solid #e5e5e5;
+          border-radius: 15px;
           font-family: "Poppins", sans-serif;
           font-size: 14px;
+          color: #666666;
           box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-          &.ion-focused {
-            --border-color: #857afe;
-            box-shadow: 0 2px 12px rgba(133, 122, 254, 0.2);
-          }
+          transition: all 0.3s ease;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          --highlight-color-focused: transparent;
         }
 
         .calendar-icon {
@@ -116,51 +127,12 @@
           cursor: pointer;
         }
       }
-
-      // Legacy styles for compatibility
-      .date-input-wrapper {
-        position: relative;
-
-        .form-input {
-          width: 100%;
-          padding: 0.75rem 2.5rem 0.75rem 1rem;
-          background: #ffffff;
-          border: 2px solid #e5e5e5;
-          border-radius: 15px;
-          font-family: "Poppins", sans-serif;
-          font-size: 14px;
-          color: #4d4d4d;
-          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-          transition: all 0.3s ease;
-
-          &:focus {
-            outline: none;
-            border-color: #857afe;
-            box-shadow: 0 2px 12px rgba(133, 122, 254, 0.2);
-          }
-
-          &::placeholder {
-            color: #999999;
-          }
-        }
-
-        .calendar-icon {
-          position: absolute;
-          right: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 20px;
-          pointer-events: none;
-          color: #646464;
-        }
-      }
     }
   }
 
   .submit-section {
     display: flex;
     justify-content: flex-end;
-    padding: 1rem 0 2rem 0;
 
     .btn-ajukan {
       font-family: "Poppins", sans-serif;
@@ -173,17 +145,6 @@
       white-space: nowrap;
     }
   }
-}
-
-.content-section::before {
-  content: "";
-  position: absolute;
-  top: 55px; /* Sesuaikan nilai top agar pas di bawah judul baru */
-  bottom: -999px;
-  left: 0;
-  right: 0;
-  background: #f2ebff;
-  z-index: -1;
 }
 
 /* CSS untuk overlay dan modal */
@@ -251,7 +212,7 @@
   .date-modal-header {
     text-align: center;
     padding-bottom: 1rem;
-    
+
     h3 {
       font-family: "Lato", sans-serif;
       font-weight: 700;
