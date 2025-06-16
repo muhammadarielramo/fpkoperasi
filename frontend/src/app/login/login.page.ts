@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
     // Inisialisasi form dengan FormBuilder
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -33,57 +33,63 @@ export class LoginPage implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
+
   async login() {
-    // Cek jika form valid
     if (this.loginForm.invalid) {
       this.presentToast('Harap isi semua kolom dengan benar.');
       return;
     }
 
-    // Tampilkan loading indicator
     const loading = await this.loadingController.create({
       message: 'Mohon tunggu...',
     });
     await loading.present();
 
-    // Panggil service login
+    // PERBAIKAN: Kembali menggunakan .subscribe() untuk menangani Observable
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        loading.dismiss();
-        this.presentToast('Login berhasil!');
-        
-        // **LOGIKA PENGALIHAN BERDASARKAN PERAN**
-        const userRole = this.authService.getRole(); // Ambil peran dari service
+      next: async (response) => {
+        // Jika API mengembalikan 200 OK tapi tidak ada token, anggap gagal.
+        if (!response || !response.token) {
+          await loading.dismiss();
+          this.presentToast('Username atau Password salah.', 'danger');
+          return;
+        }
 
-        if (userRole === '3') {
+        // Jika kode sampai sini, login benar-benar berhasil.
+        await loading.dismiss();
+        await this.presentToast('Login berhasil!', 'success');
+
+        const userRole = await this.authService.getRole();
+        const roleAsNumber = parseInt(userRole || '0', 10);
+
+        if (roleAsNumber === 3) {
           this.router.navigateByUrl('/member/dashboard', { replaceUrl: true });
-        } else if (userRole === '2') {
+        } else if (roleAsNumber === 2) {
           this.router.navigateByUrl('/collector/dashboard', { replaceUrl: true });
         } else {
-          // Arahkan ke halaman default jika peran tidak dikenali
-          this.presentToast('Peran tidak dikenali. Menuju halaman utama.');
+          await this.presentToast(
+            `Peran tidak dikenali. Role ID: ${userRole}`,
+            'warning'
+          );
           this.router.navigateByUrl('/home', { replaceUrl: true });
         }
       },
-      error: (err) => {
-        loading.dismiss();
+      error: async (err) => {
+        // Menangkap error dari server (misal: 401 Unauthorized)
+        await loading.dismiss();
         const message = err.error?.message || 'Username atau Password salah.';
-        this.presentToast(message);
-      }
+        this.presentToast(message, 'danger');
+      },
     });
   }
 
-  /**
-   * Helper untuk menampilkan notifikasi toast.
-   * @param message - Pesan yang akan ditampilkan.
-   */
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = 'danger') {
     const toast = await this.toastController.create({
       message: message,
       duration: 3000,
       position: 'top',
-      color: 'danger'
+      color: color,
     });
-    toast.present();
+    await toast.present();
   }
 }

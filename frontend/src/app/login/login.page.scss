@@ -1,29 +1,29 @@
 ion-content.background {
-    --background: #ffffff;
-    position: relative;
-    height: 100vh; // 100% tinggi layar 
-    overflow: hidden; // Menahan agar tidak nge-scroll
-    display: flex;
-    flex-direction: column;
-    justify-content: center; // Posisi di tengah vertikal
-    align-items: center; // Posisi di tengah horizontal
+  --background: #ffffff;
+  position: relative;
+  height: 100vh; // 100% tinggi layar
+  overflow: hidden; // Menahan agar tidak nge-scroll
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // Posisi di tengah vertikal
+  align-items: center; // Posisi di tengah horizontal
 }
-  
-  .back-button {
-    font-size: 1.5rem;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 10;
-    --padding-start: 0;
-    --padding-end: 0;
-    --background: transparent;
-    color: #565656;
-  }
-  
+
+.back-button {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  --padding-start: 0;
+  --padding-end: 0;
+  --background: transparent;
+  color: #565656;
+}
+
 .circle {
   position: absolute;
-  background-color: #9D94FF;
+  background-color: #9d94ff;
   border-radius: 50%;
 }
 
@@ -39,7 +39,7 @@ ion-content.background {
   height: 80px;
   top: -20px;
   right: 100px;
-  background-color: #857AFE;
+  background-color: #857afe;
 }
 
 .circle1b {
@@ -54,7 +54,7 @@ ion-content.background {
   height: 80px;
   bottom: -20px;
   left: 100px;
-  background-color: #857AFE;
+  background-color: #857afe;
 }
 
 .login-container {
@@ -81,7 +81,7 @@ ion-content.background {
 .login-box ion-item ion-label,
 .login-box ion-item ion-input {
   color: #565656;
-  --ion-color-primary: #857AFE;
+  --ion-color-primary: #857afe;
 }
 
 ion-label {
@@ -89,26 +89,26 @@ ion-label {
 }
 
 h2 {
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
   font-weight: 700;
   font-size: 1.875rem;
   text-align: center;
   margin-bottom: 30px;
-  color: #4B4B4B;
+  color: #4b4b4b;
 }
 
 .username-input {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   color: #565656;
 }
 
 .password-input {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   color: #565656;
 }
-  
+
 .password-field {
   position: relative;
   margin-top: 15px;
@@ -120,7 +120,7 @@ h2 {
   top: 72%; /* Positioning di tengah container */
   transform: translateY(-50%); /* Menyesuaikan ke tengah vertikal */
   font-size: 20px;
-  color: #7C7C7C;
+  color: #7c7c7c;
   cursor: pointer;
   z-index: 3; /* Pastikan ikon berada di atas elemen lain */
 }
@@ -136,9 +136,8 @@ ion-item ion-icon[slot="end"] {
   align-self: center;
 }
 
-
 .forgot-password {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-style: italic;
   display: block;
@@ -149,13 +148,12 @@ ion-item ion-icon[slot="end"] {
   text-decoration: underline;
 }
 
-
 .btn-masuk {
-  --background: linear-gradient(135deg, #9763F7 75%, #DFD0FB);
+  --background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
   --color: #ffffff;
   display: inline-flex;
   margin: 0 0.3rem;
-  font-family: 'Montserrat Alternates', sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
   font-weight: 700;
   text-transform: capitalize;
   font-size: 1rem;

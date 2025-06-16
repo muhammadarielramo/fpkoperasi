@@ -14,10 +14,16 @@
 
 .title-bar .back-button {
   position: absolute;
-  left: 1.5rem;
-  font-size: 24px;
+  left: 0.5rem;
   color: #4d4d4d;
   cursor: pointer;
+  z-index: 99;
+  --color: #4d4d4d;
+
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .title-bar h3 {

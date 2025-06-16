@@ -12,6 +12,8 @@ import { AlertController } from '@ionic/angular';
 export class DepositSavingsPage implements OnInit {
   showDepositSuccess = false;
   showLocationModal: boolean = false;
+  showDatePicker = false;
+  selectedDate: string = '';
 
   constructor(
     private router: Router,
@@ -19,6 +21,24 @@ export class DepositSavingsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  openDatePicker() {
+    this.showDatePicker = true;
+  }
+
+  setDateValue(event: any) {
+    const selectedDate = event.detail.value;
+    if (selectedDate) {
+      // Format the date to DD/MM/YYYY
+      const date = new Date(selectedDate);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      
+      this.selectedDate = `${day}/${month}/${year}`;
+    }
+    this.showDatePicker = false;
   }
 
   onDepositSubmissionSuccess() {

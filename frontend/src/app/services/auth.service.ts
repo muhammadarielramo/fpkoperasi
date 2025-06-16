@@ -1,68 +1,99 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, from, firstValueFrom} from 'rxjs';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://kokita.web.id/api';
-  private tokenKey = 'auth_token';
-  private roleKey = 'auth_role';
+  private _storage: Storage | null = null;
+  private storageReadyPromise: Promise<void>;
 
-  constructor(private http: HttpClient) {}
+  // Mendefinisikan kunci penyimpanan di satu tempat agar konsisten
+  private readonly TOKEN_KEY = 'auth_token';
+  private readonly ROLE_KEY = 'auth_role';
+  private readonly NAME_KEY = 'auth_username';
 
-  login(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
-        if (response && response.token && response.user) {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem(this.roleKey, response.user.id_role); 
-        }
-      })
-    );
+  constructor(private http: HttpClient, private storage: Storage) {
+    this.storageReadyPromise = this.init();
   }
 
   /**
-   * Mengirim data registrasi sebagai FormData ke API.
-   * @param data - Objek FormData yang berisi semua data pengguna, termasuk file.
-   * @returns Observable dari respons server.
+   * Menginisialisasi koneksi ke Ionic Storage.
    */
+  async init(): Promise<void> {
+    if (this._storage) {
+      return; // Hindari inisialisasi ulang
+    }
+    this._storage = await this.storage.create();
+  }
+
+  /**
+   * Helper pribadi untuk memastikan storage sudah siap sebelum digunakan.
+   */
+  private async ensureStorageReady(): Promise<void> {
+    return this.storageReadyPromise;
+  }
+
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return from(this.performLogin(credentials));
+  }
+
+  private async performLogin(credentials: any): Promise<any> {
+    await this.ensureStorageReady(); // Tunggu hingga storage siap
+
+    // Gunakan firstValueFrom (cara modern) untuk mengubah Observable menjadi Promise
+    const response = await firstValueFrom(
+      this.http.post<any>(`${this.apiUrl}/login`, credentials)
+    );
+
+    if (response && response.token && response.user) {
+      await this._storage?.set(this.TOKEN_KEY, response.token);
+      await this._storage?.set(this.ROLE_KEY, response.user.id_role);
+      await this._storage?.set(this.NAME_KEY, response.user.username);
+    }
+    return response;
+  }
+
   register(data: FormData): Observable<any> {
-    // Saat mengirim FormData, Angular/browser akan mengatur header Content-Type secara otomatis.
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
-  logout(): Observable<any> {
-    const token = this.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    // Panggil API logout di server
-    return this.http.post(`${this.apiUrl}/logout`, {}, { headers: headers }).pipe(
-      tap(() => {
-        // Hapus data lokal HANYA setelah server merespons
-        localStorage.removeItem(this.tokenKey);
-        localStorage.removeItem(this.roleKey);
-      })
-    );
+  async logout(): Promise<void> {
+    await this.ensureStorageReady(); // Tunggu storage siap
+    const token = await this.getToken(); // getToken sudah menunggu, jadi tidak perlu await ganda
+    if (token) {
+      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+      // Kirim permintaan logout, tidak perlu menunggu selesai
+      firstValueFrom(this.http.post(`${this.apiUrl}/logout`, {}, { headers }));
+    }
+    // Hapus semua data dari storage
+    await this._storage?.remove(this.TOKEN_KEY);
+    await this._storage?.remove(this.ROLE_KEY);
+    await this._storage?.remove(this.NAME_KEY);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  async getToken(): Promise<string | null> {
+    await this.ensureStorageReady();
+    return this._storage?.get(this.TOKEN_KEY);
   }
 
-  /**
-   * Mengambil peran pengguna dari localStorage.
-   * @returns string | null
-   */
-  getRole(): string | null {
-    return localStorage.getItem(this.roleKey);
+  async getRole(): Promise<string | null> {
+    await this.ensureStorageReady();
+    return this._storage?.get(this.ROLE_KEY);
   }
 
-  isLoggedIn(): boolean {
-    // Pengguna dianggap login jika ada token
-    return this.getToken() !== null;
+  async getUsername(): Promise<string | null> {
+    await this.ensureStorageReady();
+    return this._storage?.get(this.NAME_KEY);
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    await this.ensureStorageReady();
+    // Panggil getToken() yang sudah memiliki logic 'await'
+    const token = await this.getToken();
+    return !!token;
   }
 }

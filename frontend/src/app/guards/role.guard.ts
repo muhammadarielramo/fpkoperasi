@@ -14,25 +14,41 @@ export class RoleGuard implements CanActivate {
     private toastController: ToastController
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRole = route.data['role']; // Ambil peran yang diharapkan dari data rute
-    const currentUserRole = this.authService.getRole(); // Ambil peran pengguna saat ini
+  /**
+   * canActivate sekarang menjadi 'async' dan mengembalikan Promise<boolean>
+   * untuk menangani operasi asinkron dari AuthService.
+   */
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    const expectedRole = route.data['role'];
 
-    // 1. Cek apakah pengguna sudah login
-    if (!this.authService.isLoggedIn()) {
-      this.presentToast('Anda harus login untuk mengakses halaman ini.');
+    // 1. Cek status login secara asinkron
+    const isLoggedIn = await this.authService.isLoggedIn();
+    if (!isLoggedIn) {
+      await this.presentToast('Anda harus login untuk mengakses halaman ini.');
       this.router.navigate(['/login']);
       return false;
     }
 
-    // 2. Cek apakah peran pengguna sesuai dengan yang diharapkan
+    // 2. Ambil peran pengguna secara asinkron
+    const currentUserRole = await this.authService.getRole();
+
+    // 3. Cek apakah peran pengguna sesuai dengan yang diharapkan
     if (currentUserRole !== expectedRole) {
-      this.presentToast('Anda tidak memiliki izin untuk mengakses halaman ini.');
-      // Arahkan pengguna kembali ke dashboard mereka yang seharusnya
-      this.router.navigate([`/${currentUserRole}/dashboard`]);
+      await this.presentToast(
+        'Anda tidak memiliki izin untuk mengakses halaman ini.'
+      );
+      // Arahkan pengguna kembali ke dashboard mereka yang seharusnya,
+      // atau ke halaman utama jika peran tidak valid.
+      if (currentUserRole === '2') {
+        this.router.navigate(['/collector/dashboard']);
+      } else if (currentUserRole === '3') {
+        this.router.navigate(['/member/dashboard']);
+      } else {
+        this.router.navigate(['/home']);
+      }
       return false;
     }
-    
+
     // Jika semua pengecekan lolos, izinkan akses
     return true;
   }
@@ -42,8 +58,8 @@ export class RoleGuard implements CanActivate {
       message: message,
       duration: 3000,
       position: 'top',
-      color: 'warning'
+      color: 'warning',
     });
-    toast.present();
+    await toast.present();
   }
 }

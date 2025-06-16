@@ -1,17 +1,15 @@
 <!-- Header -->
-<app-header
-  [userName]="'Izumi!'"
-  [userRole]="'Collector'"
-  [notificationCount]="1"
-></app-header>
+<app-header></app-header>
 
 <div class="title-bar">
-  <img
-    src="assets/back.svg"
-    alt="Kembali"
+  <ion-button
     class="back-button"
     routerLink="/member/histories"
-  />
+    fill="clear"
+    size="small"
+  >
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
   <h3>Detail Transaksi</h3>
 </div>
 

@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // Diperlukan untuk [(ngModel)]
 import { provideHttpClient } from '@angular/common/http'; // Impor untuk HttpClient
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -14,13 +15,14 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    FormsModule, // Pastikan ini ada di 'imports'
+    FormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient(), // <-- Letakkan di sini, di dalam array 'providers'
+    provideHttpClient(),
   ],
   bootstrap: [AppComponent],
 })

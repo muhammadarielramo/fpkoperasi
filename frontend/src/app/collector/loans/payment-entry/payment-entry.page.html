@@ -1,9 +1,5 @@
 <!-- Header -->
-<app-header
-  [userName]="'Izumi!'"
-  [userRole]="'Collector'"
-  [notificationCount]="1"
-></app-header>
+<app-header></app-header>
 
 <!-- Title Section -->
 <div class="title-section">
@@ -50,12 +46,46 @@
         />
       </div>
 
-      <!-- Payment Date -->
+      <!-- Tanggal Pembayaran -->
       <div class="form-group">
         <label class="form-label">Tanggal Pembayaran</label>
-        <div class="date-input-wrapper">
-          <input type="text" class="form-input" placeholder="--/--/----" />
-          <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+        <div class="input-container" (click)="openDatePicker()">
+          <ion-input
+            class="custom-outline date-input"
+            id="tanggalPembayaranInput"
+            readonly
+            [value]="selectedDate"
+            placeholder="--/--/--"
+          >
+            <ion-icon name="calendar-outline" slot="end" class="calendar-icon">
+            </ion-icon>
+          </ion-input>
+          <ion-modal
+            [isOpen]="showDatePicker"
+            [initialBreakpoint]="0.5"
+            [breakpoints]="[0, 0.25, 0.5, 0.75, 1]"
+            (didDismiss)="showDatePicker = false"
+            class="date-picker-modal"
+            [cssClass]="'custom-modal'"
+          >
+            <ng-template>
+              <ion-content class="ion-padding">
+                <div class="date-modal-header">
+                  <h3>Pilih Tanggal Pembayaran</h3>
+                </div>
+                <ion-datetime
+                  presentation="date"
+                  [showDefaultButtons]="true"
+                  [preferWheel]="true"
+                  doneText="Pilih"
+                  cancelText="Batal"
+                  (ionChange)="setDateValue($event)"
+                  (ionCancel)="showDatePicker = false"
+                >
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
         </div>
       </div>
 

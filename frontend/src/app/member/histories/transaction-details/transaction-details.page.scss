@@ -14,16 +14,22 @@
 
 .title-bar .back-button {
   position: absolute;
-  left: 1.5rem;
-  font-size: 24px;
+  left: 0.5rem;
   color: #4d4d4d;
   cursor: pointer;
+  z-index: 99;
+  --color: #4d4d4d;
+
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .title-bar h3 {
   font-family: "Lato", sans-serif;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 20px;
   color: #4d4d4d;
   margin: 0;
 }
@@ -55,7 +61,7 @@
   border-radius: 20px;
   padding: 1.25rem 1rem 1rem;
   margin: 1rem 0.5rem;
-  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
   h4 {
     font-family: "Poppins", sans-serif;

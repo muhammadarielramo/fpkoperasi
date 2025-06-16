@@ -90,18 +90,32 @@
         }
       }
 
-      .date-input-wrapper {
-        position: relative;
+      .input-container {
+        cursor: pointer;
+        .custom-outline {
+          pointer-events: none;
+          --padding-start: 1rem;
+          --padding-end: 1rem;
+          width: 100%;
+          padding: 0.75rem 2.5rem 0.75rem 1rem;
+          background: #ffffff;
+          border: 2px solid #e5e5e5;
+          border-radius: 15px;
+          font-family: "Poppins", sans-serif;
+          font-size: 14px;
+          color: #666666;
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          transition: all 0.3s ease;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          --highlight-color-focused: transparent;
+        }
 
         .calendar-icon {
-          position: absolute;
-          right: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 20px;
-          height: 20px;
-          pointer-events: none;
           color: #646464;
+          font-size: 20px;
+          cursor: pointer;
         }
       }
     }
@@ -266,5 +280,21 @@
     --border-width: 1px;
     --border-color: #9763f7;
     --border-style: solid;
+  }
+}
+
+/* Date picker modal styles */
+.date-picker-modal {
+  .date-modal-header {
+    text-align: center;
+    padding-bottom: 1rem;
+
+    h3 {
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #4d4d4d;
+      margin: 0;
+    }
   }
 }
