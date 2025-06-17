@@ -11,6 +11,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "nicescroll": "^3.7.4"
+        "nicescroll": "^3.7.4",
+        "selectric": "^1.13.0"
     }
 }

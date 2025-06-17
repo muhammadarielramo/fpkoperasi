@@ -1,7 +1,16 @@
 @extends('layouts.admin.app', ['title' => 'Registrasi Anggota'])
 
-<link rel="stylesheet" href="../node_modules/selectric/public/selectric.css">
+<link rel="stylesheet" href="{{ asset('assets/css/selectric.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 1. Load jQuery dulu -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- 2. Lalu baru plugin atau file JS lain yang butuh jQuery -->
+<script src="{{ asset('assets/js/jquery.selectric.min.js') }}"></script>
+<script src="{{ asset('assets/js/page/features-posts.js') }}"></script>
+
 
 @section('content')
 <section class="section">
@@ -35,8 +44,24 @@
                                     <td>{{ $p->email }}</td>
                                     <td>{{ $p->phone_number }}</td>
                                     <td>
-                                        @if($p->ktp)
-                                            <a href="{{ asset('storage/ktp_uploads/' . $p->ktp) }}" target="_blank">Lihat KTP</a>
+                                        @if($p->member && $p->member->foto_ktp)
+                                            <!-- Tombol untuk membuka modal -->
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#ktpModal{{ $p->member->id }}">Lihat KTP</a>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="ktpModal{{ $p->member->id }}" tabindex="-1" aria-labelledby="ktpModalLabel{{ $p->member->id }}" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="ktpModalLabel{{ $p->member->id }}">Foto KTP</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <img src="{{ asset('storage/' . $p->member->foto_ktp) }}" alt="KTP {{ $p->name ?? '' }}" class="img-fluid rounded">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @else
                                             <span>-</span>
                                         @endif
@@ -91,7 +116,7 @@
     </div>
 </section>
 
-  <script src="../node_modules/selectric/public/jquery.selectric.min.js"></script>
+  <script src="{{ asset('assets/js/jquery.selectric.min.js') }}"></script>
 
   <script src="../assets/js/page/features-posts.js"></script>
 
