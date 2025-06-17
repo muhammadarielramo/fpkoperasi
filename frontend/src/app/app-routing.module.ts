@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from './guards/role.guard';
-import { AuthGuard } from './guards/auth.guard'; // Pastikan AuthGuard diimpor
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   // --- Rute Publik (Tidak memerlukan login) ---
