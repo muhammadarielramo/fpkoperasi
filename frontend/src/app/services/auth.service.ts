@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, from, firstValueFrom} from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://kokita.web.id/api';
+  private apiUrl = environment.apiUrl;
   private _storage: Storage | null = null;
   private storageReadyPromise: Promise<void>;
 
