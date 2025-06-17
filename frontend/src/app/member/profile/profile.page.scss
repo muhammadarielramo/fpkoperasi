@@ -84,7 +84,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .avatar-edit-btn {
@@ -131,6 +131,10 @@
   color: #646464;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   transition: box-shadow 0.2s ease;
+
+  &:not([readonly]) {
+    border: 2px solid #9556ff;
+  }
 }
 
 .input-field:focus {
@@ -145,4 +149,35 @@
 .password-field {
   font-family: monospace;
   letter-spacing: 2px;
+}
+
+// Submit Section (Action Buttons)
+.submit-section {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+
+  .btn-simpan {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #9556ff;
+    --color: white;
+    --border-radius: 20px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .btn-batal {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #dc3545;
+    --color: white;
+    --border-radius: 20px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
 }

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -16,11 +17,16 @@ export class PaymentEntryPage implements OnInit {
   selectedDate: string = '';
 
   constructor(
+    private location: Location,
     private router: Router,
     private alertController: AlertController
   ) { }
 
   ngOnInit() {
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   openDatePicker() {

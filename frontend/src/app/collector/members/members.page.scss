@@ -150,4 +150,8 @@
   cursor: pointer;
   letter-spacing: 0;
   white-space: nowrap;
+
+  &:hover {
+    background: #8a4aff;
+  }
 }

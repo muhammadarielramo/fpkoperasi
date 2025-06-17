@@ -12,75 +12,172 @@
     <div class="form-container">
       <h2 class="title">Register</h2>
 
-      <ion-input label="NAMA LENGKAP" formControlName="name" label-placement="stacked" fill="outline" class="custom-outline" type="text"></ion-input>
-      <div *ngIf="serverErrors.name" class="error-message">{{ serverErrors.name[0] }}</div>
+      <ion-input
+        label="NAMA LENGKAP"
+        formControlName="name"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline"
+        type="text"
+      ></ion-input>
+      <div *ngIf="serverErrors.name" class="error-message">
+        {{ serverErrors.name[0] }}
+      </div>
 
-      <ion-input label="NOMOR HP" formControlName="phone" label-placement="stacked" fill="outline" class="custom-outline" type="tel"></ion-input>
-      <div *ngIf="serverErrors.phone" class="error-message">{{ serverErrors.phone[0] }}</div>
-      
-      <ion-input label="EMAIL" formControlName="email" label-placement="stacked" fill="outline" class="custom-outline" type="email"></ion-input>
-      <div *ngIf="serverErrors.email" class="error-message">{{ serverErrors.email[0] }}</div>
+      <ion-input
+        label="NOMOR HP"
+        formControlName="phone"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline"
+        type="tel"
+      ></ion-input>
+      <div *ngIf="serverErrors.phone" class="error-message">
+        {{ serverErrors.phone[0] }}
+      </div>
 
-      <ion-input label="ALAMAT LENGKAP" formControlName="address" label-placement="stacked" fill="outline" class="custom-outline" type="text"></ion-input>
-      <div *ngIf="serverErrors.address" class="error-message">{{ serverErrors.address[0] }}</div>
-      
-      <ion-input label="NIK" formControlName="nik" label-placement="stacked" fill="outline" class="custom-outline" type="text"></ion-input>
-      <div *ngIf="serverErrors.nik" class="error-message">{{ serverErrors.nik[0] }}</div>
+      <ion-input
+        label="EMAIL"
+        formControlName="email"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline"
+        type="email"
+      ></ion-input>
+      <div *ngIf="serverErrors.email" class="error-message">
+        {{ serverErrors.email[0] }}
+      </div>
 
-      <!-- Gender Radio Buttons -->
+      <ion-input
+        label="ALAMAT LENGKAP"
+        formControlName="address"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline"
+        type="text"
+      ></ion-input>
+      <div *ngIf="serverErrors.address" class="error-message">
+        {{ serverErrors.address[0] }}
+      </div>
+
+      <ion-input
+        label="NIK"
+        formControlName="nik"
+        label-placement="stacked"
+        fill="outline"
+        class="custom-outline"
+        type="text"
+      ></ion-input>
+      <div *ngIf="serverErrors.nik" class="error-message">
+        {{ serverErrors.nik[0] }}
+      </div>
+
       <div class="gender-container">
         <div class="gender-label">JENIS KELAMIN</div>
         <ion-radio-group formControlName="gender">
-          <ion-item lines="none">
-            <ion-radio value="male" labelPlacement="end">Laki-laki</ion-radio>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-radio value="female" labelPlacement="end">Perempuan</ion-radio>
-          </ion-item>
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-radio slot="start" value="male"></ion-radio>
+                <ion-label>Laki-laki</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-radio slot="start" value="female"></ion-radio>
+                <ion-label>Perempuan</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
         </ion-radio-group>
       </div>
 
       <div class="input-container">
-        <ion-input label="TANGGAL LAHIR" formControlName="bod" label-placement="stacked" fill="outline" class="custom-outline date-input" readonly (click)="showDatePicker = true"></ion-input>
-        <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+        <ion-input
+          label="TANGGAL LAHIR"
+          formControlName="bod"
+          label-placement="stacked"
+          fill="outline"
+          class="custom-outline date-input"
+          readonly
+          (click)="showDatePicker = true"
+        ></ion-input>
+        <ion-modal
+          [isOpen]="showDatePicker"
+          (didDismiss)="showDatePicker = false"
+        >
           <ng-template>
-            <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+            <ion-datetime
+              presentation="date"
+              (ionChange)="setDateValue($event)"
+              (ionCancel)="showDatePicker = false"
+              [showDefaultButtons]="true"
+            ></ion-datetime>
           </ng-template>
         </ion-modal>
-        <div *ngIf="serverErrors.bod" class="error-message">{{ serverErrors.bod[0] }}</div>
+        <div *ngIf="serverErrors.bod" class="error-message">
+          {{ serverErrors.bod[0] }}
+        </div>
       </div>
-      
+
       <!-- Kontainer Upload Foto KTP -->
       <div class="upload-container">
         <span class="upload-label">FOTO KTP</span>
         <div *ngIf="idCardImageUrl" class="image-preview-area">
           <img [src]="idCardImageUrl" alt="Pratinjau KTP" />
-          <ion-button (click)="clearImage()" fill="clear" size="small" class="delete-button">
+          <ion-button
+            (click)="clearImage()"
+            fill="clear"
+            size="small"
+            class="delete-button"
+          >
             <ion-icon name="close-circle" color="danger"></ion-icon>
           </ion-button>
         </div>
         <div *ngIf="!idCardImageUrl" class="upload-area">
           <!-- PERBAIKAN: Panggil fungsi publik yang benar -->
-          <ion-icon name="image-outline" (click)="selectFromGallery()" role="button"></ion-icon>
-          <ion-icon name="camera-outline" class="camera-icon" (click)="captureWithCamera()" role="button"></ion-icon>
+          <ion-icon
+            name="image-outline"
+            (click)="selectFromGallery()"
+            role="button"
+          ></ion-icon>
+          <ion-icon
+            name="camera-outline"
+            class="camera-icon"
+            (click)="captureWithCamera()"
+            role="button"
+          ></ion-icon>
         </div>
-        <div *ngIf="serverErrors.ktp" class="error-message">{{ serverErrors.ktp[0] }}</div>
+        <div *ngIf="serverErrors.ktp" class="error-message">
+          {{ serverErrors.ktp[0] }}
+        </div>
       </div>
-      
+
       <div class="floating-button">
-        <ion-button type="submit" class="btn-daftar" shape="round" expand="block">Daftar</ion-button>
+        <ion-button
+          type="submit"
+          class="btn-daftar"
+          shape="round"
+          expand="block"
+          >Daftar</ion-button
+        >
       </div>
     </div>
   </form>
 
   <!-- Verification Alert Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showVerification}">
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showVerification}"
+  >
     <div class="verification-modal">
-        <h2>Pendaftaran berhasil! Tunggu verifikasi Admin. Login via email
-        konfirmasi.</h2>
-        <div class="loading-icon">
-          <ion-icon name="sync-outline"></ion-icon>
-        </div>
+      <h2>
+        Pendaftaran berhasil! Tunggu verifikasi Admin. Login via email
+        konfirmasi.
+      </h2>
+      <div class="loading-icon">
+        <ion-icon name="sync-outline"></ion-icon>
+      </div>
     </div>
   </div>
   <div class="bottom-decoration-clipper">

@@ -62,10 +62,10 @@ export class LoginPage implements OnInit {
         const userRole = await this.authService.getRole();
         const roleAsNumber = parseInt(userRole || '0', 10);
 
-        if (roleAsNumber === 3) {
-          this.router.navigateByUrl('/member/dashboard', { replaceUrl: true });
-        } else if (roleAsNumber === 2) {
+        if (roleAsNumber === 2) {
           this.router.navigateByUrl('/collector/dashboard', { replaceUrl: true });
+        } else if (roleAsNumber === 3) {
+          this.router.navigateByUrl('/member/dashboard', { replaceUrl: true });
         } else {
           await this.presentToast(
             `Peran tidak dikenali. Role ID: ${userRole}`,

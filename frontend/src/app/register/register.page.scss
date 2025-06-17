@@ -135,66 +135,91 @@
       --border-radius: 12px;
     }
 
-    /* Gender Radio Button Styling */
     .gender-container {
       position: relative;
       display: flex;
       flex-direction: column;
       width: 100%;
       margin-top: -0.5rem;
-    }
 
-    .gender-label {
-      font-family: "Roboto", sans-serif;
-      font-weight: 400;
-      font-size: 0.75rem;
-      color: #494848;
-      padding-left: 12px;
-      position: absolute;
-      top: 1px;
-      left: 10px;
-      background-color: var(--ion-background-color, #ffffff);
-      padding: 0 5px;
-      z-index: 1;
-    }
-
-    .gender-options {
-      font-family: "Roboto", sans-serif;
-      font-weight: 400;
-      font-size: 0.75rem;
-      display: flex;
-      gap: 6rem;
-      padding: 0 12px;
-      min-height: 55px;
-      height: 55px;
-      align-items: center;
-      border: 1px solid #828282;
-      border-radius: 12px;
-      background-color: transparent;
-      position: relative;
-      margin-top: 10px;
-    }
-
-    .gender-option {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-        cursor: pointer;
-        accent-color: #494848;
-      }
-
-      label {
+      .gender-label {
         font-family: "Roboto", sans-serif;
         font-weight: 400;
-        font-size: 1rem;
+        font-size: 0.75rem;
         color: #494848;
-        cursor: pointer;
-        margin: 0;
+        position: absolute;
+        top: 4px;
+        left: 11px;
+        background-color: var(--ion-background-color, #ffffff);
+        padding: 0 5px;
+        z-index: 1;
+      }
+
+      ion-radio-group {
+        min-height: 55px;
+        height: 55px;
+        border: 1px solid #828282;
+        border-radius: 12px;
+        background-color: transparent;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+
+        ion-row {
+          width: 100%;
+          margin: 0;
+          padding: 0 8px; /* Tambahkan padding horizontal */
+        }
+
+        ion-col {
+          padding: 0 8px; /* Spacing antar kolom */
+          display: flex;
+          justify-content: flex-start; /* Align ke kiri untuk spacing yang lebih natural */
+        }
+
+        ion-item {
+          --background: transparent;
+          --padding-start: 0;
+          --padding-end: 0;
+          --inner-padding-end: 0;
+          --inner-padding-start: 0;
+          --min-height: auto;
+          display: flex;
+          align-items: center;
+          cursor: pointer; /* Tambahkan cursor pointer */
+
+          ion-radio {
+            --color: #494848;
+            --color-checked: #494848;
+            margin-right: 8px; /* Jarak antara radio dan label */
+
+            &::part(container) {
+              width: 20px;
+              height: 20px;
+            }
+          }
+
+          ion-label {
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: #494848;
+            margin: 0;
+            cursor: pointer;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      ion-radio-group ion-row ion-col:nth-child(2) {
+        justify-content: flex-end;
+        padding-left: 80px; /* opsional, jika ingin lebih menjauh */
+      }
+
+      /* Focus state styling */
+      ion-radio-group:focus-within {
+        border-color: #828282;
+        box-shadow: 0 0 0 1px #828282;
       }
     }
 
