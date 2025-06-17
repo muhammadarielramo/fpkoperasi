@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: false,
@@ -8,36 +10,56 @@ import { Router } from '@angular/router';
   styleUrls: ['./forgot-password.page.scss'],
 })
 export class ForgotPasswordPage implements OnInit {
-  showPassword = false;
-  showPasswordResetConfirm: boolean = false;
+  forgotPasswordForm: FormGroup;
+  showPasswordResetConfirm = false;
 
-  constructor(private router: Router) { }
-
-  ngOnInit() {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {
+    this.forgotPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
   }
 
-    handleResetPassword() {
-    // 1. Ambil nilai input Username/NIK
-    // const usernameOrNik = ... ; // Dapatkan dari form Anda
+  ngOnInit() {}
 
-    // 2. Panggil service/API untuk mengirim email reset password
-    //    Misalnya: this.authService.sendResetPasswordEmail(usernameOrNik).subscribe(
-    //      response => {
-    //        console.log('Email reset berhasil dikirim:', response);
-    //        this.showPasswordResetConfirm = true; // Tampilkan modal konfirmasi
-    //      },
-    //      error => {
-    //        console.error('Gagal mengirim email reset:', error);
-    //        // Tampilkan pesan error jika perlu (misalnya dengan Toast atau Alert lain)
-    //      }
-    //    );
+  async handleResetPassword() {
+    if (this.forgotPasswordForm.invalid) {
+      this.presentToast('Silakan masukkan alamat email yang valid.');
+      return;
+    }
 
-    // Untuk sekarang, kita simulasikan sukses dan tampilkan modal:
-    console.log('Tombol Reset Password diklik, menampilkan modal konfirmasi...');
-    this.showPasswordResetConfirm = true;
+    const loading = await this.loadingCtrl.create({
+      message: 'Mengirim permintaan...',
+    });
+    await loading.present();
+
+    const email = this.forgotPasswordForm.value.email;
+
+    this.authService.forgotPassword(email).subscribe({
+      next: (res) => {
+        loading.dismiss();
+        // Tampilkan modal konfirmasi
+        this.showPasswordResetConfirm = true;
+      },
+      error: (err) => {
+        loading.dismiss();
+        const message = err.error?.message || 'Gagal mengirim link reset. Coba lagi.';
+        this.presentToast(message);
+      },
+    });
   }
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
 
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top',
+      color: 'danger',
+    });
+    await toast.present();
+  }
 }

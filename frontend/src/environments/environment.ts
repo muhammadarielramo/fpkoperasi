@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://kokita.web.id/api',
+  apiUrl: 'https://kokita.web.id/api',
 };
 
 /*

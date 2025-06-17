@@ -22,6 +22,15 @@ export class AuthService {
   }
 
   /**
+   * Mengirim permintaan reset password ke API.
+   * @param email Email pengguna yang akan direset.
+   * @returns Observable dari respons server.
+   */
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { email });
+  }
+
+  /**
    * Menginisialisasi koneksi ke Ionic Storage.
    */
   async init(): Promise<void> {

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.kokita.web.id/api',
+  apiUrl: 'https://kokita.web.id/api',
 };
