@@ -2,10 +2,16 @@
 <div class="header">
   <div class="top-bar">
     <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-    <ion-button (click)="logout()" class="btn-logout" shape="round" size="small">Logout</ion-button>
+    <ion-button (click)="logout()" class="btn-logout" shape="round" size="small"
+      >Logout</ion-button
+    >
   </div>
   <div class="user-profile">
-    <div class="user-avatar"></div>
+    <img
+      [src]="'https://placehold.co/100x100/EFEFEF/333333?text=' + (userName ? userName.charAt(0).toUpperCase() : '?')"
+      class="user-avatar"
+      alt="Avatar"
+    />
     <h2 class="user-name">{{ userName }}</h2>
     <p class="user-role">Collector</p>
     <div class="user-date">
@@ -36,7 +42,6 @@
 <ion-content class="dashboard-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    
     <!-- Tampilkan loading spinner -->
     <div *ngIf="isLoading" class="ion-text-center ion-padding">
       <ion-spinner name="crescent"></ion-spinner>
@@ -58,18 +63,23 @@
           </div>
           <div class="member-info">
             <!-- Asumsi nama ada di visit.member.user.name -->
-            <h3>{{ visit.member.user.name }}</h3> 
+            <h3>{{ visit.member.user.name }}</h3>
             <!-- Asumsi alamat ada di visit.member.address -->
-            <p class="address">{{ visit.member.address }}</p> 
+            <p class="address">{{ visit.member.address }}</p>
             <div class="payment-info">
               <span class="payment-label">Batas Pembayaran:</span>
               <!-- Asumsi tanggal ada di visit.loan.due_date -->
-              <span class="payment-date">{{ visit.loan.due_date | date: 'd MMMM y' }}</span>
+              <span class="payment-date"
+                >{{ visit.loan.due_date | date: 'd MMMM y' }}</span
+              >
             </div>
             <div class="status-info">
               <span class="status-label">Status Pinjaman:</span>
               <!-- Asumsi status ada di visit.loan.status -->
-              <span class="status-badge" [ngClass]="{'overdue': visit.loan.status === 'Terlambat'}">
+              <span
+                class="status-badge"
+                [ngClass]="{'overdue': visit.loan.status === 'Terlambat'}"
+              >
                 {{ visit.loan.status }}
               </span>
             </div>

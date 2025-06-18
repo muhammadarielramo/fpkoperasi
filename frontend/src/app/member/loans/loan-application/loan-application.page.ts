@@ -1,7 +1,9 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { LoanService } from 'src/app/services/loan.service';
 
 @Component({
   standalone: false,
@@ -10,16 +12,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./loan-application.page.scss'],
 })
 export class LoanApplicationPage implements OnInit {
+  loanForm: FormGroup;
   showDatePicker = false;
-  selectedDate: string = '';
   showLoanSuccess = false;
 
   constructor(
     private router: Router,
-    private location: Location
-  ) { }
+    private location: Location,
+    private formBuilder: FormBuilder,
+    private loanService: LoanService,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {
+    // Inisialisasi form dengan validasi yang diperlukan
+    this.loanForm = this.formBuilder.group({
+      jumlah_pinjaman: ['', Validators.required],
+      tgl_pengajuan: [this.getTodayDate(), Validators.required],
+      tenor: ['', Validators.required],
+    });
+  }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  // Helper untuk mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+  getTodayDate(): string {
+    return new Date().toISOString().split('T')[0];
   }
 
   goBack() {
@@ -31,28 +48,50 @@ export class LoanApplicationPage implements OnInit {
   }
 
   setDateValue(event: any) {
-    const selectedDate = event.detail.value;
-    if (selectedDate) {
-      // Format the date to DD/MM/YYYY
-      const date = new Date(selectedDate);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      
-      this.selectedDate = `${day}/${month}/${year}`;
-    }
+    const date = new Date(event.detail.value);
+    const formattedDate = date.toISOString().split('T')[0];
+    // Perbarui nilai form kontrol secara reaktif
+    this.loanForm.patchValue({ tgl_pengajuan: formattedDate });
     this.showDatePicker = false;
   }
 
-    // Method untuk menampilkan modal setelah pengajuan berhasil
-  onLoanSubmissionSuccess() {
-    this.showLoanSuccess = true;
-    
-    // Redirect setelah 2 detik
-    setTimeout(() => {
-      this.showLoanSuccess = false;
-      this.router.navigate(['/member/loans']);
-    }, 2000);
+  async submitApplication() {
+    if (this.loanForm.invalid) {
+      this.presentToast('Harap lengkapi semua kolom pengajuan.', 'warning');
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Mengirim pengajuan...',
+    });
+    await loading.present();
+
+    (await this.loanService.submitApplication(this.loanForm.value)).subscribe({
+      next: (res: any) => {
+        loading.dismiss();
+        this.showLoanSuccess = true;
+        setTimeout(() => {
+          this.showLoanSuccess = false;
+          // Arahkan kembali ke halaman daftar pinjaman
+          this.router.navigate(['/member/loans']);
+        }, 2000);
+      },
+      error: (err: any) => {
+        loading.dismiss();
+        const message = err.error?.message || 'Gagal mengajukan pinjaman. Coba lagi.';
+        this.presentToast(message, 'danger');
+        console.error(err);
+      },
+    });
   }
 
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+    });
+    await toast.present();
+  }
 }

@@ -14,71 +14,58 @@
 </div>
 
 <ion-content class="loans-page" fullscreen>
-  <!-- Content Section -->
-  <div class="content-section">
+  <!-- Pull-to-refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 30%;"></ion-spinner>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && loans.length === 0" class="empty-state">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <p>Anda belum memiliki riwayat pengajuan pinjaman.</p>
+  </div>
+
+  <!-- Content Section (Tampilkan jika ada data) -->
+  <div *ngIf="!isLoading && loans.length > 0" class="content-section">
     <div class="loan-list">
-      <div class="loan-card">
+      <div *ngFor="let loan of loans" class="loan-card">
         <div class="loan-item">
           <span class="label primary">Nominal:</span>
-          <span class="value primary">Rp500.000</span>
+          <span class="value primary">{{ loan.nominal | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
         <div class="loan-item">
           <span class="label">Tanggal Pengajuan:</span>
-          <span class="value">2 April 2025</span>
+          <span class="value">{{ loan.tanggal_pengajuan | date:'d MMMM y' }}</span>
         </div>
+        <!-- PERBAIKAN: Selalu tampilkan baris ini -->
         <div class="loan-item">
           <span class="label">Tanggal Disetujui:</span>
-          <span class="value">2 April 2025</span>
+          <!-- Gunakan *ngIf; else untuk menampilkan strip jika null -->
+          <span *ngIf="loan.tgl_persetujuan; else noDate" class="value">{{ loan.tgl_persetujuan | date:'d MMMM y' }}</span>
+          <ng-template #noDate><span class="value">-</span></ng-template>
         </div>
         <div class="loan-item">
           <span class="label">Jangka Waktu:</span>
-          <span class="value">3 Bulan</span>
+          <span class="value">{{ loan.jangka_waktu }} Bulan</span>
         </div>
         <div class="loan-item">
           <span class="label">Status:</span>
           <span
-            class="status-badge status-approved"
-            routerLink="/member/loans/billing-details"
-            >Diterima</span
+            class="status-badge"
+            [ngClass]="{
+              'status-lunas': loan.status === 'Lunas',
+              'status-diterima': loan.status === 'Diterima',
+              'status-ditolak': loan.status === 'Ditolak',
+              'status-diajukan': loan.status === 'Diajukan' || loan.status === 'Menunggu Persetujuan'
+            }"
+            [routerLink]="(loan.status === 'Diterima' || loan.status === 'Lunas') ? ['/member/loans/billing-details', loan.id] : null"
+            >{{ loan.status }}</span
           >
-        </div>
-      </div>
-
-      <div class="loan-card">
-        <div class="loan-item">
-          <span class="label primary">Nominal:</span>
-          <span class="value primary">Rp5.000.000</span>
-        </div>
-        <div class="loan-item">
-          <span class="label">Tanggal Pengajuan:</span>
-          <span class="value">13 Maret 2025</span>
-        </div>
-        <div class="loan-item">
-          <span class="label">Jangka Waktu:</span>
-          <span class="value">3 Bulan</span>
-        </div>
-        <div class="loan-item">
-          <span class="label">Status:</span>
-          <span
-            class="status-badge status-rejected"
-            routerLink="/member/loans/billing-details"
-            >Ditolak</span
-          >
-        </div>
-      </div>
-
-      <div class="loan-card">
-        <div class="loan-item">
-          <span class="label primary">Nominal:</span>
-          <span class="value primary">Rp1.000.000</span>
-        </div>
-        <div class="loan-item">
-          <span class="label">Tanggal Pengajuan:</span>
-          <span class="value">10 Januari 2025</span>
-        </div>
-        <div class="loan-item">
-          <span class="label">Tanggal Disetujui:</span>
-          <span class="value">10 Januari 2025</span>
         </div>
       </div>
     </div>

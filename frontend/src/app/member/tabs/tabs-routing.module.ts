@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
+import { LocationGuard } from 'src/app/guards/location.guard';
 
 const routes: Routes = [
   // --- Rute untuk Halaman dengan Tab Bar ---
@@ -57,7 +58,8 @@ const routes: Routes = [
   // --- Rute untuk Halaman Detail (Tanpa Tab Bar) ---
   // Rute ini didefinisikan di luar 'children' agar tidak menampilkan tab.
   {
-    path: 'loans/loan-application', // URL: /member/loans/loan-application
+    path: 'loans/loan-application',
+    canActivate: [LocationGuard], // URL: /member/loans/loan-application
     loadChildren: () =>
       import('../loans/loan-application/loan-application.module').then(
         (m) => m.LoanApplicationPageModule
