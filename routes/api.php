@@ -58,7 +58,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/pinjaman', [LoanController::class, 'loans'])->name('pinjaman');
     Route::post('/pinjaman/pengajuan', [LoanController::class, 'pengajuanPinjaman'])->name('pinjaman.pengajuan');
 
-    // slip pembayaran
+    // dashboard
+    Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::get('/unduh/slip', [SlipController::class, 'generate']);

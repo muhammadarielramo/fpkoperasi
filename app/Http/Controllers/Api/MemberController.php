@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Models\Deposit;
+use App\Models\Loan;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,6 +67,34 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'data' => $user,
+        ], 200);
+    }
+
+    public function dashboard () {
+        $user = auth()->user();
+        $member = $user->member;
+
+        $simpananWajib = Deposit::where('id_member', $member->id)
+                        ->where('jenis_simpanan', 'wajib')
+                        ->sum('total_simpanan');
+        $simpananPokok = Deposit::where('id_member', $member->id)
+                        ->where('jenis_simpanan', 'pokok')
+                        ->sum('total_simpanan');
+        $simpananSukarela = Deposit::where('id_member', $member->id)
+                        ->where('jenis_simpanan', 'sukarela')
+                        ->sum('total_simpanan');
+        $totalPinjaman = Loan::where('id_member', $member->id)
+                        ->where('status', 'Diterima')
+                        ->sum('jumlah_pinjaman');
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'simpanan_wajib' => $simpananWajib,
+                'simpanan_pokok' => $simpananPokok,
+                'simpanan_sukarela' => $simpananSukarela,
+                'total_pinjaman' => $totalPinjaman
+            ]
         ], 200);
     }
 }
