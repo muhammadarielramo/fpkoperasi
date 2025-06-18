@@ -40,7 +40,7 @@
       <div *ngFor="let item of members" class="member-card">
         <div class="member-info">
           <!-- PERBAIKAN: MemberResource tidak menyediakan photo_url, jadi kita andalkan placeholder -->
-          <img [src]="item.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=K'" alt="Avatar" class="member-avatar"/>
+          <img [src]="item.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (item.name ? item.name.charAt(0).toUpperCase() : '?')" alt="Avatar" class="member-avatar"/>
           <div class="member-details">
             <!-- PERBAIKAN: Path yang benar untuk nama adalah 'item.name' -->
             <h3>{{ item.name }}</h3>
