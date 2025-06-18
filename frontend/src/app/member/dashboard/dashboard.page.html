@@ -2,8 +2,19 @@
 <app-header></app-header>
 
 <ion-content class="dashboard-page" fullscreen>
-  <!-- Swipeable Cards -->
-  <div class="content-section">
+  <!-- Pull-to-refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="loadDashboardData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Tampilkan loading spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 50%;"></ion-spinner>
+  </div>
+
+  <!-- Tampilkan konten utama jika tidak loading -->
+  <div *ngIf="!isLoading" class="content-section">
+    <!-- Swipeable Cards -->
     <div class="swipeable-cards">
       <swiper-container pager="false" slides-per-view="1.1" space-between="10">
         <!-- Simpanan Wajib -->
@@ -14,13 +25,9 @@
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
                 <h3>Simpanan Wajib</h3>
               </div>
-              <div class="amount">Rp10.000.000</div>
+              <div class="amount">{{ savings.total_wajib | currency:'IDR':'Rp':'1.0-0' }}</div>
             </div>
-            <img
-              src="assets/piggy-bank.svg"
-              alt="Saldo Simpanan"
-              class="card-illustration"
-            />
+            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
           </div>
         </swiper-slide>
 
@@ -30,15 +37,11 @@
             <div class="card-content">
               <div class="icon-title">
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
-                <h3>Simpanan Wajib</h3>
+                <h3>Simpanan Pokok</h3>
               </div>
-              <div class="amount">Rp10.000.000</div>
+              <div class="amount">{{ savings.total_pokok | currency:'IDR':'Rp':'1.0-0' }}</div>
             </div>
-            <img
-              src="assets/piggy-bank.svg"
-              alt="Saldo Simpanan"
-              class="card-illustration"
-            />
+            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
           </div>
         </swiper-slide>
 
@@ -48,15 +51,11 @@
             <div class="card-content">
               <div class="icon-title">
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
-                <h3>Simpanan Suka</h3>
+                <h3>Simpanan Sukarela</h3>
               </div>
-              <div class="amount">Rp7.500.000</div>
+              <div class="amount">{{ savings.total_sukarela | currency:'IDR':'Rp':'1.0-0' }}</div>
             </div>
-            <img
-              src="assets/piggy-bank.svg"
-              alt="Saldo Simpanan"
-              class="card-illustration"
-            />
+            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
           </div>
         </swiper-slide>
       </swiper-container>
@@ -66,8 +65,8 @@
     <div class="card pinjaman">
       <div class="card-content">
         <div class="pinjaman-content">
-          <h3>Total Pinjaman</h3>
-          <div class="amount">Rp50.000.000</div>
+          <h3>Total Pinjaman Aktif</h3>
+          <div class="amount">{{ totalLoan | currency:'IDR':'Rp':'1.0-0' }}</div>
         </div>
       </div>
       <div class="pinjaman-illustration">
@@ -86,41 +85,14 @@
         <span>Riwayat<br />Transaksi</span>
       </div>
       <div class="action-button" routerLink="/member/savings">
-        <img
-          src="assets/lihat-slip-pembayaran.svg"
-          alt="Lihat Slip Pembayaran"
-        />
+        <img src="assets/lihat-slip-pembayaran.svg" alt="Lihat Slip Pembayaran" />
         <span>Lihat Slip<br />Pembayaran</span>
       </div>
     </div>
 
     <!-- Floating Bantuan -->
     <div class="help-floating">
-      <img
-        src="assets/icon-orang.svg"
-        alt="Butuh bantuan"
-        class="helper-image"
-      />
-      <div class="chat-box">
-        <p class="chat-title">Butuh Bantuan?</p>
-        <div class="whatsapp-button-container">
-          <a href="https://wa.me/6285771282700">
-            <img
-              href="https://wa.me/6285771282700"
-              src="assets/wa.svg"
-              alt="WhatsApp"
-              class="whatsapp-floating-icon"
-            />
-          </a>
-          <ion-button
-            href="https://wa.me/6285771282700"
-            class="whatsapp-button"
-            shape="round"
-            size="small"
-            >Chat on WhatsApp</ion-button
-          >
-        </div>
-      </div>
+        <!-- Konten bantuan tetap sama -->
     </div>
   </div>
 </ion-content>

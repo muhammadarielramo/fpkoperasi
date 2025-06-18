@@ -6,9 +6,18 @@
 </div>
 
 <ion-content class="savings-page" fullscreen>
-  <div class="content-section">
+  <ion-refresher slot="fixed" (ionRefresh)="loadSavingsDetails($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 30%;"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading" class="content-section">
     <div class="content-wrapper">
-      <!-- Savings Cards -->
+      <!-- Simpanan Wajib -->
       <div class="card">
         <div class="card-content">
           <div class="card-left">
@@ -24,18 +33,20 @@
           </div>
           <div class="card-right">
             <div class="amount-container">
-              <p><span class="amount">Rp10.000.000,00</span></p>
+              <p><span class="amount">{{ savingsDetails.wajib.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
             </div>
             <div class="date-container">
-              <p>
-                1 April 2025<br />
-                15:35:02
+              <p *ngIf="savingsDetails.wajib.lastDate">
+                {{ savingsDetails.wajib.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.wajib.lastDate | date:'HH:mm:ss' }}
               </p>
+              <p *ngIf="!savingsDetails.wajib.lastDate">Belum ada</p>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Simpanan Pokok -->
       <div class="card">
         <div class="card-content">
           <div class="card-left">
@@ -51,18 +62,20 @@
           </div>
           <div class="card-right">
             <div class="amount-container">
-              <p><span class="amount">Rp10.000.000,00</span></p>
+              <p><span class="amount">{{ savingsDetails.pokok.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
             </div>
             <div class="date-container">
-              <p>
-                1 April 2025<br />
-                15:35:02
+              <p *ngIf="savingsDetails.pokok.lastDate">
+                {{ savingsDetails.pokok.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.pokok.lastDate | date:'HH:mm:ss' }}
               </p>
+              <p *ngIf="!savingsDetails.pokok.lastDate">Belum ada</p>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Simpanan Sukarela -->
       <div class="card">
         <div class="card-content">
           <div class="card-left">
@@ -78,13 +91,14 @@
           </div>
           <div class="card-right">
             <div class="amount-container">
-              <p><span class="amount">Rp10.000.000,00</span></p>
+              <p><span class="amount">{{ savingsDetails.sukarela.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
             </div>
             <div class="date-container">
-              <p>
-                1 April 2025<br />
-                15:35:02
+              <p *ngIf="savingsDetails.sukarela.lastDate">
+                {{ savingsDetails.sukarela.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.sukarela.lastDate | date:'HH:mm:ss' }}
               </p>
+              <p *ngIf="!savingsDetails.sukarela.lastDate">Belum ada</p>
             </div>
           </div>
         </div>
