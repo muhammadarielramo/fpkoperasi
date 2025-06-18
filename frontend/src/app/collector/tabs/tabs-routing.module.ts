@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LocationGuard } from 'src/app/guards/location.guard';
 import { TabsPage } from './tabs.page';
+import { MemberCoachingGuard } from 'src/app/guards/member-coaching.guard';
 
 const routes: Routes = [
   // --- Rute untuk Halaman dengan Tab Bar ---
@@ -44,7 +45,7 @@ const routes: Routes = [
   // --- Rute untuk Halaman Detail (Tanpa Tab Bar) ---
   {
     path: 'savings/deposit-savings/:id',
-    canActivate: [LocationGuard],
+    canActivate: [LocationGuard, MemberCoachingGuard],
     loadChildren: () => import('../savings/deposit-savings/deposit-savings.module').then((m) => m.DepositSavingsPageModule),
   },
   {
