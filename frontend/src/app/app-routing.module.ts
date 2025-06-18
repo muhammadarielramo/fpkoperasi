@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from './guards/role.guard';
 import { AuthGuard } from './guards/auth.guard';
+// LocationGuard akan kita terapkan di dalam routing module anak jika diperlukan, bukan di sini.
 
 const routes: Routes = [
   // --- Rute Publik (Tidak memerlukan login) ---
@@ -38,99 +39,31 @@ const routes: Routes = [
       ),
   },
 
-  // --- Rute Member (Dilindungi oleh AuthGuard dan RoleGuard) ---
+  // --- Rute Induk Member ---
+  // Guard hanya diterapkan di sini. Semua halaman di dalam /member akan dilindungi.
   {
     path: 'member',
-    canActivate: [AuthGuard], // Melindungi rute tabs utama member
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 3 }, // Hanya izinkan Member (sebagai ANGKA)
     loadChildren: () =>
       import('./member/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
-  {
-    path: 'member/dashboard',
-    canActivate: [AuthGuard, RoleGuard], // Perlu login DAN peran '3'
-    data: {
-      role: '3',
-    },
-    loadChildren: () =>
-      import('./member/dashboard/dashboard.module').then(
-        (m) => m.DashboardPageModule
-      ),
-  },
-  {
-    path: 'member/notifications',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import('./member/notifications/notifications.module').then(
-        (m) => m.NotificationsPageModule
-      ),
-  },
-  {
-    path: 'member/loans/loan-application',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import('./member/loans/loan-application/loan-application.module').then(
-        (m) => m.LoanApplicationPageModule
-      ),
-  },
-  {
-    path: 'member/loans/billing-details',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import('./member/loans/billing-details/billing-details.module').then(
-        (m) => m.BillingDetailsPageModule
-      ),
-  },
 
-  // --- Rute Collector (Dilindungi oleh AuthGuard dan RoleGuard) ---
+  // --- Rute Induk Collector ---
+  // Guard hanya diterapkan di sini. Semua halaman di dalam /collector akan dilindungi.
   {
     path: 'collector',
-    canActivate: [AuthGuard], // Melindungi rute tabs utama collector
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 2 }, // Hanya izinkan Collector (sebagai ANGKA)
     loadChildren: () =>
       import('./collector/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
-  {
-    path: 'collector/dashboard',
-    canActivate: [AuthGuard, RoleGuard], // Perlu login DAN peran '2'
-    data: {
-      role: '2',
-    },
-    loadChildren: () =>
-      import('./collector/dashboard/dashboard.module').then(
-        (m) => m.DashboardPageModule
-      ),
-  },
-  {
-    path: 'collector/notifications',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import('./collector/notifications/notifications.module').then(
-        (m) => m.NotificationsPageModule
-      ),
-  },
-  {
-    path: 'collector/savings/deposit-savings',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import(
-        './collector/savings/deposit-savings/deposit-savings.module'
-      ).then((m) => m.DepositSavingsPageModule),
-  },
-  {
-    path: 'collector/loans/payment-entry',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import(
-        './collector/loans/payment-entry/payment-entry.module'
-      ).then((m) => m.PaymentEntryPageModule),
-  },
-  {
-    path: 'collector/loans/loan-details',
-    canActivate: [AuthGuard], // Hanya perlu login
-    loadChildren: () =>
-      import('./collector/loans/loan-details/loan-details.module').then(
-        (m) => m.LoanDetailsPageModule
-      ),
-  },
+
+  // PERHATIAN: Semua deklarasi rute anak seperti 'member/dashboard', 
+  // 'collector/savings/deposit-savings/:id', dll. TELAH DIHAPUS dari file ini.
+  // Rute-rute tersebut harus didefinisikan di dalam file routing
+  // yang dimuat oleh `member/tabs/tabs.module.ts` dan `collector/tabs/tabs.module.ts`.
+  // Di sanalah Anda akan menerapkan LocationGuard jika perlu.
 ];
 
 @NgModule({

@@ -4,53 +4,71 @@ import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
+  // --- Rute untuk Halaman dengan Tab Bar ---
   {
-    // Rute induknya adalah TabsPage
-    path: '',
+    path: '', // Menangani /member
     component: TabsPage,
-    // Halaman-halaman berikut adalah "anak" dari TabsPage
     children: [
       {
-        path: 'dashboard', // URL menjadi: /member/dashboard
+        path: 'dashboard', // URL: /member/dashboard
         loadChildren: () =>
           import('../dashboard/dashboard.module').then(
             (m) => m.DashboardPageModule
           ),
       },
       {
-        path: 'savings', // URL menjadi: /member/savings
+        path: 'savings', // URL: /member/savings
         loadChildren: () =>
           import('../savings/savings.module').then((m) => m.SavingsPageModule),
       },
       {
-        path: 'loans', // URL menjadi: /member/loans
+        path: 'loans', // URL: /member/loans
         loadChildren: () =>
           import('../loans/loans.module').then((m) => m.LoansPageModule),
       },
       {
-        path: 'histories', // URL menjadi: /member/histories
+        path: 'histories', // URL: /member/histories
         loadChildren: () =>
           import('../histories/histories.module').then(
             (m) => m.HistoriesPageModule
           ),
       },
       {
-        path: 'profile', // URL menjadi: /member/profile
+        path: 'profile', // URL: /member/profile
         loadChildren: () =>
           import('../profile/profile.module').then((m) => m.ProfilePageModule),
       },
       {
-        path: 'notifications', // URL menjadi: /member/profile
+        path: 'notifications', // URL: /member/notifications
         loadChildren: () =>
-          import('../notifications/notifications.module').then((m) => m.NotificationsPageModule),
+          import('../notifications/notifications.module').then(
+            (m) => m.NotificationsPageModule
+          ),
       },
       {
-        // Jika pengguna membuka /member, arahkan otomatis ke /member/dashboard
+        // Redirect default untuk /member
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],
+  },
+
+  // --- Rute untuk Halaman Detail (Tanpa Tab Bar) ---
+  // Rute ini didefinisikan di luar 'children' agar tidak menampilkan tab.
+  {
+    path: 'loans/loan-application', // URL: /member/loans/loan-application
+    loadChildren: () =>
+      import('../loans/loan-application/loan-application.module').then(
+        (m) => m.LoanApplicationPageModule
+      ),
+  },
+  {
+    path: 'loans/billing-details/:id', // URL: /member/loans/billing-details/123
+    loadChildren: () =>
+      import('../loans/billing-details/billing-details.module').then(
+        (m) => m.BillingDetailsPageModule
+      ),
   },
 ];
 

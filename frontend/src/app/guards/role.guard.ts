@@ -18,24 +18,26 @@ export class RoleGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    // Asumsikan AuthGuard sudah memastikan pengguna login,
-    // jadi kita langsung cek perannya.
-    const expectedRole = route.data['role'];
+    // expectedRole sekarang akan berupa angka (mis: 2 atau 3)
+    const expectedRole = route.data['role']; 
     const currentUserRole = await this.authService.getRole();
 
-    // Cek apakah peran pengguna sesuai dengan yang diharapkan
-    if (currentUserRole !== expectedRole) {
+    // PERBAIKAN: Ubah peran dari storage menjadi angka untuk perbandingan
+    // Memberi nilai default '0' jika null untuk mencegah error parseInt
+    const roleAsNumber = parseInt(currentUserRole || '0', 10);
+
+    if (roleAsNumber !== expectedRole) {
       await this.presentToast(
         'Anda tidak memiliki izin untuk mengakses halaman ini.'
       );
+      
       // Arahkan pengguna kembali ke dashboard mereka yang seharusnya
-      if (currentUserRole === '2') {
+      if (roleAsNumber === 2) {
         this.router.navigate(['/collector/dashboard']);
-      } else if (currentUserRole === '3') {
+      } else if (roleAsNumber === 3) {
         this.router.navigate(['/member/dashboard']);
       } else {
-        // Jika karena alasan aneh peran tidak ada, arahkan ke login
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login']); // Fallback jika peran tidak ada
       }
       return false;
     }

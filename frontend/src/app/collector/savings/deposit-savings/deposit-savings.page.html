@@ -10,12 +10,7 @@
 </div>
 
 <div class="back-button-container">
-  <ion-button
-    class="back-button"
-    (click)="goBack()"
-    fill="clear"
-    size="small"
-  >
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
     <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
   </ion-button>
 </div>
@@ -23,10 +18,10 @@
 <ion-content class="deposit-savings-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <form>
+    <form [formGroup]="depositForm" (ngSubmit)="submitDeposit()">
       <!-- Member Name -->
       <div class="form-group">
-        <input type="text" class="form-input" value="TSUKASA SUOU" readonly />
+        <input type="text" class="form-input" [value]="memberName" readonly />
       </div>
 
       <!-- Tanggal Simpanan -->
@@ -35,38 +30,15 @@
         <div class="input-container" (click)="openDatePicker()">
           <ion-input
             class="custom-outline date-input"
-            id="tanggalSimpananInput"
             readonly
-            [value]="selectedDate"
-            placeholder="--/--/--"
+            formControlName="tgl_simpanan"
+            placeholder="Pilih tanggal..."
           >
-            <ion-icon name="calendar-outline" slot="end" class="calendar-icon">
-            </ion-icon>
+            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
           </ion-input>
-          <ion-modal
-            [isOpen]="showDatePicker"
-            [initialBreakpoint]="0.5"
-            [breakpoints]="[0, 0.25, 0.5, 0.75, 1]"
-            (didDismiss)="showDatePicker = false"
-            class="date-picker-modal"
-            [cssClass]="'custom-modal'"
-          >
+          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
             <ng-template>
-              <ion-content class="ion-padding">
-                <div class="date-modal-header">
-                  <h3>Pilih Tanggal Simpanan</h3>
-                </div>
-                <ion-datetime
-                  presentation="date"
-                  [showDefaultButtons]="true"
-                  [preferWheel]="true"
-                  doneText="Pilih"
-                  cancelText="Batal"
-                  (ionChange)="setDateValue($event)"
-                  (ionCancel)="showDatePicker = false"
-                >
-                </ion-datetime>
-              </ion-content>
+              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
@@ -77,18 +49,14 @@
         <label class="form-label">Nominal</label>
         <div class="currency-input-wrapper">
           <span class="currency-prefix">Rp</span>
-          <input
-            type="text"
-            class="form-input currency-input"
-            placeholder="Masukkan Nominal....."
-          />
+          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="nominal" />
         </div>
       </div>
 
       <!-- Savings Type -->
       <div class="form-group savings-type-section">
         <label class="form-label">Jenis Simpanan</label>
-        <select class="form-input savings-dropdown">
+        <select class="form-input savings-dropdown" formControlName="jenis_simpanan">
           <option value="pokok">Simpanan Pokok</option>
           <option value="wajib">Simpanan Wajib</option>
           <option value="sukarela">Simpanan Sukarela</option>
@@ -97,11 +65,7 @@
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <ion-button
-          (click)="onDepositSubmissionSuccess()"
-          class="btn-submit"
-          fill="solid"
-        >
+        <ion-button type="submit" class="btn-submit" fill="solid">
           Submit
         </ion-button>
       </div>
@@ -109,10 +73,7 @@
   </div>
 
   <!-- Deposit Success Modal -->
-  <div
-    class="verification-overlay"
-    [ngClass]="{'show-overlay': showDepositSuccess}"
-  >
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showDepositSuccess}">
     <div class="verification-modal">
       <div class="deposit-success-icon">
         <img src="assets/checkmark.svg" alt="Success" />
@@ -121,44 +82,5 @@
     </div>
   </div>
 
-  <!-- Location Permission Modal -->
-  <div
-    class="verification-overlay"
-    [ngClass]="{'show-overlay': showLocationModal}"
-    (click)="showLocationModal = false"
-  >
-    <div class="verification-modal" (click)="$event.stopPropagation()">
-      <div class="verification-icon">
-        <img
-          src="assets/location.svg"
-          alt="Location Icon"
-          class="location-icon"
-        />
-      </div>
-      <h2>Aktifkan Layanan Lokasi</h2>
-      <p class="location-description">
-        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan
-        lokasi (GPS). Silakan berikan izin akses lokasi untuk melanjutkan.
-      </p>
-
-      <div class="modal-action-button-container">
-        <ion-button
-          shape="round"
-          class="btn-modal-primary"
-          (click)="enableLocation()"
-        >
-          IZINKAN LOKASI
-        </ion-button>
-
-        <ion-button
-          shape="round"
-          class="btn-modal-secondary"
-          fill="clear"
-          (click)="showLocationModal = false"
-        >
-          JANGAN IZINKAN
-        </ion-button>
-      </div>
-    </div>
-  </div>
+  <!-- MODAL LOKASI DIHAPUS DARI SINI -->
 </ion-content>

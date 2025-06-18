@@ -1,7 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastController, LoadingController } from '@ionic/angular';
+import { CollectorService } from 'src/app/services/collector.service';
+import { DepositService } from 'src/app/services/deposit.service';
 
 @Component({
   standalone: false,
@@ -10,18 +13,50 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./deposit-savings.page.scss'],
 })
 export class DepositSavingsPage implements OnInit {
-  showDepositSuccess = false;
-  showLocationModal: boolean = false;
-  showDatePicker = false;
-  selectedDate: string = '';
+  depositForm: FormGroup;
+  memberId!: number;
+  memberName: string = 'Memuat...';
 
+  showDepositSuccess = false;
+  showDatePicker = false;
+  
   constructor(
     private location: Location,
     private router: Router,
-    private alertController: AlertController
-  ) { }
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private collectorService: CollectorService,
+    private depositService: DepositService,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
+  ) {
+    this.depositForm = this.formBuilder.group({
+      tgl_simpanan: ['', Validators.required],
+      nominal: ['', [Validators.required, Validators.min(1000)]],
+      jenis_simpanan: ['pokok', Validators.required],
+    });
+  }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.memberId = +id;
+      this.loadMemberDetails();
+    }
+  }
+
+  async loadMemberDetails() {
+    (await this.collectorService.getMemberDetails(this.memberId)).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.memberName = res.data.name;
+        }
+      },
+      error: () => {
+        this.memberName = 'Gagal memuat nama';
+        this.presentToast('Gagal memuat detail anggota.');
+      },
+    });
   }
 
   goBack() {
@@ -33,175 +68,87 @@ export class DepositSavingsPage implements OnInit {
   }
 
   setDateValue(event: any) {
-    const selectedDate = event.detail.value;
-    if (selectedDate) {
-      // Format the date to DD/MM/YYYY
-      const date = new Date(selectedDate);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      
-      this.selectedDate = `${day}/${month}/${year}`;
-    }
+    const date = new Date(event.detail.value);
+    const formattedDate = date.toISOString().split('T')[0];
+    this.depositForm.patchValue({ tgl_simpanan: formattedDate });
     this.showDatePicker = false;
   }
 
-  onDepositSubmissionSuccess() {
-    this.showDepositSuccess = true;
-    
-    // Redirect setelah 2 detik
-    setTimeout(() => {
-      this.showDepositSuccess = false;
-      this.router.navigate(['/collector/loans']);
-    }, 2000);
+  /**
+   * Helper untuk mendapatkan lokasi saat ini sebagai Promise.
+   */
+  private getCurrentLocation(): Promise<GeolocationPosition> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocation tidak didukung oleh browser ini.'));
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0
+      });
+    });
+  }
+
+  async submitDeposit() {
+    if (this.depositForm.invalid) {
+      this.presentToast('Harap lengkapi semua data dengan benar.');
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({ message: 'Mendapatkan lokasi dan menyimpan...' });
+    await loading.present();
+
+    try {
+      // PERBAIKAN 1: Ambil lokasi saat ini SEBELUM mengirim data
+      const position = await this.getCurrentLocation();
+      
+      // PERBAIKAN 2: Sertakan latitude dan longitude dalam payload
+      const payload = {
+        ...this.depositForm.value,
+        id_member: this.memberId,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+
+      (await this.depositService.saveDeposit(this.memberId, payload)).subscribe({
+        next: (res: any) => {
+          loading.dismiss();
+          if (res && res.success === true) {
+            this.showDepositSuccess = true;
+            setTimeout(() => {
+              this.showDepositSuccess = false;
+              this.router.navigate(['/collector/savings']);
+            }, 2000);
+          } else {
+            const errorMessage = res.message || 'Terjadi kesalahan pada server.';
+            this.presentToast(errorMessage);
+          }
+        },
+        error: (err) => {
+          loading.dismiss();
+          const message = err.error?.message || 'Gagal menyimpan setoran.';
+          this.presentToast(message);
+          console.error(err);
+        },
+      });
+
+    } catch (locationError: any) {
+      // Menangkap error jika gagal mendapatkan lokasi
+      await loading.dismiss();
+      const message = locationError.message || 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin diberikan.';
+      this.presentToast(message);
+    }
   }
   
- // Methods baru untuk location modal
-  openLocationModal() {
-    this.showLocationModal = true;
-  }
-
-  closeLocationModal() {
-    this.showLocationModal = false;
-  }
-
-  // Method untuk mengaktifkan lokasi
-  enableLocation() {
-    this.requestLocationPermission();
-  }
-
-  // Method untuk request permission lokasi
-  async requestLocationPermission() {
-    try {
-      // Menggunakan Geolocation API
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            console.log('Location permission granted');
-            console.log('Latitude:', position.coords.latitude);
-            console.log('Longitude:', position.coords.longitude);
-            
-            // Simpan koordinat atau lakukan aksi selanjutnya
-            this.handleLocationSuccess(position);
-            this.closeLocationModal();
-          },
-          (error) => {
-            console.error('Location permission denied or error:', error);
-            this.handleLocationError(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-          }
-        );
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-        this.showAlert('Geolocation tidak didukung oleh browser ini.');
-      }
-    } catch (error) {
-      console.error('Error requesting location permission:', error);
-    }
-  }
-
-  // Method untuk menangani sukses mendapatkan lokasi
-  handleLocationSuccess(position: GeolocationPosition) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    
-    // Implementasi sesuai kebutuhan aplikasi
-    console.log('User location:', { latitude, longitude });
-    
-    // Contoh: simpan ke local storage atau kirim ke server
-    localStorage.setItem('userLocation', JSON.stringify({
-      latitude,
-      longitude,
-      timestamp: new Date().toISOString()
-    }));
-
-    // Show success message
-    this.showAlert('Lokasi berhasil diaktifkan!');
-  }
-
-  // Method untuk menangani error lokasi
-  handleLocationError(error: GeolocationPositionError) {
-    let message = '';
-    
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        message = 'Izin akses lokasi ditolak oleh pengguna.';
-        break;
-      case error.POSITION_UNAVAILABLE:
-        message = 'Informasi lokasi tidak tersedia.';
-        break;
-      case error.TIMEOUT:
-        message = 'Permintaan lokasi timeout.';
-        break;
-      default:
-        message = 'Terjadi error yang tidak diketahui.';
-        break;
-    }
-    
-    this.showAlert(message);
-  }
-
-  // Helper method untuk menampilkan alert
-  private async showAlert(message: string) {
-    // Jika menggunakan Ionic AlertController
-    const alert = await this.alertController.create({
-      header: 'Informasi',
-      message: message,
-      buttons: ['OK']
+  async presentToast(message: string, color: string = 'danger') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color: color,
     });
-
-    await alert.present();
-  }
-
-  // Alternative: Jika menggunakan Capacitor untuk native features
-  /*
-  import { Geolocation } from '@capacitor/geolocation';
-
-  async requestLocationPermissionCapacitor() {
-    try {
-      // Request permission first
-      const permission = await Geolocation.requestPermissions();
-      
-      if (permission.location === 'granted') {
-        // Get current position
-        const coordinates = await Geolocation.getCurrentPosition({
-          enableHighAccuracy: true,
-          timeout: 10000
-        });
-        
-        console.log('Current position:', coordinates);
-        this.handleLocationSuccess(coordinates);
-        this.closeLocationModal();
-      } else {
-        this.showAlert('Izin lokasi diperlukan untuk melanjutkan.');
-      }
-    } catch (error) {
-      console.error('Error getting location:', error);
-      this.showAlert('Gagal mendapatkan lokasi.');
-    }
-  }
-  */
-
-  // Method untuk trigger location modal (bisa dipanggil dari button atau lifecycle)
-  checkLocationPermission() {
-    // Check if location is already granted
-    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-      if (result.state === 'granted') {
-        console.log('Location permission already granted');
-      } else if (result.state === 'prompt') {
-        // Show modal to request permission
-        this.openLocationModal();
-      } else {
-        // Permission denied, show modal to encourage user
-        this.openLocationModal();
-      }
-    }).catch(() => {
-      // Fallback: show modal if permissions API not available
-      this.openLocationModal();
-    });
+    await toast.present();
   }
 }

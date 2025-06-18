@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
@@ -13,17 +13,28 @@ export class CollectorService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
-   * Mengambil semua anggota binaan untuk kolektor yang sedang login.
-   * @returns Observable dengan daftar anggota.
+   * Mengambil detail spesifik dari seorang anggota.
    */
-  async getCoachedMembers(): Promise<Observable<any>> {
+  async getMemberDetails(memberId: number): Promise<Observable<any>> {
     const headers = await this.createAuthHeader();
-    return this.http.get(`${this.apiUrl}/kolektor/anggota-binaan`, { headers });
+    return this.http.get(`${this.apiUrl}/kolektor/detail-anggota/${memberId}`, { headers });
+  }
+
+  /**
+   * Mengambil semua anggota binaan.
+   * @param searchTerm (Opsional) Kata kunci untuk mencari anggota berdasarkan nama.
+   */
+  async getCoachedMembers(searchTerm?: string): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    let params = new HttpParams();
+    if (searchTerm) {
+      params = params.append('search', searchTerm);
+    }
+    return this.http.get(`${this.apiUrl}/kolektor/anggota-binaan`, { headers, params });
   }
 
   /**
    * Mengambil daftar pinjaman aktif dari anggota binaan.
-   * @returns Observable dengan daftar pinjaman.
    */
   async getMemberLoans(): Promise<Observable<any>> {
     const headers = await this.createAuthHeader();
@@ -32,7 +43,6 @@ export class CollectorService {
 
   /**
    * Mengambil daftar kunjungan yang dijadwalkan hari ini.
-   * @returns Observable dengan daftar kunjungan.
    */
   async getTodaysVisits(): Promise<Observable<any>> {
     const headers = await this.createAuthHeader();
