@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { AlertController, ToastController, LoadingController } from '@ionic/angular';
+import { MemberService } from 'src/app/services/member.service';
 
 @Component({
   standalone: false,
@@ -11,206 +12,122 @@ export class ProfilePage implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
 
   isEditMode = false;
+  isLoading = true;
   
-  // Original data backup for cancel functionality
-  originalProfileData = {
-    username: 'Tsukasa Suou',
-    email: 'tsukasasuou@gmail.com',
-    password: '••••••••••••••',
-    alamat: 'Jl. Citra Kebun Mas RT 01/RW 12 KARAWANG',
-    noHp: '081234567891012',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
-  };
-
-  // Current profile data that can be edited
-  profileData = { ...this.originalProfileData };
+  profileData: any = {};
+  originalProfileData: any = {};
 
   constructor(
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private memberService: MemberService,
+    private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.loadProfileData();
+  }
+
+  async loadProfileData() {
+    this.isLoading = true;
+    (await this.memberService.getProfile()).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.profileData = {
+            username: res.data.name,
+            email: res.data.email,
+            alamat: res.data.member?.address,
+            noHp: res.data.phone_number,
+            avatar: res.data.photo_url || `https://placehold.co/100x100/EFEFEF/333333?text=${res.data.name ? res.data.name.charAt(0).toUpperCase() : '?'}`,
+          };
+          this.originalProfileData = { ...this.profileData };
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.presentToast('Gagal memuat profil.', 'danger');
+      }
+    });
   }
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
-    
-    // If exiting edit mode without saving, restore original data
     if (!this.isEditMode) {
-      this.profileData = { ...this.originalProfileData };
+      this.cancelEdit(true);
     }
   }
 
-  async editAvatar() {
-    const alert = await this.alertController.create({
-      header: 'Ubah Avatar',
-      message: 'Pilih sumber gambar untuk avatar Anda',
-      buttons: [
-        {
-          text: 'Galeri',
-          handler: () => {
-            this.selectImageFromGallery();
+  async saveChanges() {
+    const loading = await this.loadingCtrl.create({ message: 'Menyimpan...' });
+    await loading.present();
+
+    const payload: any = {
+      username: this.profileData.username,
+      address: this.profileData.alamat,
+      phone_number: this.profileData.noHp,
+    };
+    
+    if (this.profileData.email !== this.originalProfileData.email) {
+      payload.email = this.profileData.email;
+    }
+    
+    // Logika untuk mengirim password telah dihapus
+
+    (await this.memberService.updateProfile(payload)).subscribe({
+      next: (res: any) => {
+        loading.dismiss();
+        if (res && res.success) {
+          this.presentToast('Profil berhasil diperbarui!', 'success');
+          this.originalProfileData = { ...this.profileData };
+          this.isEditMode = false;
+        } else {
+          let errorMessages = 'Gagal menyimpan perubahan.';
+          if (res && res.messages && typeof res.messages === 'object') {
+            errorMessages = Object.values(res.messages).reduce((acc: string[], val: any) => acc.concat(val), []).join('\n');
           }
-        },
-        {
-          text: 'Kamera',
-          handler: () => {
-            this.takePhoto();
-          }
-        },
-        {
-          text: 'Batal',
-          role: 'cancel'
+          this.presentToast(errorMessages, 'danger');
         }
-      ]
+      },
+      error: (err) => {
+        loading.dismiss();
+        this.presentToast('Terjadi kesalahan. Silakan coba lagi.', 'danger');
+      }
     });
-
-    await alert.present();
   }
 
-  selectImageFromGallery() {
-    // Trigger file input click
+  cancelEdit(force: boolean = false) {
+    if (force) {
+      this.profileData = { ...this.originalProfileData };
+      this.isEditMode = false;
+      return;
+    }
+    this.presentToast('Perubahan dibatalkan');
+    this.profileData = { ...this.originalProfileData };
+    this.isEditMode = false;
+  }
+
+  editAvatar() {
     this.fileInput.nativeElement.click();
-  }
-
-  takePhoto() {
-    // In a real app, you would use Capacitor Camera plugin here
-    // For now, we'll just show a toast
-    this.presentToast('Fitur kamera akan segera tersedia');
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.profileData.avatar = e.target.result;
-      };
+      reader.onload = (e: any) => this.profileData.avatar = e.target.result;
       reader.readAsDataURL(file);
     }
   }
 
-  async saveChanges() {
-    // Validation
-    if (!this.validateProfileData()) {
-      return;
-    }
-
-    const alert = await this.alertController.create({
-      header: 'Konfirmasi',
-      message: 'Apakah Anda yakin ingin menyimpan perubahan?',
-      buttons: [
-        {
-          text: 'Batal',
-          role: 'cancel'
-        },
-        {
-          text: 'Simpan',
-          handler: () => {
-            this.confirmSave();
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async confirmSave() {
-    try {
-      // Here you would typically call your API to save the data
-      // For demo purposes, we'll just update the original data
-      this.originalProfileData = { ...this.profileData };
-      
-      // Exit edit mode
-      this.isEditMode = false;
-      
-      // Show success message
-      await this.presentToast('Profil berhasil diperbarui!', 'success');
-      
-    } catch (error) {
-      console.error('Error saving profile:', error);
-      await this.presentToast('Gagal menyimpan perubahan. Silakan coba lagi.', 'danger');
-    }
-  }
-
-  async cancelEdit() {
-    // Check if there are unsaved changes
-    if (this.hasUnsavedChanges()) {
-      const alert = await this.alertController.create({
-        header: 'Batalkan Perubahan',
-        message: 'Apakah Anda yakin ingin membatalkan perubahan? Data yang belum disimpan akan hilang.',
-        buttons: [
-          {
-            text: 'Lanjut Edit',
-            role: 'cancel'
-          },
-          {
-            text: 'Batalkan',
-            handler: () => {
-              this.confirmCancel();
-            }
-          }
-        ]
-      });
-
-      await alert.present();
-    } else {
-      this.confirmCancel();
-    }
-  }
-
-  confirmCancel() {
-    // Restore original data
-    this.profileData = { ...this.originalProfileData };
-    
-    // Exit edit mode
-    this.isEditMode = false;
-    
-    this.presentToast('Perubahan dibatalkan');
-  }
-
-  validateProfileData(): boolean {
-    // Username validation
-    if (!this.profileData.username.trim()) {
-      this.presentToast('Username tidak boleh kosong', 'warning');
-      return false;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.profileData.email)) {
-      this.presentToast('Format email tidak valid', 'warning');
-      return false;
-    }
-
-    // Phone number validation
-    const phoneRegex = /^[0-9]+$/;
-    if (!phoneRegex.test(this.profileData.noHp)) {
-      this.presentToast('Nomor HP hanya boleh berisi angka', 'warning');
-      return false;
-    }
-
-    // Address validation
-    if (!this.profileData.alamat.trim()) {
-      this.presentToast('Alamat tidak boleh kosong', 'warning');
-      return false;
-    }
-
-    return true;
-  }
-
-  hasUnsavedChanges(): boolean {
-    return JSON.stringify(this.profileData) !== JSON.stringify(this.originalProfileData);
-  }
-
   async presentToast(message: string, color: string = 'medium') {
     const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      color: color,
-      position: 'bottom'
+      message,
+      duration: 3000,
+      position: 'bottom',
+      color,
     });
     toast.present();
   }

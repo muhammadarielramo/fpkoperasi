@@ -15,7 +15,7 @@
 
 <ion-content class="profile-page" fullscreen>
   <!-- Profile Content -->
-  <div class="content-section">
+  <div *ngIf="!isLoading" class="content-section">
     <!-- Profile Avatar -->
     <div class="profile-avatar-section">
       <div class="profile-avatar">
@@ -53,15 +53,7 @@
         />
       </div>
 
-      <div class="input-group">
-        <label class="input-label">Password</label>
-        <input
-          type="password"
-          class="input-field password-field"
-          [(ngModel)]="profileData.password"
-          [readonly]="!isEditMode"
-        />
-      </div>
+      <!-- KOLOM PASSWORD DIHAPUS DARI SINI -->
 
       <div class="input-group">
         <label class="input-label">Alamat Lengkap</label>
@@ -99,6 +91,11 @@
         >Simpan Perubahan</ion-button
       >
     </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 30%;"></ion-spinner>
   </div>
 
   <!-- Hidden file input for avatar upload -->
