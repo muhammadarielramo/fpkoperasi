@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Web\CashFlowController;
 use App\Http\Controllers\uploadController;
 use App\Http\Controllers\Web\TransactionController;
 use App\Http\Controllers\Web\DepositController;
@@ -108,9 +109,14 @@ Route::get('/verifikasi/{id}', [RegisterController::class, 'verifPage'])->name('
 Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
 
 // history
-Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->name('history.daily');
-Route::get('/history/monthly', [TransactionController::class, 'monthlyHistory'])->name('history.monthly');
+Route::get('/cashflowy/daily', [CashFlowController::class, 'ShowKas'])->name('history.daily');
+Route::get('/cashflow/create', [CashFlowController::class, 'showCreate'])->name('history.create.show');
+Route::get('/cashflow/export', [CashFlowController::class, 'export'])->name('cashflow.export');
+Route::post('/cashflow/save', [CashFlowController::class, 'create'])->name('history.create');
+
 Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
+// Route::get('/pengeluaran-kas', [CashFlowController::class, 'ShowKas'])->name('history.saldo');
+// Route::get('/pengeluaran-kas', [CashFlowController::class, 'create'])->name('cash-flows.create');
 
 // relasi
 Route::get('relasi/tambah/{id}', [RelationController::class, 'create'])->name('relasi.create');

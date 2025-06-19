@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // riwayat
     Route::get('/riwayat', [TransactionController::class, 'history'])->name('riwayat');
-    Route::get('/riwayat/detail', [TransactionController::class, 'detail'])->name('riwayat.detail');
+    Route::get('/riwayat/detail/{id}', [TransactionController::class, 'detail'])->name('riwayat.detail');
 
     // simpanan
     Route::get('/simpanan', [DepositController::class, 'getDeposit'])->name('simpanan');

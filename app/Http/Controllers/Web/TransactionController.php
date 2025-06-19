@@ -42,7 +42,7 @@ class TransactionController extends Controller
 
     public function dailyHistory(Request $request) {
 
-               $dateInput = $request->input('date'); // Untuk tanggal tunggal (YYYY-MM-DD)
+        $dateInput = $request->input('date'); // Untuk tanggal tunggal (YYYY-MM-DD)
         $startDateInput = $request->input('start_date'); // Untuk awal range (YYYY-MM-DD)
         $endDateInput = $request->input('end_date');     // Untuk akhir range (YYYY-MM-DD)
 
@@ -111,5 +111,8 @@ class TransactionController extends Controller
 
 
         return Excel::download(new TransactionExport($request->date), 'riwayat_transaksi.xlsx');
+    }
+
+    public function showKas(Request $request) {
     }
 }

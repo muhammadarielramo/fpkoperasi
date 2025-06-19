@@ -47,14 +47,11 @@ class TransactionController extends Controller
         }
     }
 
-    public function detail (Request $request) {
+    public function detail ($id) {
         $user = auth()->user();
         $member = $user->member;
 
         $transactions = $member->transactions()->with('installments.loan')->get();
-
-        if($request->has('id')) {
-            $id = $request->id;
 
             $transaction = $transactions->where('id', $id)->first();
             if($transaction) {
@@ -69,7 +66,6 @@ class TransactionController extends Controller
                     'message' => 'Transaksi tidak ditemukan',
                 ], 200);
             }
-        }
 
 
     }
