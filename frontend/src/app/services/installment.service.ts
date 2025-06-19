@@ -26,7 +26,7 @@ export class InstallmentService {
    */
   async submitInstallment(loanId: number, installmentData: any): Promise<Observable<any>> {
     const headers = await this.createAuthHeader();
-    return this.http.post(`${this.apiUrl}/setoran/${loanId}`, installmentData, { headers });
+    return this.http.post(`${this.apiUrl}/kolektor/setoran/${loanId}`, installmentData, { headers });
   }
 
   private async createAuthHeader(): Promise<HttpHeaders> {

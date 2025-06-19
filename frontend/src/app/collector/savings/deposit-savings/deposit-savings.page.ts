@@ -80,7 +80,7 @@ export class DepositSavingsPage implements OnInit {
   private getCurrentLocation(): Promise<GeolocationPosition> {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
-        reject(new Error('Geolocation tidak didukung oleh browser ini.'));
+        reject(new Error('Geolocation tidak didukung oleh perangkat ini.'));
         return;
       }
       navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -109,7 +109,8 @@ export class DepositSavingsPage implements OnInit {
         ...this.depositForm.value,
         id_member: this.memberId,
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy
       };
 
       (await this.depositService.saveDeposit(this.memberId, payload)).subscribe({

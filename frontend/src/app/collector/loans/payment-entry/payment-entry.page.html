@@ -10,12 +10,7 @@
 </div>
 
 <div class="back-button-container">
-  <ion-button
-    class="back-button"
-    (click)="goBack()"
-    fill="clear"
-    size="small"
-  >
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
     <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
   </ion-button>
 </div>
@@ -23,27 +18,25 @@
 <ion-content class="payment-entry-page" fullscreen>
   <!-- Content Section -->
   <div class="content-section">
-    <form>
+    <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
       <!-- Member Name -->
       <div class="form-group">
-        <input type="text" class="form-input" value="TSUKASA SUOU" readonly />
+        <input type="text" class="form-input" [value]="memberName" readonly />
       </div>
 
       <!-- Payment Amount -->
       <div class="form-group">
         <label class="form-label">Jumlah Pembayaran</label>
-        <input type="text" class="form-input" placeholder="Rp. ....." />
+        <div class="currency-input-wrapper">
+          <span class="currency-prefix">Rp</span>
+          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="besar_ciclan" />
+        </div>
       </div>
 
       <!-- Installment -->
       <div class="form-group installment-section">
         <label class="form-label">Angsuran ke-</label>
-        <input
-          type="text"
-          class="form-input installment-input"
-          value="1/2/3 dst"
-          readonly
-        />
+        <input type="number" class="form-input installment-input" placeholder="e.g., 1" formControlName="angsuran_ke" />
       </div>
 
       <!-- Tanggal Pembayaran -->
@@ -52,38 +45,14 @@
         <div class="input-container" (click)="openDatePicker()">
           <ion-input
             class="custom-outline date-input"
-            id="tanggalPembayaranInput"
             readonly
-            [value]="selectedDate"
-            placeholder="--/--/--"
+            formControlName="tgl_pembayaran"
           >
-            <ion-icon name="calendar-outline" slot="end" class="calendar-icon">
-            </ion-icon>
+            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
           </ion-input>
-          <ion-modal
-            [isOpen]="showDatePicker"
-            [initialBreakpoint]="0.5"
-            [breakpoints]="[0, 0.25, 0.5, 0.75, 1]"
-            (didDismiss)="showDatePicker = false"
-            class="date-picker-modal"
-            [cssClass]="'custom-modal'"
-          >
+          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
             <ng-template>
-              <ion-content class="ion-padding">
-                <div class="date-modal-header">
-                  <h3>Pilih Tanggal Pembayaran</h3>
-                </div>
-                <ion-datetime
-                  presentation="date"
-                  [showDefaultButtons]="true"
-                  [preferWheel]="true"
-                  doneText="Pilih"
-                  cancelText="Batal"
-                  (ionChange)="setDateValue($event)"
-                  (ionCancel)="showDatePicker = false"
-                >
-                </ion-datetime>
-              </ion-content>
+              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
@@ -92,20 +61,15 @@
       <!-- Payment Status -->
       <div class="form-group payment-status-section">
         <label class="form-label">Status Pembayaran</label>
-        <select class="form-input status-dropdown">
-          <option value="lunas">Lunas/Terlambat(Denda)</option>
-          <option value="terlambat">Terlambat</option>
-          <option value="pending">Pending</option>
-        </select>
+        <ion-select class="form-input status-dropdown" formControlName="status" placeholder="Pilih Status">
+          <ion-select-option value="lunas">Lunas</ion-select-option>
+          <ion-select-option value="terlambat">Terlambat (Denda)</ion-select-option>
+        </ion-select>
       </div>
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <ion-button
-          (click)="onPaymentSubmissionSuccess()"
-          class="btn-submit"
-          fill="solid"
-        >
+        <ion-button type="submit" class="btn-submit" fill="solid" [disabled]="paymentForm.invalid">
           Submit
         </ion-button>
       </div>
@@ -113,55 +77,28 @@
   </div>
 
   <!-- Payment Success Modal -->
-  <div
-    class="verification-overlay"
-    [ngClass]="{'show-overlay': showPaymentSuccess}"
-  >
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showPaymentSuccess}">
     <div class="verification-modal">
       <div class="payment-success-icon">
         <img src="assets/checkmark.svg" alt="Success" />
       </div>
-      <h2>PEMBAYARAN PINJAMAN ANGGOTA BERHASIL DISIMPAN!</h2>
+      <h2>PEMBAYARAN BERHASIL DISIMPAN!</h2>
     </div>
   </div>
 
   <!-- Location Permission Modal -->
-  <div
-    class="verification-overlay"
-    [ngClass]="{'show-overlay': showLocationModal}"
-    (click)="showLocationModal = false"
-  >
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showLocationModal}">
     <div class="verification-modal" (click)="$event.stopPropagation()">
       <div class="verification-icon">
-        <img
-          src="assets/location.svg"
-          alt="Location Icon"
-          class="location-icon"
-        />
+        <img src="assets/location.svg" alt="Location Icon" class="location-icon" />
       </div>
       <h2>Aktifkan Layanan Lokasi</h2>
       <p class="location-description">
-        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan
-        lokasi (GPS). Silakan berikan izin akses lokasi untuk melanjutkan.
+        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan lokasi (GPS).
       </p>
-
       <div class="modal-action-button-container">
-        <ion-button
-          shape="round"
-          class="btn-modal-primary"
-          (click)="enableLocation()"
-        >
-          IZINKAN LOKASI
-        </ion-button>
-
-        <ion-button
-          shape="round"
-          class="btn-modal-secondary"
-          fill="clear"
-          (click)="showLocationModal = false"
-        >
-          JANGAN IZINKAN
-        </ion-button>
+        <ion-button shape="round" class="btn-modal-primary" (click)="enableLocation()">IZINKAN LOKASI</ion-button>
+        <ion-button shape="round" class="btn-modal-secondary" fill="clear" (click)="showLocationModal = false">LAIN KALI</ion-button>
       </div>
     </div>
   </div>

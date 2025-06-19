@@ -54,6 +54,7 @@ const routes: Routes = [
   },
   {
     path: 'loans/payment-entry/:id',
+    canActivate: [LocationGuard],
     loadChildren: () => import('../loans/payment-entry/payment-entry.module').then((m) => m.PaymentEntryPageModule),
   },
   // PERBAIKAN: Tambahkan rute untuk detail anggota di sini

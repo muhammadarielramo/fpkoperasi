@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastController, LoadingController } from '@ionic/angular';
+import { LoanService } from 'src/app/services/loan.service';
+import { InstallmentService } from 'src/app/services/installment.service';
 
 @Component({
   standalone: false,
@@ -11,18 +13,51 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./payment-entry.page.scss'],
 })
 export class PaymentEntryPage implements OnInit {
+  paymentForm: FormGroup;
+  loanId!: number;
+  memberName: string = 'Memuat...';
+  
   showPaymentSuccess = false;
-  showLocationModal: boolean = false;
   showDatePicker = false;
-  selectedDate: string = '';
+  showLocationModal = false;
 
   constructor(
     private location: Location,
     private router: Router,
-    private alertController: AlertController
-  ) { }
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private loanService: LoanService,
+    private installmentService: InstallmentService,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
+  ) {
+    this.paymentForm = this.formBuilder.group({
+      besar_ciclan: ['', [Validators.required, Validators.min(1)]],
+      angsuran_ke: ['', [Validators.required, Validators.min(1)]],
+      tgl_pembayaran: [new Date().toISOString().split('T')[0], Validators.required],
+      status: ['lunas', Validators.required],
+    });
+  }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loanId = +id;
+      this.loadPaymentInfo();
+    }
+  }
+
+  async loadPaymentInfo() {
+    (await this.loanService.getLoanPaymentInfo(this.loanId)).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.memberName = res.data.member;
+          // Anda bisa mengisi field lain di sini jika API mengembalikannya
+          // Contoh: this.paymentForm.patchValue({ angsuran_ke: res.data.next_installment });
+        }
+      },
+      error: () => this.presentToast('Gagal memuat info pembayaran.'),
+    });
   }
 
   goBack() {
@@ -34,175 +69,89 @@ export class PaymentEntryPage implements OnInit {
   }
 
   setDateValue(event: any) {
-    const selectedDate = event.detail.value;
-    if (selectedDate) {
-      // Format the date to DD/MM/YYYY
-      const date = new Date(selectedDate);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      
-      this.selectedDate = `${day}/${month}/${year}`;
-    }
+    const date = new Date(event.detail.value);
+    const formattedDate = date.toISOString().split('T')[0];
+    this.paymentForm.patchValue({ tgl_pembayaran: formattedDate });
     this.showDatePicker = false;
   }
 
-  onPaymentSubmissionSuccess() {
-    this.showPaymentSuccess = true;
-    
-    // Redirect setelah 2 detik
-    setTimeout(() => {
-      this.showPaymentSuccess = false;
-      this.router.navigate(['/collector/loans']);
-    }, 2000);
+  async submitPayment() {
+    if (this.paymentForm.invalid) {
+      this.presentToast('Harap lengkapi semua data pembayaran.', 'warning');
+      return;
+    }
+    // Cek izin lokasi terlebih dahulu
+    this.checkLocationPermission();
   }
 
-  // Methods baru untuk location modal
-  openLocationModal() {
-    this.showLocationModal = true;
+  private async proceedWithSubmission(position: GeolocationPosition) {
+    const loading = await this.loadingCtrl.create({ message: 'Menyimpan pembayaran...' });
+    await loading.present();
+
+    const payload = {
+      ...this.paymentForm.value,
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    };
+
+    (await this.installmentService.submitInstallment(this.loanId, payload)).subscribe({
+      next: () => {
+        loading.dismiss();
+        this.showPaymentSuccess = true;
+        setTimeout(() => {
+          this.showPaymentSuccess = false;
+          this.router.navigate(['/collector/loans']);
+        }, 2000);
+      },
+      error: (err: any) => {
+        loading.dismiss();
+        const message = err.error?.message || 'Gagal menyimpan pembayaran.';
+        this.presentToast(message);
+      },
+    });
   }
 
-  closeLocationModal() {
-    this.showLocationModal = false;
+  // --- Logika Izin Lokasi ---
+  async checkLocationPermission() {
+    const permission = await navigator.permissions.query({ name: 'geolocation' });
+    if (permission.state === 'granted') {
+      this.requestLocation();
+    } else {
+      this.showLocationModal = true;
+    }
   }
 
-  // Method untuk mengaktifkan lokasi
   enableLocation() {
-    this.requestLocationPermission();
+    this.showLocationModal = false;
+    this.requestLocation();
   }
-
-  // Method untuk request permission lokasi
-  async requestLocationPermission() {
+  
+  private async requestLocation() {
+    const loading = await this.loadingCtrl.create({ message: 'Mendapatkan lokasi...' });
+    await loading.present();
     try {
-      // Menggunakan Geolocation API
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            console.log('Location permission granted');
-            console.log('Latitude:', position.coords.latitude);
-            console.log('Longitude:', position.coords.longitude);
-            
-            // Simpan koordinat atau lakukan aksi selanjutnya
-            this.handleLocationSuccess(position);
-            this.closeLocationModal();
-          },
-          (error) => {
-            console.error('Location permission denied or error:', error);
-            this.handleLocationError(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-          }
-        );
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-        this.showAlert('Geolocation tidak didukung oleh browser ini.');
-      }
-    } catch (error) {
-      console.error('Error requesting location permission:', error);
-    }
-  }
-
-  // Method untuk menangani sukses mendapatkan lokasi
-  handleLocationSuccess(position: GeolocationPosition) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    
-    // Implementasi sesuai kebutuhan aplikasi
-    console.log('User location:', { latitude, longitude });
-    
-    // Contoh: simpan ke local storage atau kirim ke server
-    localStorage.setItem('userLocation', JSON.stringify({
-      latitude,
-      longitude,
-      timestamp: new Date().toISOString()
-    }));
-
-    // Show success message
-    this.showAlert('Lokasi berhasil diaktifkan!');
-  }
-
-  // Method untuk menangani error lokasi
-  handleLocationError(error: GeolocationPositionError) {
-    let message = '';
-    
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        message = 'Izin akses lokasi ditolak oleh pengguna.';
-        break;
-      case error.POSITION_UNAVAILABLE:
-        message = 'Informasi lokasi tidak tersedia.';
-        break;
-      case error.TIMEOUT:
-        message = 'Permintaan lokasi timeout.';
-        break;
-      default:
-        message = 'Terjadi error yang tidak diketahui.';
-        break;
-    }
-    
-    this.showAlert(message);
-  }
-
-  // Helper method untuk menampilkan alert
-  private async showAlert(message: string) {
-    // Jika menggunakan Ionic AlertController
-    const alert = await this.alertController.create({
-      header: 'Informasi',
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
-  // Alternative: Jika menggunakan Capacitor untuk native features
-  /*
-  import { Geolocation } from '@capacitor/geolocation';
-
-  async requestLocationPermissionCapacitor() {
-    try {
-      // Request permission first
-      const permission = await Geolocation.requestPermissions();
-      
-      if (permission.location === 'granted') {
-        // Get current position
-        const coordinates = await Geolocation.getCurrentPosition({
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 10000
+          timeout: 15000,
+          maximumAge: 0
         });
-        
-        console.log('Current position:', coordinates);
-        this.handleLocationSuccess(coordinates);
-        this.closeLocationModal();
-      } else {
-        this.showAlert('Izin lokasi diperlukan untuk melanjutkan.');
-      }
-    } catch (error) {
-      console.error('Error getting location:', error);
-      this.showAlert('Gagal mendapatkan lokasi.');
+      });
+      loading.dismiss();
+      this.proceedWithSubmission(position); // Lanjutkan setelah lokasi didapat
+    } catch (error: any) {
+      loading.dismiss();
+      this.presentToast(error.message || 'Gagal mendapatkan lokasi. Pastikan GPS aktif.', 'danger');
     }
   }
-  */
 
-  // Method untuk trigger location modal (bisa dipanggil dari button atau lifecycle)
-  checkLocationPermission() {
-    // Check if location is already granted
-    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-      if (result.state === 'granted') {
-        console.log('Location permission already granted');
-      } else if (result.state === 'prompt') {
-        // Show modal to request permission
-        this.openLocationModal();
-      } else {
-        // Permission denied, show modal to encourage user
-        this.openLocationModal();
-      }
-    }).catch(() => {
-      // Fallback: show modal if permissions API not available
-      this.openLocationModal();
+  async presentToast(message: string, color: string = 'danger') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
     });
+    await toast.present();
   }
 }

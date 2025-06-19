@@ -15,7 +15,7 @@ export class LocationGuard implements CanActivate {
   async canActivate(): Promise<boolean> {
     // Cek apakah browser mendukung Permissions API
     if (!navigator.permissions) {
-      await this.presentToast('Browser tidak mendukung pengecekan izin.');
+      await this.presentToast('Perangkat tidak mendukung pengecekan izin.');
       return false; // Blokir jika API tidak ada
     }
 
@@ -32,8 +32,8 @@ export class LocationGuard implements CanActivate {
       return this.requestPermission();
     } else {
       // Jika ditolak, tampilkan pesan dan blokir akses.
-      await this.presentToast('Akses lokasi diperlukan untuk halaman ini. Aktifkan di pengaturan browser Anda.');
-      this.router.navigate(['/collector/savings']); // Arahkan kembali
+      await this.presentToast('Akses lokasi diperlukan untuk halaman ini.');
+      this.router.navigate(['/collector/dashboard']); // Arahkan kembali
       return false;
     }
   }
@@ -51,7 +51,7 @@ export class LocationGuard implements CanActivate {
       return true; // Jika promise resolve, izin diberikan.
     } catch (error) {
       await this.presentToast('Anda harus mengizinkan akses lokasi untuk melanjutkan.');
-      this.router.navigate(['/collector/savings']); // Arahkan kembali jika ditolak
+      this.router.navigate(['/collector/dashboard']); // Arahkan kembali jika ditolak
       return false;
     }
   }
