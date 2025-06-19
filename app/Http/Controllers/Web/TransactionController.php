@@ -42,29 +42,46 @@ class TransactionController extends Controller
 
     public function dailyHistory(Request $request) {
 
-       $dateInput = $request->input('date');
+               $dateInput = $request->input('date'); // Untuk tanggal tunggal (YYYY-MM-DD)
+        $startDateInput = $request->input('start_date'); // Untuk awal range (YYYY-MM-DD)
+        $endDateInput = $request->input('end_date');     // Untuk akhir range (YYYY-MM-DD)
 
-        if ($dateInput) {
-            if (preg_match('/^\d{4}-\d{2}$/', $dateInput)) {
-                // Format YYYY-MM → ambil range 1 bulan penuh
-                $startDate = Carbon::createFromFormat('Y-m', $dateInput)->startOfMonth();
-                $endDate = Carbon::createFromFormat('Y-m', $dateInput)->endOfMonth();
+        $query = Transaction::with('member.user')
+                            ->orderBy('created_at', 'desc');
 
-                $transactions = Transaction::whereBetween('tgl_transaksi', [$startDate, $endDate])->get();
-            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
-                // Format YYYY-MM-DD → ambil satu tanggal
-                $selectedDate = Carbon::parse($dateInput)->format('Y-m-d');
-
-                $transactions = Transaction::whereDate('tgl_transaksi', $selectedDate)->get();
-            } else {
-                // Format tidak valid
-                return back()->withErrors(['date' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD atau YYYY-MM.']);
+        if ($startDateInput && $endDateInput) {
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $startDateInput) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $endDateInput)) {
+                return back()->withErrors(['date_range' => 'Format tanggal mulai atau tanggal akhir tidak valid. Gunakan YYYY-MM-DD.']);
             }
+            try {
+                $startDate = Carbon::parse($startDateInput)->startOfDay();
+                $endDate = Carbon::parse($endDateInput)->endOfDay();
+                if ($startDate->greaterThan($endDate)) {
+                    return back()->withErrors(['date_range' => 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.']);
+                }
+
+                $query->whereBetween('tgl_transaksi', [$startDate, $endDate]);
+
+            } catch (\Exception $e) {
+                return back()->withErrors(['date_range' => 'Terjadi kesalahan dalam memproses rentang tanggal.']);
+            } } elseif ($dateInput) {
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
+                return back()->withErrors(['date' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD.']);
+            }
+
+            try {
+                $selectedDate = Carbon::parse($dateInput)->format('Y-m-d');
+                $query->whereDate('tgl_transaksi', $selectedDate);
+            } catch (\Exception $e) {
+                return back()->withErrors(['date' => 'Terjadi kesalahan dalam memproses tanggal tunggal.']);
+            }
+
         } else {
-            // Default ke hari ini
             $selectedDate = Carbon::now()->format('Y-m-d');
-            $transactions = Transaction::whereDate('tgl_transaksi', $selectedDate)->get();
+            $query->whereDate('tgl_transaksi', $selectedDate);
         }
+
+        $transactions = $query->get();
 
         // dd($transactions);
         $totalDebit = $transactions

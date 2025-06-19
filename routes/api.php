@@ -38,6 +38,7 @@ Route::middleware('auth:api')->post('/logout', [LoginController::class, 'logout'
 
 // forgot password
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('email-reset');
+Route::post('/reset-password/{token}', [ResetPasswordController::class, 'store'])->name('password.update');
 
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -81,6 +82,7 @@ Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2'
 
     // kunjungan hari ini
     Route::get('/kunjungan-hari-ini', [CollectorController::class, 'kunjunganHariIni'])->name('kunjungan-hari-ini');
+    Route::get('/history', [CollectorController::class, 'history'])->name('history');
 });
 
 // notifikasi

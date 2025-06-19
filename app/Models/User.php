@@ -26,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'phone_number',
         'id_role',
         'is_active',
+        'avatar',
     ];
 
     protected $hidden = [

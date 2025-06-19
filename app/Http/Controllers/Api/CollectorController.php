@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoanResource;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\TransactionResource;
 use App\Models\Collector;
 use App\Models\Loan;
 use App\Models\Member;
@@ -100,13 +101,56 @@ class CollectorController extends Controller
     }
 
     // riwayat
-    public function history() {
+    public function history(Request $request) {
         $user = auth()->user();
         $collector = $user->collector;
 
-        $transaksi = Transaction::with('member.user', 'loan', 'installment', 'deposit')
-            ->where('id_collector', $collector->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $dateInput = $request->input('date'); // Untuk tanggal tunggal (YYYY-MM-DD)
+        $startDateInput = $request->input('start_date'); // Untuk awal range (YYYY-MM-DD)
+        $endDateInput = $request->input('end_date');     // Untuk akhir range (YYYY-MM-DD)
+
+        $query = Transaction::with('member.user')
+                            ->where('id_collector', $collector->id)
+                            ->orderBy('created_at', 'desc');
+
+        if ($startDateInput && $endDateInput) {
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $startDateInput) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $endDateInput)) {
+                return back()->withErrors(['date_range' => 'Format tanggal mulai atau tanggal akhir tidak valid. Gunakan YYYY-MM-DD.']);
+            }
+            try {
+                $startDate = Carbon::parse($startDateInput)->startOfDay();
+                $endDate = Carbon::parse($endDateInput)->endOfDay();
+                if ($startDate->greaterThan($endDate)) {
+                    return back()->withErrors(['date_range' => 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.']);
+                }
+
+                $query->whereBetween('tgl_transaksi', [$startDate, $endDate]);
+
+            } catch (\Exception $e) {
+                return back()->withErrors(['date_range' => 'Terjadi kesalahan dalam memproses rentang tanggal.']);
+            } } elseif ($dateInput) {
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
+                return back()->withErrors(['date' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD.']);
+            }
+
+            try {
+                $selectedDate = Carbon::parse($dateInput)->format('Y-m-d');
+                $query->whereDate('tgl_transaksi', $selectedDate);
+            } catch (\Exception $e) {
+                return back()->withErrors(['date' => 'Terjadi kesalahan dalam memproses tanggal tunggal.']);
+            }
+
+        } else {
+            $selectedDate = Carbon::now()->format('Y-m-d');
+            $query->whereDate('tgl_transaksi', $selectedDate);
+        }
+
+        $transactions = $query->get();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => TransactionResource::collection($transactions)->resolve()
+        ], 200);
+
     }
 }
