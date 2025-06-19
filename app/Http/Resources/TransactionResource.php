@@ -18,6 +18,8 @@ class TransactionResource extends JsonResource
             'member_name' => $this->member->user->name,
             'tgl_transaski' => $this->tgl_transaksi,
             'jumlah' => $this->jumlah,
+            'address' => $this->member->address,
+            'id_loan' => $this->id_loan
         ];
     }
 }

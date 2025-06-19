@@ -13,6 +13,7 @@ use App\Models\MemberCollector;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -152,5 +153,52 @@ class CollectorController extends Controller
             'data' => TransactionResource::collection($transactions)->resolve()
         ], 200);
 
+    }
+
+    public function kunjunganHariIni() {
+        $collector = auth()->user()->collector;
+        $assignedMemberIds = DB::table('member_collector')
+            ->where('id_collector', $collector->id)
+            ->pluck('id_member');
+
+        // Ambil data member lengkap + loans + installments
+        $members = Member::with(['loan.installments'])
+            ->whereIn('id', $assignedMemberIds)
+            ->get();
+
+        $hasilKunjungan = [];
+
+        foreach ($members as $member) {
+            foreach ($member->loan ?? [] as $loan) {
+                $installments = $loan->installments ?? collect();
+                $lastInstallment = $installments->sortByDesc('tgl_pembayaran')->first();
+                // dd($lastInstallment->toArray());
+
+                if ($lastInstallment) {
+                    $nextInstallmentDate = Carbon::parse($lastInstallment->tgl_pembayaran)->addMonth();
+                    // dd($nextInstallmentDate);
+
+                    if ($nextInstallmentDate->isToday()) {
+                        $hasilKunjungan[] = [
+                            'loan_id' => $loan->id,
+                            'nama_member' => $member->user->name,
+                            'alamat' => $member->address,
+                            'batas_pembayawan' => $nextInstallmentDate->format('d F Y'),
+                        ];
+                    }
+                }
+            }
+        }
+
+        if (empty($hasilKunjungan)) {
+            return response()->json([
+                'message' => 'Tidak ada kunjungan hari ini',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Kunjungan hari ini ditemukan',
+                'data' => $hasilKunjungan,
+            ], 200);
+        }
     }
 }
