@@ -7,97 +7,107 @@
 </div>
 
 <ion-content class="histories-page" fullscreen>
-  <!-- Content Section -->
   <div class="content-section">
-    <!-- Month Selector -->
-    <div class="month-selector">
-      <div class="dropdown-wrapper">
-        <select class="form-select">
-          <option value="">Pilih Bulan...</option>
-          <option value="jan">Januari 2025</option>
-          <option value="feb">Februari 2025</option>
-          <option value="mar">Maret 2025</option>
-          <option value="apr">April 2025</option>
-          <option value="may">Mei 2025</option>
-          <option value="jun">Juni 2025</option>
-        </select>
-        <ion-icon name="chevron-down" class="dropdown-icon"></ion-icon>
-      </div>
+    
+    <!-- Date Range Picker -->
+    <div class="date-range-picker">
+      <ion-item (click)="openDatePicker()" lines="none">
+        <ion-label position="stacked">Pilih Rentang Tanggal</ion-label>
+        <ion-input [value]="formattedDateRange" readonly></ion-input>
+        <ion-icon name="calendar-outline" class="calendar-icon" slot="end"></ion-icon>
+      </ion-item>
     </div>
+
+    <!-- Modal untuk Date Range Picker -->
+    <ion-modal [isOpen]="isDatePickerOpen" (didDismiss)="cancelDateSelection()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Pilih Rentang Tanggal</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="cancelDateSelection()">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+          <div class="date-picker-container">
+            <ion-item>
+              <ion-label position="stacked">Tanggal Mulai</ion-label>
+              <ion-datetime
+                presentation="date"
+                [value]="tempStartDate"
+                (ionChange)="onStartDateChange($event)"
+                max="2030-12-31"
+                min="2020-01-01"
+              ></ion-datetime>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="stacked">Tanggal Akhir</ion-label>
+              <ion-datetime
+                presentation="date"
+                [value]="tempEndDate"
+                (ionChange)="onEndDateChange($event)"
+                max="2030-12-31"
+                min="2020-01-01"
+              ></ion-datetime>
+            </ion-item>
+          </div>
+        </ion-content>
+        
+        <ion-footer>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancelDateSelection()" fill="clear">
+                Batal
+              </ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirmDateSelection()" fill="solid">
+                Selesai
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-footer>
+      </ng-template>
+    </ion-modal>
 
     <!-- Total Card -->
     <div class="total-card">
       <div class="card-content">
         <div class="card-info">
-          <h3>Total Setoran Bulan Desember</h3>
-          <div class="amount">Rp7.000.000,00</div>
+          <h3>Total Setoran (Sesuai Filter)</h3>
+          <div class="amount">{{ totalDeposit | currency:'IDR':'Rp':'1.0-0' }}</div>
         </div>
       </div>
     </div>
 
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && transactions.length === 0" class="empty-state">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <p>Tidak ada transaksi pada rentang tanggal ini.</p>
+    </div>
+
     <!-- Transaction List -->
-    <div class="transaction-list">
-      <div class="transaction-item">
+    <div *ngIf="!isLoading && transactions.length > 0" class="transaction-list">
+      <div *ngFor="let trx of transactions" class="transaction-item">
         <div class="user-avatar">
-          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
+          <img [src]="trx.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (trx.member_name ? trx.member_name.charAt(0).toUpperCase() : '?')" alt="Avatar" />
         </div>
         <div class="transaction-info">
-          <div class="user-name">Tsukasa Suou</div>
-          <div class="transaction-date">14 Mei 2025</div>
+          <div class="user-name">{{ trx.member_name }}</div>
+          <div class="transaction-date">{{ trx.tgl_transaksi | date:'d MMMM y' }}</div>
         </div>
         <div class="transaction-details">
-          <div class="amount">Rp200.000.000</div>
-          <div class="status tepat-waktu">
-            <span>Tepat Waktu</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="transaction-item">
-        <div class="user-avatar">
-          <img src="assets/avatar-alexander.jpg" alt="Alexander" />
-        </div>
-        <div class="transaction-info">
-          <div class="user-name">Alexander</div>
-          <div class="transaction-date">13 Mei 2025</div>
-        </div>
-        <div class="transaction-details">
-          <div class="amount">Rp500.000</div>
-          <div class="status overdue">
-            <span>Terlambat</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="transaction-item">
-        <div class="user-avatar">
-          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
-        </div>
-        <div class="transaction-info">
-          <div class="user-name">Tsukasa Suou</div>
-          <div class="transaction-date">14 Mei 2025</div>
-        </div>
-        <div class="transaction-details">
-          <div class="amount">Rp200.000.000</div>
-          <div class="status tepat-waktu">
-            <span>Tepat Waktu</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="transaction-item">
-        <div class="user-avatar">
-          <img src="assets/avatar.svg" alt="Tsukasa Suou" />
-        </div>
-        <div class="transaction-info">
-          <div class="user-name">Tsukasa Suou</div>
-          <div class="transaction-date">14 Mei 2025</div>
-        </div>
-        <div class="transaction-details">
-          <div class="amount">Rp200.000.000</div>
-          <div class="status tepat-waktu">
-            <span>Tepat Waktu</span>
-          </div>
+          <div class="amount">{{ trx.jumlah | currency:'IDR':'Rp':'1.0-0' }}</div>
         </div>
       </div>
     </div>

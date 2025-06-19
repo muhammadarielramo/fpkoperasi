@@ -2,60 +2,69 @@
 <app-header></app-header>
 
 <div class="title-bar">
-  <ion-button
-    class="back-button"
-    (click)="goBack()"
-    fill="clear"
-    size="small"
-  >
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
     <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
   </ion-button>
   <h3>Detail Transaksi</h3>
 </div>
 
 <ion-content class="transaction-details-page" fullscreen>
-  <div class="content-section">
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 50%;"></ion-spinner>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !transactionDetail" class="empty-state">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>Detail transaksi tidak dapat ditemukan.</p>
+  </div>
+  
+  <div *ngIf="!isLoading && transactionDetail" class="content-section">
     <!-- Transaction Card -->
     <div class="transaction-card">
-      <h4>Pinjaman Jangka Pendek</h4>
+      <!-- Asumsi InstallmentResource mengembalikan loan.jenis_pinjaman -->
+      <h4>{{ transactionDetail.loan?.jenis_pinjaman || 'Pembayaran Angsuran' }}</h4>
 
       <div class="transaction-details">
         <div class="detail-row">
-          <span class="label">Jumlah Pinjaman:</span>
-          <span class="value">Rp500.000</span>
+          <span class="label">Jumlah Pinjaman Awal:</span>
+          <!-- Asumsi InstallmentResource mengembalikan loan.jumlah_pinjaman -->
+          <span class="value">{{ transactionDetail.loan?.jumlah_pinjaman | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
         <div class="detail-row">
           <span class="label">Nominal Pembayaran:</span>
-          <span class="value">Rp200.000</span>
+          <span class="value">{{ transactionDetail.besar_ciclan | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
         <div class="detail-row row-tanggal">
           <span class="label">Tanggal Transaksi:</span>
           <div class="value">
-            <span class="date">14 Mei 2025</span>
-            <span class="time">10:32:12</span>
+            <span class="date">{{ transactionDetail.tgl_pembayaran | date:'d MMMM y' }}</span>
+            <span class="time">{{ transactionDetail.tgl_pembayaran | date:'HH:mm:ss' }}</span>
           </div>
         </div>
 
         <div class="detail-row">
           <span class="label">Angsuran Ke:</span>
-          <span class="value">Ke-2</span>
+          <span class="value">Ke-{{ transactionDetail.cicilan_ke }}</span>
         </div>
 
         <div class="detail-row">
           <span class="label">Sisa Hutang:</span>
-          <span class="value">Rp100.000</span>
+          <!-- Sisa hutang kemungkinan perlu dihitung atau dikirim dari API -->
+          <span class="value">{{ transactionDetail.sisa_hutang | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
         <div class="detail-row">
           <span class="label">Status Pembayaran:</span>
-          <span class="status-badge">Tepat Waktu</span>
+          <span class="status-badge">{{ transactionDetail.status }}</span>
         </div>
 
         <div class="detail-row">
           <span class="label">Lokasi Pembayaran:</span>
-          <ion-button class="location-btn" size="small" shape="round">
+          <ion-button class="location-btn" size="small" shape="round" (click)="openMap()" [disabled]="!transactionDetail.location?.latitude">
             <ion-icon name="location-outline" slot="start"></ion-icon>
             Lihat di Maps
           </ion-button>
@@ -65,7 +74,7 @@
 
     <!-- Download Button -->
     <div class="download-section">
-      <ion-button class="download-btn" expand="block" shape="round">
+      <ion-button class="download-btn" expand="block" shape="round" (click)="downloadSlip()">
         <ion-icon name="download-outline" slot="start"></ion-icon>
         Unduh Slip Pembayaran
       </ion-button>

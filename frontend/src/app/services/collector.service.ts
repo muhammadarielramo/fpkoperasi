@@ -13,6 +13,21 @@ export class CollectorService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
+   * Mengambil riwayat transaksi collector berdasarkan rentang tanggal.
+   * @param startDate Tanggal mulai (format YYYY-MM-DD).
+   * @param endDate Tanggal akhir (format YYYY-MM-DD).
+   */
+  async getHistory(startDate: string, endDate: string): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    let params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    
+    // Asumsi endpoint adalah /kolektor/riwayat
+    return this.http.get(`${this.apiUrl}/kolektor/history`, { headers, params });
+  }
+
+  /**
    * Mengambil detail spesifik dari seorang anggota.
    */
   async getMemberDetails(memberId: number): Promise<Observable<any>> {

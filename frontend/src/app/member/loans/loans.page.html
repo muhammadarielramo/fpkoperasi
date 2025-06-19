@@ -63,7 +63,6 @@
               'status-ditolak': loan.status === 'Ditolak',
               'status-diajukan': loan.status === 'Diajukan' || loan.status === 'Menunggu Persetujuan'
             }"
-            [routerLink]="(loan.status === 'Diterima' || loan.status === 'Lunas') ? ['/member/loans/billing-details', loan.id] : null"
             >{{ loan.status }}</span
           >
         </div>

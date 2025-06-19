@@ -2,79 +2,40 @@
 <app-header></app-header>
 
 <ion-content class="notifications-page" fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 50%;"></ion-spinner>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && notifications.length === 0" class="empty-state">
+    <ion-icon name="notifications-off-outline"></ion-icon>
+    <p>Tidak ada notifikasi untuk Anda saat ini.</p>
+  </div>
+
   <!-- Notifications Content -->
-  <div class="notifications-content">
-    <!-- Konfirmasi Transaksi Pembayaran Tagihan -->
-    <div class="notification-card">
-      <div class="notification-icon-wrapper"></div>
-      <div class="notification-content">
-        <h3 class="notification-title">
-          Konfirmasi Transaksi Pembayaran Tagihan
-        </h3>
-        <p class="notification-description">
-          Transaksi berhasil! Anda telah membayar tagihan pinjaman jangka pendek
-          sebesar Rp100.000
-        </p>
-        <div class="notification-time">14 Mei 2025 - 9:00:45 WIB</div>
+  <div *ngIf="!isLoading && notifications.length > 0" class="notifications-content">
+    <!-- Gunakan *ngFor untuk mengulang data notifikasi -->
+    <div 
+      *ngFor="let notif of notifications" 
+      class="notification-card"
+      (click)="onNotificationClick(notif)"
+      [ngClass]="{'unread': notif.read_at === null}">
+      
+      <div class="notification-icon-wrapper">
+        <!-- Anda bisa menambahkan ikon dinamis di sini berdasarkan notif.type jika ada -->
+        <ion-icon name="mail-unread-outline" *ngIf="notif.read_at === null"></ion-icon>
+        <ion-icon name="mail-open-outline" *ngIf="notif.read_at !== null"></ion-icon>
       </div>
-      <div class="notification-arrow">›</div>
-    </div>
-
-    <!-- Konfirmasi Transaksi -->
-    <div class="notification-card">
-      <div class="notification-icon-wrapper"></div>
       <div class="notification-content">
-        <h3 class="notification-title">Konfirmasi Transaksi</h3>
-        <p class="notification-description">
-          Transaksi berhasil! Anda telah melakukan Simpanan Sukarela sebesar
-          Rp100.000 pada 8 Mei 2025. Saldo simpanan anda saat ini adalah
-          Rp2.000.000
-        </p>
-        <div class="notification-time">8 Mei 2025 - 19:30:12 WIB</div>
-      </div>
-      <div class="notification-arrow">›</div>
-    </div>
-
-    <!-- Notifikasi Pencairan Dana -->
-    <div class="notification-card">
-      <div class="notification-icon-wrapper"></div>
-      <div class="notification-content">
-        <h3 class="notification-title">Notifikasi Pencairan Dana!</h3>
-        <p class="notification-description">
-          Dana pinjaman sebesar Rp500.000 telah tersedia. Silakan hubungi
-          kolektor Anda untuk pencairan.
-        </p>
-        <div class="notification-time">2 Mei 2025 - 12:05:40 WIB</div>
-      </div>
-      <div class="notification-arrow">›</div>
-    </div>
-
-    <!-- Informasi Umum Koperasi -->
-    <div class="notification-card">
-      <div class="notification-icon-wrapper"></div>
-      <div class="notification-content">
-        <h3 class="notification-title">Informasi Umum Koperasi!</h3>
-        <p class="notification-description">
-          Pemberitahuan: Rapat Anggota Tahunan (RAT) akan dilaksanakan pada 15
-          Maret 2025 pukul 10.00 WIB di Aula Koperasi. Kehadiran Anda sangat
-          diharapkan.
-        </p>
-        <div class="notification-time">13 April 2025 - 3:00:45 WIB</div>
-      </div>
-      <div class="notification-arrow">›</div>
-    </div>
-
-    <!-- Pengingat Jatuh Tempo Pembayaran -->
-    <div class="notification-card">
-      <div class="notification-icon-wrapper"></div>
-      <div class="notification-content">
-        <h3 class="notification-title">Pengingat Jatuh Tempo Pembayaran!</h3>
-        <p class="notification-description">
-          Yth. Bapak/Ibu (nama Anggota), angsuran pinjaman Anda sebesar
-          Rp500.000 akan jatuh tempo pada 10 April 2025. Mohon lakukan
-          pembayaran tepat waktu untuk menghindari denda keterlambatan.
-        </p>
-        <div class="notification-time">5 maret 2025 - 8:59:59 WIB</div>
+        <!-- Asumsi API mengembalikan 'title' dan 'body' -->
+        <h3 class="notification-title">{{ notif.title }}</h3>
+        <p class="notification-description">{{ notif.body }}</p>
+        <div class="notification-time">{{ notif.created_at | date:'d MMMM y - HH:mm' }}</div>
       </div>
       <div class="notification-arrow">›</div>
     </div>

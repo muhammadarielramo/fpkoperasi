@@ -5,12 +5,12 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransactionService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   /**
    * Mengambil riwayat transaksi.
@@ -31,14 +31,15 @@ export class TransactionService {
    */
   async getDetail(transactionId: number): Promise<Observable<any>> {
     const headers = await this.createAuthHeader();
-    const params = new HttpParams().set('id', transactionId.toString());
-    return this.http.get(`${this.apiUrl}/riwayat/detail`, { headers, params });
+    return this.http.get(`${this.apiUrl}/riwayat/detail/${transactionId}`, {
+      headers,
+    });
   }
 
   private async createAuthHeader(): Promise<HttpHeaders> {
     const token = await this.authService.getToken();
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 }
