@@ -23,7 +23,8 @@ export class SlipService {
     
     // Endpoint ini tidak memerlukan otentikasi berdasarkan routes/api.php Anda,
     // tetapi mengirimkannya tetap merupakan praktik yang baik.
-    return this.http.get(`${this.apiUrl}/unduh/slip`, { headers, params });
+    return this.http.get(`${this.apiUrl}/unduh/slip/${transactionId}`, { headers });
+
   }
 
   private async createAuthHeader(): Promise<HttpHeaders> {

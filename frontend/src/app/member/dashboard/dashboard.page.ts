@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { DepositService } from 'src/app/services/deposit.service';
 import { LoanService } from 'src/app/services/loan.service';
 import { register } from 'swiper/element/bundle';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 // Daftarkan elemen swiper
 register();
@@ -31,7 +32,15 @@ export class DashboardPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.requestNotificationPermission();
     this.loadDashboardData();
+  }
+
+  async requestNotificationPermission() {
+    const permissions = await LocalNotifications.checkPermissions();
+    if (permissions.display !== 'granted') {
+      await LocalNotifications.requestPermissions();
+    }
   }
 
   async loadDashboardData(event?: any) {

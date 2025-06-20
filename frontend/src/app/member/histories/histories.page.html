@@ -59,8 +59,9 @@
                 {{ trx.jumlah | currency:'IDR':'Rp':'1.0-0' }}
               </span></p>
             </div>
-            <!-- Kirim ID transaksi ke halaman detail -->
-            <a [routerLink]="['/member/histories/transaction-details', trx.id]">Lihat detail transaksi</a>
+            <!-- PERBAIKAN: Gunakan *ngIf untuk menyembunyikan link pada transaksi simpanan -->
+            <!-- Tautan ini hanya akan muncul jika transaksi BUKAN simpanan (yaitu, tidak memiliki id_deposit) -->
+            <a *ngIf="!trx.id_deposit" [routerLink]="['/member/histories/transaction-details', trx.id]">Lihat detail transaksi</a>
           </div>
         </div>
       </div>
