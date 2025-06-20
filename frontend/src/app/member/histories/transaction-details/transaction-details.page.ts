@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, Platform } from '@ionic/angular';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { SlipService } from 'src/app/services/slip.service';
 import { Browser } from '@capacitor/browser';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   standalone: false,
@@ -23,7 +25,8 @@ export class TransactionDetailsPage implements OnInit {
     private transactionService: TransactionService,
     private slipService: SlipService,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
@@ -56,16 +59,6 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   /**
-   * Helper untuk menentukan judul halaman secara dinamis.
-   */
-  getPageTitle(): string {
-    if (!this.transactionDetail) return 'Detail Transaksi';
-    // Gunakan id_deposit dari respons asli untuk menentukan jenis
-    if (this.transactionDetail.id_deposit) return 'Detail Setoran Simpanan';
-    return 'Detail Pembayaran Pinjaman';
-  }
-  
-  /**
    * Helper untuk mendapatkan nominal transaksi yang benar.
    */
   getNominalValue(): number {
@@ -79,12 +72,10 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   async openMap() {
-    const lat = this.transactionDetail?.location?.latitude;
-    const lon = this.transactionDetail?.location?.longitude;
+    const coords = this.transactionDetail?.lokasi?.koordinat;
 
-    if (lat && lon) {
-      // Gunakan URL yang lebih umum untuk membuka aplikasi peta di seluler
-      const mapUrl = `https://maps.google.com/?q=${lat},${lon}`;
+    if (coords && coords.latitude && coords.longitude) {
+      const mapUrl = `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`;
       await Browser.open({ url: mapUrl });
     } else {
       this.presentToast('Data lokasi tidak tersedia untuk transaksi ini.', 'warning');
@@ -92,23 +83,65 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   async downloadSlip() {
-    const loading = await this.loadingCtrl.create({ message: 'Membuat slip...' });
+    const loading = await this.loadingCtrl.create({
+      message: 'Mempersiapkan slip...',
+    });
     await loading.present();
 
-    (await this.slipService.generateSlip(this.transactionId)).subscribe({
-      next: (res: any) => {
-        loading.dismiss();
-        if (res && res.slip_url) {
-          window.open(res.slip_url, '_blank');
-        } else {
-          this.presentToast('Gagal mendapatkan URL slip.');
-        }
-      },
-      error: (err: any) => {
-        loading.dismiss();
-        this.presentToast('Gagal membuat slip pembayaran.');
-      },
-    });
+    try {
+      const res = await (await this.slipService.generateSlip(this.transactionId)).toPromise();
+      if (!res || !res.slip_url) {
+        throw new Error('URL slip tidak valid.');
+      }
+
+      const fileName = `slip-pembayaran-${this.transactionId}-${Date.now()}.pdf`;
+      await Filesystem.downloadFile({
+        path: fileName,
+        url: res.slip_url,
+        directory: Directory.Documents,
+      });
+      
+      loading.dismiss();
+      
+      // Tetap panggil kedua fungsi ini
+      await this.showDownloadNotification(fileName); // Ini akan mengirim notifikasi jika diizinkan
+      this.presentToast(`Slip berhasil diunduh!`, 'success'); // Ini akan selalu menampilkan pesan
+
+    } catch (error: any) {
+      loading.dismiss();
+      // PERBAIKAN: Cek tipe error untuk menampilkan pesan yang lebih spesifik
+      let errorMessage = 'Gagal mengunduh slip. Silakan coba lagi.';
+      
+      // Error jaringan biasanya tidak memiliki status atau statusnya 0
+      if (error.status === 0 || error.name === 'HttpErrorResponse') {
+        errorMessage = 'Gagal mengunduh slip. Periksa koneksi internet Anda.';
+      } else if (error.message === 'URL slip tidak valid.') {
+        errorMessage = 'Tidak dapat menemukan URL slip dari server.';
+      }
+      
+      this.presentToast(errorMessage, 'danger');
+    }
+  }
+
+  async showDownloadNotification(fileName: string) {
+    const permissionStatus = await LocalNotifications.checkPermissions();
+    if (permissionStatus.display === 'granted') {
+      
+      // PERBAIKAN: Buat ID unik yang aman untuk integer 32-bit
+      const uniqueId = parseInt(Date.now().toString().substring(5));
+
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: "Unduhan Selesai",
+            body: `File ${fileName} telah berhasil disimpan.`,
+            id: uniqueId, // Gunakan ID yang sudah aman
+            schedule: { at: new Date(Date.now() + 1000) },
+            smallIcon: 'res://drawable/ic_stat_name', // Pastikan ikon ini ada
+          }
+        ]
+      });
+    }
   }
 
   async presentToast(message: string, color: string = 'danger') {
