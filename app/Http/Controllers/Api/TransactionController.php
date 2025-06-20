@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InstallmentResource;
+use App\Models\Installment;
 use App\Models\Member;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -38,36 +39,61 @@ class TransactionController extends Controller
             return response()->json([
                 'message' => 'Transaksi tidak ditemukan',
             ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Transaksi berhasil ditemukan',
+                'data' => $transactions,
+                ], 200);
+            }
         }
 
-        return response()->json([
-            'message' => 'Transaksi berhasil ditemukan',
-            'data' => $transactions->values(),
-            ], 200);
-        }
     }
 
-    public function detail ($id) {
+    public function detail($id) {
         $user = auth()->user();
         $member = $user->member;
 
-        $transactions = $member->transactions()->with('installments.loan')->get();
+        // Cari transaksi milik member tersebut dengan ID yang sudah didapat
+        $transaction = Transaction::with(['installments'])->find($id);
 
-            $transaction = $transactions->where('id', $id)->first();
-            if($transaction) {
+        if (!$transaction) {
+            return response()->json(
+                ['message' => 'Transaksi tidak ditemukan.'],
+                200);
+        }
 
-                $instalments = $transaction->installments;
-                return response()->json([
-                    'message' => 'Transaksi berhasil ditemukan',
-                    'data' => new InstallmentResource($instalments),
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'Transaksi tidak ditemukan',
-                ], 200);
-            }
+        $installment_id = $transaction->installments->id;
+
+        $installment = Installment::with([
+                            'transaction.loan',
+                            'transaction.location'
+                        ])->findOrFail($installment_id);
+
+        return response()->json([
+            'message' => 'Transaksi berhasil ditemukan',
+            'data' => new InstallmentResource($installment),
+        ], 200);
 
 
+
+        // // PERBAIKAN: Cek apakah relasi 'installments' ada dan tidak kosong
+        // if ($transaction->installments && !$transaction->installments->isNotEmpty()) {
+        //     // Jika ada, ambil angsuran pertama
+        //     $installment = $transaction->installments->first();
+
+        //     // Berikan SATU objek tunggal ke dalam resource, bukan koleksi.
+        //     return response()->json([
+        //         'message' => 'Transaksi berhasil ditemukan',
+        //         'data' => new InstallmentResource($installment),
+        //     ], 200);
+        // } else {
+        //     // Jika tidak ada data angsuran terkait sama sekali,
+        //     // kembalikan data transaksi dasarnya saja
+        //      return response()->json([
+        //         'message' => 'Detail angsuran tidak ditemukan untuk transaksi ini.',
+        //         'data' => $transaction
+        //     ], 200);
+        // }
     }
 
     // simpanan dari kolektor

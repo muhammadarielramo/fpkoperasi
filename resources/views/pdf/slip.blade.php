@@ -15,11 +15,11 @@
     <div class="title">Slip Pembayaran</div>
 
     <div class="box">
-        <p><span class="label">Nama Anggota:</span> {{ $installment->loan->member->user->name }}</p>
-        <p><span class="label">ID Pinjaman:</span> {{ $installment->id_loan ?? '-' }}</p>
-        <p><span class="label">Tanggal Pembayaran:</span> {{ $installment->tgl_pembayaran->format('d-m-Y') }}</p>
-        <p><span class="label">Nominal:</span> Rp {{ number_format($installment->besar_ciclan, 0, ',', '.') }}</p>
-        <p><span class="label">Sisa Hutang:</span> Rp {{ number_format($remainingDebt, 0, ',', '.') }}</p>
+        <p><span class="label">Nama Anggota:</span> {{ $data['nama'] }}</p>
+        <p><span class="label">ID Pinjaman:</span> {{ $data['id_pinjaman'] ?? '-' }}</p>
+        <p><span class="label">Tanggal Pembayaran:</span> {{ \Carbon\Carbon::parse($data['tgl_pembayaran'])->format('d-m-Y') }}</p>
+        <p><span class="label">Nominal:</span> Rp {{ number_format((float) $data['jumlah'], 0, ',', '.') }}</p>
+        <p><span class="label">Sisa Hutang:</span> Rp {{ number_format((float) $data['sisa_hutang'], 0, ',', '.') }}</p>
     </div>
 
     <div class="footer">

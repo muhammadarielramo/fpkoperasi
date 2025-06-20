@@ -32,6 +32,6 @@ class Installment extends Model
 
     public function transaction()
     {
-        return $this->hasMany(Transaction::class, 'id_installment');
+        return $this->hasOne(Transaction::class, 'id_installment');
     }
 }

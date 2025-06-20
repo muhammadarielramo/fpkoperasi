@@ -14,31 +14,35 @@ class InstallmentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $loan = $this->loan;
-        $totalCicilan = $loan->installments->sum('besar_ciclan')?? 0;
+        $transaction = $this->transaction;
+        $loan = $transaction?->loan;
+        $location = $transaction?->location;
 
-        $sisaPinjaman = $loan?->jumlah_pinjaman ? ($loan->jumlah_pinjaman - $totalCicilan) : null;
+        $loanAmount = $loan?->jumlah_pinjaman ?? 0;
 
-        return [
-            'id' => $this->id,
-            'installment' => [
-                'tgl_pembayaran' => $this->tgl_pembayaran ?? null,
-                'cicilan_ke' => $this->cicilan_ke ?? null,
-                'nominal_pembayaran' => $this->besar_ciclan ?? null,
-                'status' => $this->status ?? null
-            ],
-            'loan' => [
-                'jumlah_pinjaman' => $loan->jumlah_pinjaman ?? null
-            ],
-            'sisa_pinjaman' => $sisaPinjaman
-        ];
+        $totalPaid = \App\Models\Installment::whereHas('transaction',
+                    function ($query) use ($loan) {
+                    $query->where('id_loan', $loan->id);
+        })->sum('besar_ciclan');
+
+        $sisaHutang = max(0, $loanAmount - $totalPaid);
+
+
+    return [
+        'jumlah_pinjaman' => $loan ? $loan->jumlah_pinjaman : null,
+        'nominal_pembayaran' => $this->besar_ciclan,
+        'tanggal_transaksi' => $transaction?->tgl_transaksi,
+        'waktu_transaksi' => optional($transaction?->created_at)->format('H:i:s'),
+        'angsuran_ke' => 'Ke-' . $this->cicilan_ke,
+        'sisa_hutang' => $sisaHutang,
+        'status_pembayaran' => $this->status, // misal: 'Tepat Waktu', 'Terlambat'
+        'lokasi' => [
+            'nama' => $location?->nama_lokasi,
+            'koordinat' => $location ? ['lat' => $location->lat, 'lng' => $location->lng] : null,
+            'link_maps' => $location ? 'https://maps.google.com/?q=' . $location->lat . ',' . $location->lng : null
+        ]
+    ];
     }
 
-    protected $installments = collect();
-    public function withInstallments($installments) {
-        $this->installments = $installments;
-        return $this;
-    }
 
-    
 }

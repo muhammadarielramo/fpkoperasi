@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::get('/unduh/slip', [SlipController::class, 'generate']);
+Route::get('/unduh/slip/{id}', [SlipController::class, 'generate']);
 
 // kolektor
 Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2']], function () {
