@@ -23,47 +23,45 @@
   <div *ngIf="!isLoading && transactionDetail" class="content-section">
     <!-- Transaction Card -->
     <div class="transaction-card">
-      <!-- Asumsi InstallmentResource mengembalikan loan.jenis_pinjaman -->
-      <h4>{{ transactionDetail.loan?.jenis_pinjaman || 'Pembayaran Angsuran' }}</h4>
+      <h4>{{ getPageTitle() }}</h4>
 
       <div class="transaction-details">
-        <div class="detail-row">
+        
+        <div *ngIf="transactionDetail.loan" class="detail-row">
           <span class="label">Jumlah Pinjaman Awal:</span>
-          <!-- Asumsi InstallmentResource mengembalikan loan.jumlah_pinjaman -->
           <span class="value">{{ transactionDetail.loan?.jumlah_pinjaman | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
         <div class="detail-row">
-          <span class="label">Nominal Pembayaran:</span>
-          <span class="value">{{ transactionDetail.besar_ciclan | currency:'IDR':'Rp':'1.0-0' }}</span>
+          <span class="label">Nominal Transaksi:</span>
+          <span class="value">{{ getNominalValue() | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
         <div class="detail-row row-tanggal">
           <span class="label">Tanggal Transaksi:</span>
           <div class="value">
-            <span class="date">{{ transactionDetail.tgl_pembayaran | date:'d MMMM y' }}</span>
-            <span class="time">{{ transactionDetail.tgl_pembayaran | date:'HH:mm:ss' }}</span>
+            <span class="date">{{ transactionDetail.tgl_transaksi | date:'d MMMM y' }}</span>
+            <span class="time">{{ transactionDetail.created_at | date:'HH:mm:ss' }}</span>
           </div>
         </div>
-
-        <div class="detail-row">
+        
+        <div *ngIf="transactionDetail.cicilan_ke" class="detail-row">
           <span class="label">Angsuran Ke:</span>
           <span class="value">Ke-{{ transactionDetail.cicilan_ke }}</span>
         </div>
 
-        <div class="detail-row">
+        <div *ngIf="transactionDetail.sisa_hutang" class="detail-row">
           <span class="label">Sisa Hutang:</span>
-          <!-- Sisa hutang kemungkinan perlu dihitung atau dikirim dari API -->
           <span class="value">{{ transactionDetail.sisa_hutang | currency:'IDR':'Rp':'1.0-0' }}</span>
         </div>
 
-        <div class="detail-row">
+        <div *ngIf="transactionDetail.status" class="detail-row">
           <span class="label">Status Pembayaran:</span>
           <span class="status-badge">{{ transactionDetail.status }}</span>
         </div>
 
         <div class="detail-row">
-          <span class="label">Lokasi Pembayaran:</span>
+          <span class="label">Lokasi Transaksi:</span>
           <ion-button class="location-btn" size="small" shape="round" (click)="openMap()" [disabled]="!transactionDetail.location?.latitude">
             <ion-icon name="location-outline" slot="start"></ion-icon>
             Lihat di Maps
@@ -72,7 +70,7 @@
       </div>
     </div>
 
-    <!-- Download Button -->
+    <!-- PERBAIKAN: Tombol unduh sekarang selalu tampil -->
     <div class="download-section">
       <ion-button class="download-btn" expand="block" shape="round" (click)="downloadSlip()">
         <ion-icon name="download-outline" slot="start"></ion-icon>

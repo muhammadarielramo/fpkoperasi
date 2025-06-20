@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { SlipService } from 'src/app/services/slip.service';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   standalone: false,
@@ -41,7 +42,6 @@ export class TransactionDetailsPage implements OnInit {
     (await this.transactionService.getDetail(this.transactionId)).subscribe({
       next: (res: any) => {
         if (res && res.data) {
-          // Asumsi backend mengembalikan struktur data yang sudah diolah
           this.transactionDetail = res.data;
         } else {
           this.presentToast('Gagal memuat detail transaksi.');
@@ -55,25 +55,44 @@ export class TransactionDetailsPage implements OnInit {
     });
   }
 
+  /**
+   * Helper untuk menentukan judul halaman secara dinamis.
+   */
+  getPageTitle(): string {
+    if (!this.transactionDetail) return 'Detail Transaksi';
+    // Gunakan id_deposit dari respons asli untuk menentukan jenis
+    if (this.transactionDetail.id_deposit) return 'Detail Setoran Simpanan';
+    return 'Detail Pembayaran Pinjaman';
+  }
+  
+  /**
+   * Helper untuk mendapatkan nominal transaksi yang benar.
+   */
+  getNominalValue(): number {
+    if (!this.transactionDetail) return 0;
+    // Gunakan 'jumlah' dari transaksi jika 'besar_ciclan' tidak ada
+    return this.transactionDetail.besar_ciclan || this.transactionDetail.jumlah || 0;
+  }
+  
   goBack() {
     this.location.back();
   }
 
-  openMap() {
-    const lat = this.transactionDetail?.lokasi?.latitude;
-    const lon = this.transactionDetail?.lokasi?.longitude;
+  async openMap() {
+    const lat = this.transactionDetail?.location?.latitude;
+    const lon = this.transactionDetail?.location?.longitude;
 
     if (lat && lon) {
-      window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank');
+      // Gunakan URL yang lebih umum untuk membuka aplikasi peta di seluler
+      const mapUrl = `https://maps.google.com/?q=${lat},${lon}`;
+      await Browser.open({ url: mapUrl });
     } else {
       this.presentToast('Data lokasi tidak tersedia untuk transaksi ini.', 'warning');
     }
   }
 
   async downloadSlip() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Membuat slip...',
-    });
+    const loading = await this.loadingCtrl.create({ message: 'Membuat slip...' });
     await loading.present();
 
     (await this.slipService.generateSlip(this.transactionId)).subscribe({
