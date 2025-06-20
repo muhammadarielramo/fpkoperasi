@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { TransactionService } from 'src/app/services/transaction.service';
-import { forkJoin, of, from } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   standalone: false,
@@ -47,12 +47,17 @@ export class HistoriesPage implements OnInit {
       const observables = await Promise.all(observablePromises);
 
       forkJoin(
-        observables.map(obs => obs.pipe(catchError(() => of({ data: [] }))))
+        observables.map(obs => obs.pipe(catchError(() => of({ data: {} })))) // Harapkan objek
       ).subscribe((results: any[]) => {
-          // PERBAIKAN: Ganti .flatMap() dengan .reduce() untuk meratakan array
+          // PERBAIKAN: Ubah objek menjadi array sebelum digabungkan
           this.transactions = results
-            .reduce((accumulator: any[], currentResponse: any) => {
-              return accumulator.concat(currentResponse.data || []);
+            .reduce((acc: any[], res: any) => {
+              // Cek jika data adalah objek dan bukan null
+              if (res && res.data && typeof res.data === 'object' && res.data !== null) {
+                // Ambil semua nilai dari objek dan tambahkan ke akumulator
+                return acc.concat(Object.values(res.data));
+              }
+              return acc;
             }, [])
             .sort((a: any, b: any) => new Date(b.tgl_transaksi).getTime() - new Date(a.tgl_transaksi).getTime());
           
@@ -72,15 +77,9 @@ export class HistoriesPage implements OnInit {
   }
 
   getTransactionTitle(transaction: any): string {
-    if (transaction.id_deposit) {
-      return `Simpanan`;
-    }
-    if (transaction.id_installment) {
-      return 'Pembayaran Pinjaman';
-    }
-    if (transaction.id_loan) {
-      return 'Pencairan Pinjaman';
-    }
+    if (transaction.id_deposit) return `Simpanan`;
+    if (transaction.id_installment) return 'Pembayaran Pinjaman';
+    if (transaction.id_loan) return 'Pencairan Pinjaman';
     return 'Transaksi';
   }
 

@@ -33,7 +33,7 @@ export class DepositSavingsPage implements OnInit {
     this.depositForm = this.formBuilder.group({
       tgl_simpanan: ['', Validators.required],
       nominal: ['', [Validators.required, Validators.min(1000)]],
-      jenis_simpanan: ['pokok', Validators.required],
+      jenis_simpanan: ['wajib', Validators.required],
     });
   }
 
