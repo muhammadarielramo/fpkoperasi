@@ -1,62 +1,75 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from './guards/role.guard';
+import { AuthGuard } from './guards/auth.guard';
+// LocationGuard akan kita terapkan di dalam routing module anak jika diperlukan, bukan di sini.
 
 const routes: Routes = [
+  // --- Rute Publik (Tidak memerlukan login) ---
   {
     path: 'splash',
-    loadChildren: () => import('./splash/splash.module').then(m => m.SplashPageModule)
+    loadChildren: () =>
+      import('./splash/splash.module').then((m) => m.SplashPageModule),
   },
   {
     path: '',
     redirectTo: 'splash',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
+    loadChildren: () =>
+      import('./register/register.module').then((m) => m.RegisterPageModule),
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+    path: 'login/forgot-password',
+    loadChildren: () =>
+      import('./login/forgot-password/forgot-password.module').then(
+        (m) => m.ForgotPasswordPageModule
+      ),
   },
+
+  // --- Rute Induk Member ---
+  // Guard hanya diterapkan di sini. Semua halaman di dalam /member akan dilindungi.
   {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsPageModule)
+    path: 'member',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 3 }, // Hanya izinkan Member (sebagai ANGKA)
+    loadChildren: () =>
+      import('./member/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
+
+  // --- Rute Induk Collector ---
+  // Guard hanya diterapkan di sini. Semua halaman di dalam /collector akan dilindungi.
   {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    path: 'collector',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 2 }, // Hanya izinkan Collector (sebagai ANGKA)
+    loadChildren: () =>
+      import('./collector/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
-  {
-    path: 'payments',
-    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
-  },
-  {
-    path: 'loans',
-    loadChildren: () => import('./loans/loans.module').then( m => m.LoansPageModule)
-  },
-  {
-    path: 'histories',
-    loadChildren: () => import('./histories/histories.module').then( m => m.HistoriesPageModule)
-  },
-  {
-    path: 'forgot-password',
-    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  }
+
+  // PERHATIAN: Semua deklarasi rute anak seperti 'member/dashboard', 
+  // 'collector/savings/deposit-savings/:id', dll. TELAH DIHAPUS dari file ini.
+  // Rute-rute tersebut harus didefinisikan di dalam file routing
+  // yang dimuat oleh `member/tabs/tabs.module.ts` dan `collector/tabs/tabs.module.ts`.
+  // Di sanalah Anda akan menerapkan LocationGuard jika perlu.
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

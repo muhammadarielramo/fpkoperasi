@@ -1,0 +1,28 @@
+<ion-header [style.padding-bottom]="hasExtraPadding ? '1.5rem' : null">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+    </ion-buttons>
+
+    <ion-title></ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" class="btn-logout" shape="round" size="small">
+        Logout
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <div class="user-info">
+    <div>
+      <h2>Hello, {{ userName }}!</h2>
+      <p>{{ userRole }}</p>
+    </div>
+    <div class="notification-icon" [routerLink]="getNotificationRoute()">
+      <ion-icon [name]="getNotificationIconName()"></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" class="notif-badge" color="danger">
+        {{ notificationCount }}
+      </ion-badge>
+    </div>
+  </div>
+</ion-header>

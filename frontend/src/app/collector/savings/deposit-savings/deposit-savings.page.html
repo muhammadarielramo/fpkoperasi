@@ -1,0 +1,84 @@
+<!-- Header -->
+<app-header></app-header>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">
+    <img src="assets/file-input.svg" alt="File Input" class="btn-icon" />
+    Setor Simpanan Anggota
+  </div>
+</div>
+
+<div class="back-button-container">
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="deposit-savings-page" fullscreen>
+  <!-- Content Section -->
+  <div class="content-section">
+    <form [formGroup]="depositForm" (ngSubmit)="submitDeposit()">
+      <!-- Member Name -->
+      <div class="form-group">
+        <input type="text" class="form-input" [value]="memberName" readonly />
+      </div>
+
+      <!-- Tanggal Simpanan -->
+      <div class="form-group">
+        <label class="form-label">Tanggal Simpanan</label>
+        <div class="input-container" (click)="openDatePicker()">
+          <ion-input
+            class="custom-outline date-input"
+            readonly
+            formControlName="tgl_simpanan"
+            placeholder="Pilih tanggal..."
+          >
+            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
+          </ion-input>
+          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+            <ng-template>
+              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </div>
+      </div>
+
+      <!-- Deposit Amount -->
+      <div class="form-group">
+        <label class="form-label">Nominal</label>
+        <div class="currency-input-wrapper">
+          <span class="currency-prefix">Rp</span>
+          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="nominal" />
+        </div>
+      </div>
+
+      <!-- Savings Type -->
+      <div class="form-group savings-type-section">
+        <label class="form-label">Jenis Simpanan</label>
+        <select class="form-input savings-dropdown" formControlName="jenis_simpanan">
+          <option value="wajib">Simpanan Wajib</option>
+          <option value="pokok">Simpanan Pokok</option>
+          <option value="sukarela">Simpanan Sukarela</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <ion-button type="submit" class="btn-submit" fill="solid" [disabled]="depositForm.invalid">
+          Submit
+        </ion-button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Deposit Success Modal -->
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showDepositSuccess}">
+    <div class="verification-modal">
+      <div class="deposit-success-icon">
+        <img src="assets/checkmark.svg" alt="Success" />
+      </div>
+      <h2>SETOR SIMPANAN BERHASIL!</h2>
+    </div>
+  </div>
+</ion-content>

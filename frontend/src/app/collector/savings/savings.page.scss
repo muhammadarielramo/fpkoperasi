@@ -1,0 +1,157 @@
+.savings-page {
+  --background: #ffffff;
+  overflow: hidden;
+}
+
+.title-section {
+  margin-top: -20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+
+  .search-title {
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      font-size: 1.2rem;
+      color: #999;
+      z-index: 2;
+    }
+
+    .search-input {
+      width: 100%;
+      border: none !important;
+      outline: none !important;
+      background: transparent;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #646464;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: none !important;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      text-indent: -1.5rem;
+
+      &:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        text-indent: -1.5rem;
+      }
+
+      &::placeholder {
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        color: #646464;
+        text-indent: -1.5rem;
+      }
+
+      &::-webkit-input-placeholder {
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        color: #646464;
+        text-indent: -1.5rem;
+      }
+
+      &::-moz-placeholder {
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        color: #646464;
+        text-indent: -1.5rem;
+      }
+
+      &:-ms-input-placeholder {
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        color: #646464;
+        text-indent: -1.5yrem;
+      }
+    }
+  }
+}
+
+.content-section {
+  padding: 0 1rem 1rem;
+  margin-bottom: 60px;
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.member-card {
+  background: #ffffff;
+  border-radius: 25px;
+  padding: 1rem;
+  border: 1px solid #646464;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.member-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.member-details h3 {
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  color: #646464;
+  margin: 0 0 0.25rem 0;
+}
+
+.member-badge {
+  background: #ffd700;
+  color: #646464;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.btn-setor {
+  background: #9556ff;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.5rem 0.5rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0;
+  white-space: nowrap;
+
+  &:hover {
+    background: #8a4aff;
+  }
+}

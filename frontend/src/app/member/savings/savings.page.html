@@ -1,0 +1,108 @@
+<!-- Header -->
+<app-header></app-header>
+
+<div class="title-section">
+  <h3>Detail Simpanan</h3>
+</div>
+
+<ion-content class="savings-page" fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="loadSavingsDetails($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 30%;"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading" class="content-section">
+    <div class="content-wrapper">
+      <!-- Simpanan Wajib -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-left">
+            <h4>Simpanan Wajib</h4>
+            <p>Total saldo:</p>
+            <div class="date-container">
+              <p>
+                Tanggal dan waktu<br />
+                terakhir<br />
+                penyetoran:
+              </p>
+            </div>
+          </div>
+          <div class="card-right">
+            <div class="amount-container">
+              <p><span class="amount">{{ savingsDetails.wajib.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
+            </div>
+            <div class="date-container">
+              <p *ngIf="savingsDetails.wajib.lastDate">
+                {{ savingsDetails.wajib.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.wajib.lastDate | date:'HH:mm:ss' }}
+              </p>
+              <p *ngIf="!savingsDetails.wajib.lastDate">Belum ada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simpanan Pokok -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-left">
+            <h4>Simpanan Pokok</h4>
+            <p>Total saldo:</p>
+            <div class="date-container">
+              <p>
+                Tanggal dan waktu<br />
+                terakhir<br />
+                penyetoran:
+              </p>
+            </div>
+          </div>
+          <div class="card-right">
+            <div class="amount-container">
+              <p><span class="amount">{{ savingsDetails.pokok.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
+            </div>
+            <div class="date-container">
+              <p *ngIf="savingsDetails.pokok.lastDate">
+                {{ savingsDetails.pokok.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.pokok.lastDate | date:'HH:mm:ss' }}
+              </p>
+              <p *ngIf="!savingsDetails.pokok.lastDate">Belum ada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simpanan Sukarela -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-left">
+            <h4>Simpanan Sukarela</h4>
+            <p>Total saldo:</p>
+            <div class="date-container">
+              <p>
+                Tanggal dan waktu<br />
+                terakhir<br />
+                penyetoran:
+              </p>
+            </div>
+          </div>
+          <div class="card-right">
+            <div class="amount-container">
+              <p><span class="amount">{{ savingsDetails.sukarela.total | currency:'IDR':'Rp':'1.0-0' }}</span></p>
+            </div>
+            <div class="date-container">
+              <p *ngIf="savingsDetails.sukarela.lastDate">
+                {{ savingsDetails.sukarela.lastDate | date:'d MMMM y' }}<br />
+                {{ savingsDetails.sukarela.lastDate | date:'HH:mm:ss' }}
+              </p>
+              <p *ngIf="!savingsDetails.sukarela.lastDate">Belum ada</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

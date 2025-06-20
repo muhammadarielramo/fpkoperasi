@@ -1,0 +1,150 @@
+.billing-details-page {
+  --ion-background-color: #ffffff;
+  overflow: hidden;
+}
+
+.title-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title-bar .back-button {
+  position: absolute;
+  left: 0.5rem;
+  color: #4d4d4d;
+  cursor: pointer;
+  z-index: 99;
+  --color: #4d4d4d;
+
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.title-bar h3 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #4d4d4d;
+  margin: 0;
+}
+
+.content-section {
+  background-color: #ffffff;
+  padding: 0 1rem 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f2ebff;
+  z-index: -1;
+}
+
+.billing-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.billing-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  .billing-card-title {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #646464;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.billing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: "Lato", sans-serif;
+}
+
+.billing-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.billing-label-primary {
+  font-size: 15px;
+  color: #646464;
+  font-weight: 700;
+}
+
+.billing-label {
+  font-size: 13px;
+  color: #646464;
+  font-weight: 400;
+}
+
+.billing-value {
+  font-weight: 400;
+  font-size: 13px;
+  color: #646464;
+}
+
+.billing-value-primary {
+  font-weight: 700;
+  font-size: 15px;
+  color: #646464;
+}
+
+.billing-value-italic {
+  font-weight: 400;
+  font-size: 13px;
+  color: #646464;
+  font-style: italic;
+}
+
+.status-badge {
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+
+  &.lunas {
+    background-color: #2cd324;
+    display: flex;
+    align-items: center;
+    ion-icon {
+      padding-right: 0.2rem;
+      font-size: 1rem;
+    }
+  }
+
+  &.tepat-waktu {
+    background-color: #ffa100;
+    color: #ffffff;
+  }
+}

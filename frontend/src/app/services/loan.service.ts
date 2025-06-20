@@ -1,0 +1,53 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoanService {
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  /**
+   * Mengajukan pinjaman baru (untuk Member).
+   */
+  async submitApplication(loanData: any): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.post(`${this.apiUrl}/pinjaman/pengajuan`, loanData, { headers });
+  }
+
+  /**
+   * Mendapatkan daftar pinjaman untuk pengguna yang sedang login (untuk Member).
+   */
+  async getMyLoans(): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.get(`${this.apiUrl}/pinjaman`, { headers });
+  }
+
+  /**
+   * Mendapatkan informasi detail pinjaman (untuk Collector).
+   */
+  async getLoanInfo(loanId: number): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.get(`${this.apiUrl}/kolektor/info-pinjaman/${loanId}`, { headers });
+  }
+
+  /**
+   * Mendapatkan informasi pembayaran pinjaman (untuk Collector).
+   */
+  async getLoanPaymentInfo(loanId: number): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.get(`${this.apiUrl}/kolektor/info-pembayaran/${loanId}`, { headers });
+  }
+
+  private async createAuthHeader(): Promise<HttpHeaders> {
+    const token = await this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+}

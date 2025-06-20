@@ -1,0 +1,147 @@
+.loans-page {
+  --ion-background-color: #ffffff;
+  overflow: hidden;
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  top: -0.4rem;
+
+  .btn-ajukan {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #9556ff;
+    --color: white;
+    --border-radius: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+    ion-icon {
+      margin-right: 0.3rem;
+    }
+  }
+}
+
+.title-bar h3 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #4d4d4d;
+  margin: 0;
+}
+
+.content-section {
+  background-color: #ffffff;
+  padding: 0 1rem 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f2ebff;
+  z-index: -1;
+}
+
+.loan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.loan-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid #565656;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  .loan-item {
+    font-family: "Lato", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      font-weight: 400;
+      font-size: 13px;
+      color: #646464;
+
+      &.primary {
+        font-weight: 700;
+        font-size: 15px;
+        color: #646464;
+      }
+    }
+
+    .value {
+      font-weight: 400;
+      font-size: 13px;
+      color: #646464;
+
+      &.primary {
+        font-weight: 700;
+        font-size: 15px;
+        color: #646464;
+      }
+    }
+  }
+
+  /* Gaya umum untuk semua status-badge */
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+  }
+
+  /* Warna untuk status Lunas (Hijau) */
+  .status-lunas {
+    background-color: #d1f4e0;
+    color: #1a7431;
+  }
+
+  /* Warna untuk status Diterima (Biru) */
+  .status-diterima {
+    background-color: #cfe2ff;
+    color: #0d6efd;
+  }
+
+  /* Warna untuk status Ditolak (Merah) */
+  .status-ditolak {
+    background-color: #f8d7da;
+    color: #842029;
+  }
+
+  /* Warna untuk status Diajukan (Kuning) */
+  .status-diajukan {
+    background-color: #fff3cd;
+    color: #664d03;
+  }
+}

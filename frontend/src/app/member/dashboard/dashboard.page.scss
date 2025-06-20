@@ -1,0 +1,253 @@
+.dashboard-page {
+  --background: none;
+  background-image: url("/assets/app-background.svg");
+  overflow: hidden;
+  top: -5rem;
+  min-height: calc(100% + 5rem);
+
+  .content-section {
+    top: 5rem;
+    padding: 0 1rem 60px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    justify-content: center;
+
+
+    .swipeable-cards {
+      z-index: 10;
+      position: relative;
+      margin-top: 0.5rem;
+
+      swiper-container {
+        --bullet-background: #dfd0fb;
+        --bullet-background-active: #9763f7;
+        padding: 0;
+      }
+
+      swiper-slide {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+      }
+    }
+
+    .card {
+      z-index: 100;
+      background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
+      margin: 0.5rem 0rem;
+      padding: 1rem;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+
+      h3 {
+        color: #fff;
+        font-weight: bold;
+        margin: 0 0 0.5rem;
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+      }
+
+      .amount {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.4rem 0.8rem;
+        border-radius: 12px;
+        font-weight: bold;
+        color: #ffffff;
+        font-family: "Lato", sans-serif;
+      }
+
+      .card-content {
+        z-index: 2;
+      }
+
+      .icon-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        .card-icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .card-illustration {
+        width: 80px;
+        height: auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        right: -20px;
+        top: -40px;
+        z-index: 1;
+      }
+    }
+
+    .pinjaman {
+      margin: 0.5rem 0 1rem;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      // Ilustrasi calculator di sebelah kiri
+      .pinjaman-illustration {
+        position: relative;
+        min-width: 80px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        order: 1; // Posisi pertama (kiri)
+
+        .calculator {
+          width: 100px;
+          height: auto;
+          position: relative;
+        }
+      }
+
+      // Content text di sebelah kanan
+      .card-content {
+        flex: 1;
+        z-index: 2;
+        order: 2; // Posisi kedua (kanan)
+        text-align: right; // Teks rata kanan
+      }
+
+      .pinjaman-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; // Align ke kanan
+        gap: 0.5rem;
+
+        h3 {
+          color: #fff;
+          font-weight: bold;
+          margin: 0;
+          font-family: "Poppins", sans-serif;
+          font-size: 1.1rem;
+        }
+
+        .amount {
+          background-color: rgba(255, 255, 255, 0.2);
+          padding: 0.4rem 0.8rem;
+          border-radius: 12px;
+          font-weight: bold;
+          color: #ffffff;
+          font-family: "Lato", sans-serif;
+          font-size: 1rem;
+        }
+      }
+
+      // Remove the general card illustration positioning for loan card
+      .card-illustration {
+        display: none;
+      }
+    }
+  }
+
+  .quick-actions {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    z-index: 101;
+
+    .action-button {
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
+      padding: 0.5rem;
+      width: 30%;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      color: #545454;
+      border: 1px solid #8d70a0;
+
+      img {
+        width: 50px;
+        margin-bottom: 0.25rem;
+      }
+
+      span {
+        display: block;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .help-floating {
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 1rem 8rem 0 1rem;
+  }
+
+  .helper-image {
+    width: 325px;
+    height: 133px;
+  }
+
+  .chat-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0 0 4px 0;
+    color: #606060;
+  }
+
+  .chat-box {
+    display: flex;
+    flex-direction: column;
+    margin-left: -50px;
+  }
+
+  .whatsapp-button-container {
+    position: relative;
+    margin-right: 50px;
+  }
+
+  .whatsapp-floating-icon {
+    position: absolute;
+    top: -15px;
+    right: -20px;
+    width: 38px;
+    height: 35px;
+    z-index: 1;
+  }
+
+  .whatsapp-button {
+    --background: #25d366;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    text-transform: capitalize;
+    border-radius: 100px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    white-space: nowrap;
+    --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+  }
+}

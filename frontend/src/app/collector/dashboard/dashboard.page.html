@@ -1,0 +1,104 @@
+<!-- Header -->
+<div class="header">
+  <div class="top-bar">
+    <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
+    <ion-button (click)="logout()" class="btn-logout" shape="round" size="small"
+      >Logout</ion-button
+    >
+  </div>
+  <div class="user-profile">
+    <img
+      [src]="'https://placehold.co/100x100/EFEFEF/333333?text=' + (userName ? userName.charAt(0).toUpperCase() : '?')"
+      class="user-avatar"
+      alt="Avatar"
+    />
+    <h2 class="user-name">{{ userName }}</h2>
+    <p class="user-role">Collector</p>
+    <div class="user-date">
+      <div class="date-icon"></div>
+      <span>{{ today }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">
+    <div class="title-text">
+      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
+      <span>Total Anggota Binaan:</span>
+    </div>
+    <div class="title-value">
+      <!-- Tampilkan total anggota dinamis -->
+      <span>{{ totalMembers }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="title-bar">
+  <h2>Kunjungan Hari Ini:</h2>
+</div>
+
+<ion-content class="dashboard-page" fullscreen>
+  <!-- Content Section -->
+  <div class="content-section">
+    <!-- Tampilkan loading spinner -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <!-- Tampilkan jika tidak loading dan tidak ada data -->
+    <div *ngIf="!isLoading && todaysVisits.length === 0" class="empty-state">
+      <ion-icon name="today-outline"></ion-icon>
+      <p>Tidak ada jadwal kunjungan untuk hari ini.</p>
+    </div>
+
+    <!-- Tampilkan daftar kunjungan jika ada data -->
+    <div *ngIf="!isLoading && todaysVisits.length > 0" class="card-list">
+      <!-- Gunakan *ngFor untuk mengulang data kunjungan -->
+      <div *ngFor="let visit of todaysVisits" class="visit-card">
+        <div class="card-header">
+          <div class="home-icon">
+            <img src="assets/house.svg" alt="Home" />
+          </div>
+          <div class="member-info">
+            <!-- Asumsi nama ada di visit.member.user.name -->
+            <h3>{{ visit.member.user.name }}</h3>
+            <!-- Asumsi alamat ada di visit.member.address -->
+            <p class="address">{{ visit.member.address }}</p>
+            <div class="payment-info">
+              <span class="payment-label">Batas Pembayaran:</span>
+              <!-- Asumsi tanggal ada di visit.loan.due_date -->
+              <span class="payment-date"
+                >{{ visit.loan.due_date | date: 'd MMMM y' }}</span
+              >
+            </div>
+            <div class="status-info">
+              <span class="status-label">Status Pinjaman:</span>
+              <!-- Asumsi status ada di visit.loan.status -->
+              <span
+                class="status-badge"
+                [ngClass]="{'overdue': visit.loan.status === 'Terlambat'}"
+              >
+                {{ visit.loan.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <ion-button class="action-btn detail-btn" shape="round" size="small">
+            Lihat Detail
+          </ion-button>
+          <ion-button
+            class="action-btn payment-btn"
+            [routerLink]="['/collector/loans/payment-entry', visit.loan.id]"
+            shape="round"
+            size="small"
+          >
+            Input Pembayaran
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

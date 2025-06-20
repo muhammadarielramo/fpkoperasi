@@ -1,0 +1,105 @@
+<!-- Header -->
+<app-header></app-header>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">
+    <img src="assets/file-input.svg" alt="File Input" class="btn-icon" />
+    Input Pembayaran
+  </div>
+</div>
+
+<div class="back-button-container">
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="payment-entry-page" fullscreen>
+  <!-- Content Section -->
+  <div class="content-section">
+    <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
+      <!-- Member Name -->
+      <div class="form-group">
+        <input type="text" class="form-input" [value]="memberName" readonly />
+      </div>
+
+      <!-- Payment Amount -->
+      <div class="form-group">
+        <label class="form-label">Jumlah Pembayaran</label>
+        <div class="currency-input-wrapper">
+          <span class="currency-prefix">Rp</span>
+          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="besar_ciclan" />
+        </div>
+      </div>
+
+      <!-- Installment -->
+      <div class="form-group installment-section">
+        <label class="form-label">Angsuran ke-</label>
+        <input type="number" class="form-input installment-input" placeholder="e.g., 1" formControlName="angsuran_ke" />
+      </div>
+
+      <!-- Tanggal Pembayaran -->
+      <div class="form-group">
+        <label class="form-label">Tanggal Pembayaran</label>
+        <div class="input-container" (click)="openDatePicker()">
+          <ion-input
+            class="custom-outline date-input"
+            readonly
+            formControlName="tgl_pembayaran"
+          >
+            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
+          </ion-input>
+          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+            <ng-template>
+              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </div>
+      </div>
+
+      <!-- Payment Status -->
+      <div class="form-group payment-status-section">
+        <label class="form-label">Status Pembayaran</label>
+        <ion-select class="form-input status-dropdown" formControlName="status" placeholder="Pilih Status">
+          <ion-select-option value="lunas">Lunas</ion-select-option>
+          <ion-select-option value="terlambat">Terlambat (Denda)</ion-select-option>
+        </ion-select>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <ion-button type="submit" class="btn-submit" fill="solid" [disabled]="paymentForm.invalid">
+          Submit
+        </ion-button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Payment Success Modal -->
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showPaymentSuccess}">
+    <div class="verification-modal">
+      <div class="payment-success-icon">
+        <img src="assets/checkmark.svg" alt="Success" />
+      </div>
+      <h2>PEMBAYARAN BERHASIL DISIMPAN!</h2>
+    </div>
+  </div>
+
+  <!-- Location Permission Modal -->
+  <div class="verification-overlay" [ngClass]="{'show-overlay': showLocationModal}">
+    <div class="verification-modal" (click)="$event.stopPropagation()">
+      <div class="verification-icon">
+        <img src="assets/location.svg" alt="Location Icon" class="location-icon" />
+      </div>
+      <h2>Aktifkan Layanan Lokasi</h2>
+      <p class="location-description">
+        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan lokasi (GPS).
+      </p>
+      <div class="modal-action-button-container">
+        <ion-button shape="round" class="btn-modal-primary" (click)="enableLocation()">IZINKAN LOKASI</ion-button>
+        <ion-button shape="round" class="btn-modal-secondary" fill="clear" (click)="showLocationModal = false">LAIN KALI</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

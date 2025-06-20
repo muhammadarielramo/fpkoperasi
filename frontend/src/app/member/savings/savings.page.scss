@@ -1,0 +1,128 @@
+.savings-page {
+  --ion-background-color: #ffffff;
+  overflow: hidden;
+}
+
+.title-section {
+  background-color: #ffffff;
+  padding: 1rem 1rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.title-section h3 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #646464;
+  margin: 0;
+}
+
+.content-section {
+  background-color: #ffffff;
+  padding: 0 1rem 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f2ebff;
+    z-index: -1;
+  }
+
+  .content-wrapper {
+    flex: 1; /* Mengambil sisa ruang yang tersedia */
+    overflow-y: auto; /* Hanya content-wrapper yang scroll */
+    margin-top: 1rem;
+
+    /* Custom scrollbar styling (optional) */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(135, 104, 204, 0.3);
+      border-radius: 2px;
+    }
+  }
+}
+
+.card {
+  background: url("/../../assets/background-card-savings.svg"),
+    linear-gradient(
+      157deg,
+      rgba(135, 104, 204, 1) 0%,
+      rgba(179, 79, 250, 1) 100%
+    );
+  color: white;
+  border-radius: 14px;
+  padding: 1rem 1rem 0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-left {
+  flex: 1;
+}
+
+.card-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-left h4 {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 800;
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.card-left p {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.date-container p {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #f0e9ff;
+}
+
+.card-right .date-container {
+  text-align: center;
+}
+
+.amount-container p {
+  margin-top: 34px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.amount {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: white;
+}

@@ -1,0 +1,63 @@
+<!-- Header -->
+<app-header></app-header>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">Detail Pinjaman</div>
+</div>
+
+<div class="back-button-container">
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="loan-details-page" fullscreen>
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 30%;"></ion-spinner>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !loanDetail" class="empty-state">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>Gagal memuat data atau detail pinjaman tidak ditemukan.</p>
+  </div>
+
+  <!-- Content Section (Tampilkan jika data sudah ada) -->
+  <div *ngIf="!isLoading && loanDetail" class="content-section">
+    <div class="loan-detail-card">
+      <div class="detail-item">
+        <span class="label">Jumlah Pinjaman:</span>
+        <!-- PERBAIKAN: Gunakan 'nominal' sesuai respons API -->
+        <span class="value">{{ loanDetail.nominal | currency:'IDR':'Rp':'1.0-0' }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Tanggal Pengajuan:</span>
+        <!-- PERBAIKAN: Gunakan 'tanggal_pengajuan' sesuai respons API -->
+        <div class="date-value">
+          <span class="main-date">{{ loanDetail.tanggal_pengajuan | date:'d MMMM y' }}</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Jangka Waktu:</span>
+        <!-- Properti 'jangka_waktu' sudah benar -->
+        <span class="value">{{ loanDetail.jangka_waktu }} Bulan</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Status Pengajuan:</span>
+        <!-- Properti 'status' sudah benar -->
+        <div class="status-badge" [ngClass]="{
+          'approved': loanDetail.status === 'Disetujui' || loanDetail.status === 'Diterima' || loanDetail.status === 'Aktif',
+          'rejected': loanDetail.status === 'Ditolak',
+          'pending': loanDetail.status === 'Diajukan' || loanDetail.status === 'Menunggu Persetujuan'
+        }">
+          {{ loanDetail.status }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

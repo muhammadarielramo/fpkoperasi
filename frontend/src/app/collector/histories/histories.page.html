@@ -1,144 +1,115 @@
-<ion-content class="dashboard-page" fullscreen [scrollY]="false">
-  <!-- Header -->
-  <div class="header">
-    <div class="top-bar">
-      <img src="assets/logo-text.svg" alt="Nama Koperasi" class="logo" />
-      <ion-button routerLink="/home" class="btn-logout" shape="round" size="small">Logout</ion-button>
-    </div>
-    <div class="user-info">
-      <h2>Hello, Izumi!</h2>
-      <p>Collector</p>
-    </div>
-    <div class="notification-icon" routerLink="/collector/notifications">
-      <img src="assets/notification.svg" alt="Notifikasi" />
-      <span class="notif-dot"></span>
-    </div>
-  </div>
+<!-- Header -->
+<app-header></app-header>
 
-  <!-- Title Section -->
-  <div class="title-section">
-    <div class="btn-title">
-      <img src="assets/dashboard-title.svg" alt="Users" class="btn-icon" />
-      Riwayat Transaksi
-    </div>
-  </div>
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">Riwayat Transaksi</div>
+</div>
 
-  <!-- Content Section -->
+<ion-content class="histories-page" fullscreen>
   <div class="content-section">
-    <!-- Month Selector -->
-    <div class="month-selector">
-      <select class="month-dropdown">
-        <option value="">Pilih Bulan...</option>
-        <option value="january">Januari</option>
-        <option value="february">Februari</option>
-        <option value="march">Maret</option>
-        <option value="april">April</option>
-        <option value="may">Mei</option>
-        <option value="june">Juni</option>
-        <option value="july">Juli</option>
-        <option value="august">Agustus</option>
-        <option value="september">September</option>
-        <option value="october">Oktober</option>
-        <option value="november">November</option>
-        <option value="december">Desember</option>
-      </select>
-    </div>
-
-    <!-- Total Savings Card -->
-    <div class="total-savings-card">
-      <div class="savings-icon">
-        <img src="assets/chart-money.svg" alt="Chart Money" />
-      </div>
-      <div class="savings-info">
-        <p class="savings-label">Total Setoran pada Bulan Ini</p>
-        <div class="savings-amount">Rp7.000.000,00</div>
-      </div>
-    </div>
-
-    <!-- Transaction History -->
-    <div class="transaction-history">
-      <div class="transaction-item">
-        <div class="transaction-avatar">
-          <img src="assets/avatar-tsukasa.jpg" alt="Tsukasa Suou" />
-        </div>
-        <div class="transaction-details">
-          <h3 class="member-name">Tsukasa Suou</h3>
-          <p class="transaction-date">14 Mei 2025</p>
-        </div>
-        <div class="transaction-amount">Rp200.000</div>
-        <div class="transaction-status">
-          <div class="status-badge success">
-            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
-            <span>Tepat Waktu</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="transaction-item">
-        <div class="transaction-avatar">
-          <img src="assets/avatar-alexander.jpg" alt="Alexander" />
-        </div>
-        <div class="transaction-details">
-          <h3 class="member-name">Alexander</h3>
-          <p class="transaction-date">13 Mei 2025</p>
-        </div>
-        <div class="transaction-amount">Rp500.000</div>
-        <div class="transaction-status">
-          <div class="status-badge success">
-            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
-            <span>Tepat Waktu</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="transaction-item">
-        <div class="transaction-avatar">
-          <img src="assets/avatar-james.jpg" alt="James Carter" />
-        </div>
-        <div class="transaction-details">
-          <h3 class="member-name">James Carter</h3>
-          <p class="transaction-date">8 Mei 2025</p>
-        </div>
-        <div class="transaction-amount">Rp500.000</div>
-        <div class="transaction-status">
-          <div class="status-badge success">
-            <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
-            <span>Tepat Waktu</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="custom-tabbar">
-    <!-- SVG cekungan -->
-    <img src="assets/tab-notch.svg" alt="notch" class="tab-notch" />
     
-    <!-- Kiri -->
-    <div class="tab-button" routerLink="/collector/savings">
-      <img src="assets/money-bag.svg" alt="Simpanan" class="icon" />
-    </div>
-    <div class="tab-button" routerLink="/collector/payments">
-      <img src="assets/payments.svg" alt="Pembayaran" class="icon" />
-    </div>
-
-    <!-- Spacer tengah -->
-    <div class="tab-spacer"></div>
-
-    <!-- Kanan -->
-    <div class="tab-button" routerLink="/collector/loans">
-      <img src="assets/loan.svg" alt="Pinjaman" class="icon" />
-    </div>
-    <div class="tab-button" routerLink="/collector/histories">
-      <img src="assets/history.svg" alt="Riwayat" class="icon" />
+    <!-- Date Range Picker -->
+    <div class="date-range-picker">
+      <ion-item (click)="openDatePicker()" lines="none">
+        <ion-label position="stacked">Pilih Rentang Tanggal</ion-label>
+        <ion-input [value]="formattedDateRange" readonly></ion-input>
+        <ion-icon name="calendar-outline" class="calendar-icon" slot="end"></ion-icon>
+      </ion-item>
     </div>
 
-    <!-- Tombol Home di tengah -->
-    <div class="tab-home" routerLink="/collector/dashboard">
-      <div class="home-icon-wrapper">
-        <img src="assets/home.svg" alt="Dashboard" class="home-icon" />
+    <!-- Modal untuk Date Range Picker -->
+    <ion-modal [isOpen]="isDatePickerOpen" (didDismiss)="cancelDateSelection()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Pilih Rentang Tanggal</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="cancelDateSelection()">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+          <div class="date-picker-container">
+            <ion-item>
+              <ion-label position="stacked">Tanggal Mulai</ion-label>
+              <ion-datetime
+                presentation="date"
+                [value]="tempStartDate"
+                (ionChange)="onStartDateChange($event)"
+                max="2030-12-31"
+                min="2020-01-01"
+              ></ion-datetime>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="stacked">Tanggal Akhir</ion-label>
+              <ion-datetime
+                presentation="date"
+                [value]="tempEndDate"
+                (ionChange)="onEndDateChange($event)"
+                max="2030-12-31"
+                min="2020-01-01"
+              ></ion-datetime>
+            </ion-item>
+          </div>
+        </ion-content>
+        
+        <ion-footer>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancelDateSelection()" fill="clear">
+                Batal
+              </ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirmDateSelection()" fill="solid">
+                Selesai
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-footer>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Total Card -->
+    <div class="total-card">
+      <div class="card-content">
+        <div class="card-info">
+          <h3>Total Setoran (Sesuai Filter)</h3>
+          <div class="amount">{{ totalDeposit | currency:'IDR':'Rp':'1.0-0' }}</div>
+        </div>
       </div>
-      <span>Home</span>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && transactions.length === 0" class="empty-state">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <p>Tidak ada transaksi pada rentang tanggal ini.</p>
+    </div>
+
+    <!-- Transaction List -->
+    <div *ngIf="!isLoading && transactions.length > 0" class="transaction-list">
+      <div *ngFor="let trx of transactions" class="transaction-item">
+        <div class="user-avatar">
+          <img [src]="trx.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (trx.member_name ? trx.member_name.charAt(0).toUpperCase() : '?')" alt="Avatar" />
+        </div>
+        <div class="transaction-info">
+          <div class="user-name">{{ trx.member_name }}</div>
+          <div class="transaction-date">{{ trx.tgl_transaksi | date:'d MMMM y' }}</div>
+        </div>
+        <div class="transaction-details">
+          <div class="amount">{{ trx.jumlah | currency:'IDR':'Rp':'1.0-0' }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </ion-content>

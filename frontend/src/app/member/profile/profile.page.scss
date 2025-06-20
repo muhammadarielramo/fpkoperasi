@@ -1,0 +1,183 @@
+.profile-page {
+  --background: #ffffff;
+  overflow: hidden;
+}
+
+.title-bar {
+  margin-top: -5rem;
+  background: #f2ebff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  .edit-profile-btn {
+    margin-top: 5rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #9556ff;
+    --color: white;
+    --border-radius: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+
+    ion-icon {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+}
+
+.title-bar h3 {
+  margin-top: 5rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #4d4d4d;
+}
+
+.content-section {
+  padding: 0 1rem 60px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background: #f2ebff;
+}
+
+.profile-avatar-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+}
+
+.avatar-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  --background: #9556ff;
+  --color: white;
+  cursor: pointer;
+
+  ion-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #646464;
+}
+
+.input-field {
+  background: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.5rem 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #646464;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.2s ease;
+
+  &:not([readonly]) {
+    border: 2px solid #9556ff;
+  }
+}
+
+.input-field:focus {
+  outline: none;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.input-field::placeholder {
+  color: #999;
+}
+
+.password-field {
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+// Submit Section (Action Buttons)
+.submit-section {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+
+  .btn-simpan {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #9556ff;
+    --color: white;
+    --border-radius: 20px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .btn-batal {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    --background: #dc3545;
+    --color: white;
+    --border-radius: 20px;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+}

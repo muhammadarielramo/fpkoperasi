@@ -1,0 +1,43 @@
+<!-- Header -->
+<app-header></app-header>
+
+<ion-content class="notifications-page" fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 50%;"></ion-spinner>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && notifications.length === 0" class="empty-state">
+    <ion-icon name="notifications-off-outline"></ion-icon>
+    <p>Tidak ada notifikasi untuk Anda saat ini.</p>
+  </div>
+
+  <!-- Notifications Content -->
+  <div *ngIf="!isLoading && notifications.length > 0" class="notifications-content">
+    <!-- Gunakan *ngFor untuk mengulang data notifikasi -->
+    <div 
+      *ngFor="let notif of notifications" 
+      class="notification-card"
+      (click)="onNotificationClick(notif)"
+      [ngClass]="{'unread': notif.read_at === null}">
+      
+      <div class="notification-icon-wrapper">
+        <!-- Anda bisa menambahkan ikon dinamis di sini berdasarkan notif.type jika ada -->
+        <ion-icon name="mail-unread-outline" *ngIf="notif.read_at === null"></ion-icon>
+        <ion-icon name="mail-open-outline" *ngIf="notif.read_at !== null"></ion-icon>
+      </div>
+      <div class="notification-content">
+        <!-- Asumsi API mengembalikan 'title' dan 'body' -->
+        <h3 class="notification-title">{{ notif.title }}</h3>
+        <p class="notification-description">{{ notif.body }}</p>
+        <div class="notification-time">{{ notif.created_at | date:'d MMMM y - HH:mm' }}</div>
+      </div>
+      <div class="notification-arrow">›</div>
+    </div>
+  </div>
+</ion-content>

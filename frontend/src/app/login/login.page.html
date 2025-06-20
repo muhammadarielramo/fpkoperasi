@@ -1,5 +1,9 @@
-<ion-content class="background" fullscreen="True" scrollEvents="false" [scrollY]="false">
-
+<ion-content
+  class="background"
+  fullscreen="True"
+  scrollEvents="false"
+  [scrollY]="false"
+>
   <div class="circle circle1"></div>
   <div class="circle circle2"></div>
   <div class="circle circle1b"></div>
@@ -10,34 +14,60 @@
     <ion-icon name="arrow-back-outline"></ion-icon>
   </ion-button>
 
-  <!-- Baru ini untuk center box -->
+  <!-- Login Container -->
   <div class="login-container">
     <div class="login-box">
       <h2>Login</h2>
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item>
-          <ion-input label="Username/NIK" labelPlacement="floating" placeholder="Masukkan Username/NIK" ></ion-input>
+          <ion-input
+            label="Username"
+            formControlName="username"
+            labelPlacement="floating"
+            placeholder="Masukkan Username"
+            class="username-input"
+            (ionInput)="loginForm.get('username')?.setValue($event.target.value)"
+          ></ion-input>
         </ion-item>
 
         <div class="password-field">
           <ion-item>
-            <ion-input label="Password" labelPlacement="floating" placeholder="Masukkan Password"
-              [type]="showPassword ? 'text' : 'password'" id="password" required>
-            </ion-input>
+            <ion-input
+              label="Password"
+              formControlName="password"
+              labelPlacement="floating"
+              placeholder="Masukkan Password"
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="password-input"
+              (ionInput)="loginForm.get('password')?.setValue($event.target.value)"
+            ></ion-input>
           </ion-item>
 
-          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" id="togglePassword"
-            (click)="togglePasswordVisibility()">
+          <ion-icon
+            [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            id="togglePassword"
+            (click)="togglePasswordVisibility()"
+            class="eye-icon"
+          >
           </ion-icon>
         </div>
 
-        <br>
+        <br />
 
-        <a href="/forgot-password" class="forgot-password">Lupa password?</a>
+        <a href="/login/forgot-password" class="forgot-password"
+          >Lupa Kata Sandi?</a
+        >
 
         <!-- Tombol -->
         <div class="button-group">
-          <ion-button routerLink="/dashboard" class="btn-masuk" shape="round" expand="block" type="submit">Masuk</ion-button>
+          <ion-button
+            class="btn-masuk"
+            shape="round"
+            expand="block"
+            type="submit"
+            >Masuk</ion-button
+          >
         </div>
       </form>
     </div>

@@ -1,0 +1,273 @@
+.dashboard-page {
+  --background: #ffffff;
+  overflow: hidden;
+}
+
+.header {
+  background: #857afe;
+  padding-top: env(safe-area-inset-top);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 3rem;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
+  position: relative;
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+      width: 100px;
+      display: block;
+      margin-top: 7px;
+    }
+
+    .btn-logout {
+      font-family: "Montserrat Alternates", sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: none;
+      --box-shadow: 0 4px 4px rgba(0, 0, 0, 0.36);
+      --background: linear-gradient(135deg, #9763f7 75%, #dfd0fb);
+      --color: #ffffff;
+    }
+  }
+
+  .user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    text-align: center;
+
+    .user-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%2370b3e6"/><circle cx="50" cy="40" r="15" fill="%23333"/><path d="M25 75 Q25 60 50 60 Q75 60 75 75 Z" fill="%23333"/></svg>')
+        center/cover;
+    }
+
+    .user-name {
+      font-family: "Montserrat", sans-serif;
+      font-size: 20px;
+      color: #ffffff;
+      font-weight: 800;
+      margin: 0 0 0.3rem 0;
+    }
+
+    .user-role {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #f3eaff;
+      margin: 0 0 1rem 0;
+    }
+
+    .user-date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #ffffff;
+
+      .date-icon {
+        width: 16px;
+        height: 16px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="white" stroke-width="2" fill="none"/><line x1="16" y1="2" x2="16" y2="6" stroke="white" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke="white" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="white" stroke-width="2"/></svg>')
+          center/contain;
+      }
+    }
+  }
+}
+
+.title-section {
+  margin-top: -25px;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+
+  .btn-title {
+    z-index: 100;
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    background: #ffffff;
+    color: #646464;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    text-transform: capitalize;
+    letter-spacing: 0.1px;
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+
+    .title-text {
+      display: flex;
+      align-items: center;
+    }
+
+    .title-value {
+      display: flex;
+      align-items: center;
+      margin-left: 0.5rem;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.title-bar {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  position: relative;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+}
+
+.title-bar h2 {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #646464;
+  margin: 0;
+}
+
+.content-section {
+  padding: 0 1rem 1rem;
+  margin-bottom: 60px;
+
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .visit-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1rem;
+    border: 1px solid #646464;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    .card-header {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      .home-icon {
+        width: 50px;
+        height: 50px;
+        background: #b69bf2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .member-info {
+        flex: 1;
+
+        h3 {
+          font-family: "Lato", sans-serif;
+          font-weight: 700;
+          font-size: 1rem;
+          color: #646464;
+          margin: 0 0 0.3rem 0;
+        }
+
+        .address {
+          font-family: "Lato", sans-serif;
+          font-weight: 400;
+          font-size: 12px;
+          color: #646464;
+          margin: 0 0 0.5rem 0;
+          line-height: 1.3;
+        }
+
+        .payment-info,
+        .status-info {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+          margin-bottom: 0.3rem;
+
+          .payment-label,
+          .status-label {
+            font-family: "Lato", sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #646464;
+          }
+
+          .payment-date {
+            font-family: "Lato", sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            color: #646464;
+          }
+
+          .status-badge {
+            background: #dc0004;
+            color: #ffffff;
+            font-family: "Lato", sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+
+            &.overdue {
+              background: #dc0004;
+            }
+          }
+        }
+      }
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+
+      .action-btn {
+        --height: 32px;
+        font-family: "Lato", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: none;
+        border-radius: 15px;
+        flex: 1;
+
+        &.detail-btn {
+          --background: #857afe;
+          --color: #ffffff;
+        }
+
+        &.payment-btn {
+          --background: #9556ff;
+          --color: #ffffff;
+        }
+      }
+    }
+  }
+}

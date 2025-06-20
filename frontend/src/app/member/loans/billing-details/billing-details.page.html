@@ -1,0 +1,68 @@
+<!-- Header -->
+<app-header></app-header>
+
+<div class="title-bar">
+  <ion-button
+    class="back-button"
+    (click)="goBack()"
+    fill="clear"
+    size="small"
+  >
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+  <h3>Detail Tagihan</h3>
+</div>
+
+<ion-content class="billing-details-page" fullscreen>
+  <div class="content-section">
+    <div class="billing-cards-container">
+      <div class="billing-card">
+        <h4 class="billing-card-title">Rincian Tagihan</h4>
+        <div class="billing-row">
+          <div class="billing-info">
+            <span class="billing-label-primary">Nominal Pembayaran:</span>
+            <span class="billing-label">Angsuran ke-3</span>
+          </div>
+          <span class="billing-value-primary">Rp500.000</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Sisa Hutang:</span>
+          <span class="billing-value-italic">Rp0</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Tanggal Pembayaran:</span>
+          <span class="billing-value">10 April 2025</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Status Pembayaran:</span>
+          <span class="status-badge lunas"
+            ><ion-icon name="checkmark-circle-outline"></ion-icon>Lunas</span
+          >
+        </div>
+      </div>
+
+      <div class="billing-card">
+        <h4 class="billing-card-title">Rincian Tagihan</h4>
+        <div class="billing-row">
+          <div class="billing-info">
+            <span class="billing-label-primary">Nominal Pembayaran:</span>
+            <span class="billing-label">Angsuran ke-3</span>
+          </div>
+          <span class="billing-value-primary">Rp500.000</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Sisa Hutang:</span>
+          <span class="billing-value-italic">Rp5000</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Tanggal Pembayaran:</span>
+          <span class="billing-value">10 April 2025</span>
+        </div>
+        <div class="billing-row">
+          <span class="billing-label">Status Pembayaran:</span>
+          <span class="status-badge tepat-waktu">Tepat Waktu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

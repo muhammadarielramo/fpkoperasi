@@ -1,0 +1,50 @@
+<!-- Header -->
+<app-header></app-header>
+
+<!-- Title Section -->
+<div class="title-section">
+  <div class="btn-title">Detail Anggota</div>
+</div>
+
+<div class="back-button-container">
+  <ion-button class="back-button" (click)="goBack()" fill="clear" size="small">
+    <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-content class="member-details-page" fullscreen>
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Tampilkan jika ada error atau data tidak ditemukan -->
+  <div *ngIf="!isLoading && !member" class="empty-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>Gagal memuat data atau anggota tidak ditemukan.</p>
+  </div>
+
+  <!-- Content Section (Tampilkan jika data sudah ada) -->
+  <div *ngIf="!isLoading && member" class="content-section">
+    <!-- Member Profile Card -->
+    <div class="member-card">
+      <div class="member-photo">
+        <img [src]="member.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (member.name ? member.name.charAt(0).toUpperCase() : '?')" alt="Member Photo" />
+      </div>
+      <h3 class="member-name">{{ member.name }}</h3>
+      <div class="member-badge">Member</div>
+
+      <div class="member-info">
+        <div class="info-group">
+          <label>Alamat Lengkap</label>
+          <div class="info-content">{{ member.address }}</div>
+        </div>
+
+        <div class="info-group">
+          <label>No. HP</label>
+          <div class="info-content">{{ member.phone }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
