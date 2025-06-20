@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\PenugasanAnggotaEvent;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Collector;
 use App\Models\MemberCollector;
+use App\Models\Notification;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Console\View\Components\Info;
 
@@ -90,7 +92,7 @@ class MemberController extends Controller
         $member = Member::with('user', 'loan', 'deposit')->findOrFail($id);
         $kolektor = MemberCollector::with('collector')
             ->where('id_member', $id)
-            ->whereHas('collector', function ($query) {
+            ->whereHas('collector.user', function ($query) {
                 $query->where('is_active', true);
             })
             ->first() ?? '-';
@@ -146,7 +148,6 @@ class MemberController extends Controller
                 'tgl_penugasan' => $request->tgl_penugasan,
                 'updated_at' => now(),
             ]);
-            return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil diperbarui.');
         } else {
             MemberCollector::create([
                 'id_collector' => $collectorId,
@@ -155,10 +156,34 @@ class MemberController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
         }
 
+        // notifikasi ke kolektor
+        $collector = Collector::with('user')->findOrFail($collectorId);
+        $user = $collector->user;
+        $memberName = $member->user->name;
 
-    return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil ditambahkan atau diperbarui.');
+        $data = [
+            'id_user' => $user->id,
+            'type' => 'penugasan_anggota',
+            'title' => 'Penugasan Anggota Baru',
+            'message' => $memberName . " telah menjadi anggota binaan Anda. Silahkan cek kembali data anggota Anda.",
+            'data' => ([
+                'id_member' => $memberId,
+                'nama_member' => $memberName,
+                'id_collector' => $collector->id,
+            ]),
+        ];
+        // dd($data);
+
+        try {
+            Notification::create($data);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil ditambahkan atau diperbarui.');
     }
 
     public function showAddMember($id) {
