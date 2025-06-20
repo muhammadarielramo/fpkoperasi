@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,7 +22,6 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private loadingController: LoadingController
   ) {
-    // Inisialisasi form dengan FormBuilder
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -45,17 +45,14 @@ export class LoginPage implements OnInit {
     });
     await loading.present();
 
-    // PERBAIKAN: Kembali menggunakan .subscribe() untuk menangani Observable
     this.authService.login(this.loginForm.value).subscribe({
       next: async (response) => {
-        // Jika API mengembalikan 200 OK tapi tidak ada token, anggap gagal.
         if (!response || !response.token) {
           await loading.dismiss();
           this.presentToast('Username atau Password salah.', 'danger');
           return;
         }
 
-        // Jika kode sampai sini, login benar-benar berhasil.
         await loading.dismiss();
         await this.presentToast('Login berhasil!', 'success');
 
@@ -74,10 +71,19 @@ export class LoginPage implements OnInit {
           this.router.navigateByUrl('/home', { replaceUrl: true });
         }
       },
-      error: async (err) => {
-        // Menangkap error dari server (misal: 401 Unauthorized)
+      error: async (err: HttpErrorResponse) => {
         await loading.dismiss();
-        const message = err.error?.message || 'Username atau Password salah.';
+        
+        // PERBAIKAN: Cek status error untuk membedakan masalah jaringan
+        let message: string;
+        if (err.status === 0) {
+          // Jika status 0, ini adalah error jaringan/koneksi
+          message = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
+        } else {
+          // Jika ada status lain, gunakan pesan dari server atau pesan default
+          message = err.error?.message || 'Username atau Password salah.';
+        }
+        
         this.presentToast(message, 'danger');
       },
     });

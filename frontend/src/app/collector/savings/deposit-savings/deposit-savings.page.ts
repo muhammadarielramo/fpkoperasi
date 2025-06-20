@@ -74,9 +74,6 @@ export class DepositSavingsPage implements OnInit {
     this.showDatePicker = false;
   }
 
-  /**
-   * Helper untuk mendapatkan lokasi saat ini sebagai Promise.
-   */
   private getCurrentLocation(): Promise<GeolocationPosition> {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
@@ -93,18 +90,20 @@ export class DepositSavingsPage implements OnInit {
 
   async submitDeposit() {
     if (this.depositForm.invalid) {
-      this.presentToast('Harap lengkapi semua data dengan benar.');
+      this.presentToast('Harap lengkapi semua data dengan benar.', 'warning');
       return;
     }
 
-    const loading = await this.loadingCtrl.create({ message: 'Mendapatkan lokasi dan menyimpan...' });
+    const loading = await this.loadingCtrl.create({ message: 'Memverifikasi lokasi...' });
     await loading.present();
 
     try {
-      // PERBAIKAN 1: Ambil lokasi saat ini SEBELUM mengirim data
+      // Langkah 1: Coba dapatkan lokasi
       const position = await this.getCurrentLocation();
       
-      // PERBAIKAN 2: Sertakan latitude dan longitude dalam payload
+      // Jika berhasil, ubah pesan loading dan lanjutkan
+      loading.message = 'Menyimpan data...';
+      
       const payload = {
         ...this.depositForm.value,
         id_member: this.memberId,
@@ -131,14 +130,17 @@ export class DepositSavingsPage implements OnInit {
           loading.dismiss();
           const message = err.error?.message || 'Gagal menyimpan setoran.';
           this.presentToast(message);
-          console.error(err);
         },
       });
 
     } catch (locationError: any) {
-      // Menangkap error jika gagal mendapatkan lokasi
+      // PERBAIKAN: Tangkap error jika gagal mendapatkan lokasi
       await loading.dismiss();
-      const message = locationError.message || 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin diberikan.';
+      // Berikan pesan yang lebih spesifik
+      let message = 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin lokasi telah diberikan untuk aplikasi ini.';
+      if (locationError.message) {
+          message = locationError.message;
+      }
       this.presentToast(message);
     }
   }
@@ -146,7 +148,7 @@ export class DepositSavingsPage implements OnInit {
   async presentToast(message: string, color: string = 'danger') {
     const toast = await this.toastCtrl.create({
       message,
-      duration: 3000,
+      duration: 3500,
       position: 'top',
       color: color,
     });
