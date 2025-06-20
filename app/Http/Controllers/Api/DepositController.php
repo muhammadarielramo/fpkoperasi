@@ -105,8 +105,8 @@ class DepositController extends Controller
                 'id_transaction' => $transaction->id,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
-                'location_name' => $request->location_name,
                 'created_at' => now(),
+                'collector_id' => $collector->id
             ]);
 
             $transaction->location()->save($transactionLoc);
