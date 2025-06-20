@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\Transaction;
+use App\Models\TransactionLocation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,7 +89,7 @@ class DepositController extends Controller
             }
 
             // simpan ke transaction
-            Transaction::create([
+            $transaction =Transaction::create([
                 'id_anggota' => $request->id_member,
                 'id_deposit' => $deposit->id,
                 'tipe_transaksi' => 'kredit',
@@ -99,11 +100,23 @@ class DepositController extends Controller
                 'updated_at' => now(),
             ]);
 
+            // simpan ke transaction_location
+            $transactionLoc = TransactionLocation::create([
+                'id_transaction' => $transaction->id,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'created_at' => now(),
+                'collector_id' => $collector->id
+            ]);
+
+            $transaction->location()->save($transactionLoc);
+
             DB::commit();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data simpanan dan transaksi berhasil disimpan',
+                'data' => $transaction
             ], 200);
 
         } catch (\Exception $e) {

@@ -2,18 +2,17 @@
 
 @section('content')
 
-    <div class="float-right">
-        <form class="d-flex">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                </div>
-                <div class="input-group-append">
-                    <a href="{{ route('kolektor.tambah') }}" class="btn btn-primary">Tambah Kolektor</a>
-                </div>
-            </div>
-        </form>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+            {{-- Search form (kiri) --}}
+            <form method="GET" action="{{ route('admin.data-kolektor') }}" class="d-flex" style="max-width: 400px;">
+                <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
+                <button class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
+            </form>
+
+            {{-- Tambah Kolektor button (kanan) --}}
+            <a href="{{ route('kolektor.tambah') }}" class="btn btn-primary">Tambah Kolektor</a>
+        </div>
     </div>
 
     <table class="table table-bordered">

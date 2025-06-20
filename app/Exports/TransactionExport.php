@@ -28,7 +28,11 @@ class TransactionExport implements FromView
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $this->date)) {
             // Format harian
             $transactions = Transaction::with('member', 'collector')
+<<<<<<< HEAD
                 ->whereDate('created_at', $this->date)
+=======
+                ->whereDate('tgl_transaksi', $this->date)
+>>>>>>> backend2
                 ->get();
         } elseif (preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $this->date)) {
             // Format bulanan
@@ -36,7 +40,11 @@ class TransactionExport implements FromView
             $endDate = Carbon::parse($startDate)->endOfMonth()->format('Y-m-d');
 
             $transactions = Transaction::with('member', 'collector')
+<<<<<<< HEAD
                 ->whereBetween('created_at', [$startDate, $endDate])
+=======
+                ->whereBetween('tgl_transaksi', [$startDate, $endDate])
+>>>>>>> backend2
                 ->get();
         } else {
             abort(400, 'Format tanggal tidak valid. Gunakan format YYYY-MM-DD atau YYYY-MM.');

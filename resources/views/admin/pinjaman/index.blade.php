@@ -5,7 +5,17 @@
                 <div class="card">
                   <div class="card-header">
                     <h4>Data Pinjaman Anggota</h4>
-                  </div>
+
+                    <form method="GET" action="{{ route('pinjaman.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                   <div class="card-body p-0">
                     <div class="table-responsive">
                       <table class="table table-striped table-md">
@@ -16,48 +26,23 @@
                           <th>Nama Anggota</th>
                           <th>Tenor (Bulan)</th>
                           <th>Jumlah</th>
-                          <th>Jumlah Cicilan</th>
                           <th>Status</th>
+                          <th>Aksi</th>
                         </tr>
+                        @foreach ($loans as $l )
                         <tr>
-                          <td>10</td>
-                          <td>17/5/2025</td>
-                          <td>20</td>
-                          <td>Izumi</td>
-                          <td>2</td>
-                          <td>20.000.000</td>
-                          <td>10.000.000</td>
-                          <td>Berjalan</td>
+                          <td>{{$l->id}}</td>
+                          <td>{{$l->tgl_persetujuan}}</td>
+                          <td>{{$l->member->id}}</td>
+                          <td>{{$l->member->user->name}}</td>
+                          <td>{{$l->tenor}}</td>
+                          <td>Rp {{ number_format($l->jumlah_pinjaman, 0, ',', '.') }}</td>
+                          <td>{{$l->status}}</td>
+                          <td><a href="{{route('pinjaman.detail', $l->id)}}" class="btn btn-primary">Detail</a></td>
                         </tr>
-                        <tr>
-                          <td>11</td>
-                          <td>17/5/2025</td>
-                          <td>20</td>
-                          <td>Tsukasa Suou</td>
-                          <td>2</td>
-                          <td>20.000.000</td>
-                          <td>10.000.000</td>
-                          <td>Lunas</td>
-                        </tr>
+                        @endforeach
                       </table>
                     </div>
-                  </div>
-                  <div class="card-footer text-right">
-                    <nav class="d-inline-block">
-                      <ul class="pagination mb-0">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                        </li>
-                      </ul>
-                    </nav>
                   </div>
                 </div>
 @endsection

@@ -45,4 +45,8 @@ class Collector extends Model
     public function transaction(){
         return $this->hasMany(Transaction::class, 'id_collector');
     }
+
+    public function location_transaction(){
+        return $this->hasMany(TransactionLocation::class, 'id_collector');
+    }
 }

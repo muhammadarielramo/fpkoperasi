@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 @extends('layouts.admin.app', ['title' => 'Riwayat Pinjaman'])
+=======
+@extends('layouts.admin.app', ['title' => 'Riwayat Transaksi'])
+>>>>>>> backend2
 
 @section('content')
 <section>
 
+<<<<<<< HEAD
     <form action="{{ route('transactions.export') }}" method="GET" class="form-inline mb-3">
         <div class="form-group mr-2">
             <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD atau YYYY-MM" required>
@@ -10,6 +15,24 @@
         <button type="submit" class="btn btn-success">
             <i class="fas fa-file-excel"></i> Export Excel
         </button>
+=======
+    <form action="{{ route('history.daily') }}" method="GET" class="form-inline mb-3">
+        <div class="form-group mr-2">
+            <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD atau YYYY-MM" required>
+        </div>
+
+        <div class="btn-group" role="group">
+            {{-- Tombol tampilkan data --}}
+            <button type="submit" name="action" value="filter" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tampilkan Data
+            </button>
+
+            {{-- export --}}
+            <button formaction="{{ route('transactions.export') }}" type="submit" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </button>
+        </div>
+>>>>>>> backend2
     </form>
 
 
@@ -26,7 +49,11 @@
             </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
                 @foreach ($transactions as $t)
+=======
+                @foreach ($transactions->sortByDesc('tgl_transaksi') as $t)
+>>>>>>> backend2
                     <tr>
                         <td>{{$t->tipe_transaksi}}</td>
                         <td>
@@ -48,6 +75,7 @@
                 @endforeach
             </tbody>
     </table>
+<<<<<<< HEAD
                         <div class="float-right">
                       <nav>
                         <ul class="pagination">
@@ -75,6 +103,12 @@
                         </ul>
                       </nav>
                     </div>
+=======
+
+    <div class="d-flex justify-content-center">
+            {{ $transactions->links() }}
+    </div>
+>>>>>>> backend2
 </section>
 
 @endsection

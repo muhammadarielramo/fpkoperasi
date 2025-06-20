@@ -20,7 +20,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('auth.login');
+        return view('auth.login-2');
     }
 
 
@@ -40,9 +40,12 @@ class LoginController extends Controller
         if(Auth::attempt($request->only('email', 'password'))) {
             if(Auth::user()->id_role == '1') {
                 return redirect()->route('admin.dashboard');
+            } else {
+                return back()->with('error', 'Anda Bukan Admin');
             }
-            }
-        return back()->with('error', 'Login Gagal');
+        } else {
+            return back()->with('error', 'Login Gagal');
+        }
     }
 
 
@@ -60,7 +63,7 @@ class LoginController extends Controller
 
             $request->session()->regenerateToken();
 
-            return redirect('/login');
+            return redirect('/');
         }
 
 

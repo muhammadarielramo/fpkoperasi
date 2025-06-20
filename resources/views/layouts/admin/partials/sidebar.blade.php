@@ -46,21 +46,21 @@
                 <a href="{{route('pinjaman.index')}}" class="nav-link"><i class="fas fa-wallet"></i>
                     <span>Data Pinjaman Anggota</span></a>
             </i>
-            <li class="nav-item">
-                <a href="{{route('pinjaman.history')}}" class="nav-link"><i class="fas fa-clock"></i>
-                    <span>History Pinjaman</span></a>
-            </i>
             {{-- Manajemen pinjaman End --}}
 
             {{-- Laporan Keuangan Start --}}
-            <li class="menu-header">Laporan Keuangan</li>
+            <li class="menu-header">Riwayat Transaksi</li>
             <li class="nav-item">
                   <a href="{{route('history.daily')}}" class="nav-link"><i class="fas fa-th-large"></i>
+<<<<<<< HEAD
                     <span>Laporan Harian</span></a>
             </i>
             <li class="nav-item">
                   <a href="#" class="nav-link"><i class="fas fa-th-large"></i>
                     <span>Laporan Bulanan</span></a>
+=======
+                    <span>Riwayat Transaksi</span></a>
+>>>>>>> backend2
             </i>
             {{-- Laporan Keuangan End --}}
         </ul>

@@ -85,20 +85,80 @@ class MemberController extends Controller
         return view('member.register');
     }
 
-    public function register(Request $request) {
-        $request->validate([
-            'name' => 'required',
-            'no_hp' => 'required',
-            'email' => 'required|email',
-            'username' => 'required',
-            'password' => 'required',
-            'address' => 'required',
-        ]);
-    }
 
     public function detailAnggota($id){
+        $member = Member::with('user', 'loan', 'deposit')->findOrFail($id);
+        $kolektor = MemberCollector::with('collector')
+            ->where('id_member', $id)
+            ->whereHas('collector', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->first() ?? '-';
+
+        $simpananWajib = $member->deposit->where('jenis_simpanan', 'wajib')->sum('total_simpanan') ?? 0;
+        $simpananPokok = $member->deposit->where('jenis_simpanan', 'pokok')->sum('total_simpanan') ?? 0;
+        $simpananSukarela = $member->deposit->where('jenis_simpanan', 'sukarela')->sum('total_simpanan') ?? 0;
+        $totalSimpanan = $simpananWajib + $simpananPokok + $simpananSukarela;
+
+        $pastLoans = $member->loan->where('status', 'Lunas') ?? '-';
+        $loans = $member->loan->whereIn('status', ['Diterima', 'Berlangsung'])->first();
+        // dd($loans);
+        // dd($pastLoans);
+
+        return view('admin.anggota.info',
+            compact('member',
+                            'kolektor',
+                                    'simpananWajib',
+                                    'simpananPokok',
+                                    'simpananSukarela',
+                                    'totalSimpanan',
+                                    'pastLoans',
+                                    'loans'));
+    }
+
+    public function showAddMember($id) {
         $member = Member::with('user')->findOrFail($id);
-        return view('admin.anggota.info', compact('member'));
+        $kolektor = Collector::with('user')
+            ->where('status', 'Aktif')
+            ->whereHas('user', function ($query) {
+                $query->where('is_active', 1);
+            })
+            ->get();
+        return view('admin.anggota.add-kolektor', compact('member', 'kolektor'));
+    }
+
+    public function saveAddMember(Request $request, $id) {
+
+        $request->validate([
+            'collector_id' => 'required|exists:users,id',
+            'tgl_penugasan' => 'required',
+        ]);
+
+        $member = Member::findOrFail($id);
+        $memberId = $member->id;
+        $collectorId = $request->collector_id;
+
+        $existing = MemberCollector::where('id_member', $memberId)->first();
+
+        if ($existing) {
+            $existing->update([
+                'id_collector' => $collectorId,
+                'tgl_penugasan' => $request->tgl_penugasan,
+                'updated_at' => now(),
+            ]);
+            return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil diperbarui.');
+        } else {
+            MemberCollector::create([
+                'id_collector' => $collectorId,
+                'id_member' => $memberId,
+                'tgl_penugasan' => $request->tgl_penugasan,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+
+    return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil ditambahkan atau diperbarui.');
     }
 
     public function showAddMember($id) {

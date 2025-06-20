@@ -9,8 +9,12 @@ use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\DepositController;
 use App\Http\Controllers\Api\InstallmentController;
 use App\Http\Controllers\Api\LoanController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SlipController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Mail\ResetPassword;
 use App\Models\Collector;
 use App\Models\Installment;
 use App\Models\Member;
@@ -32,6 +36,10 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::post('/login', [LoginController::class, 'login']) ->name('login');
 Route::middleware('auth:api')->post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// forgot password
+Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('email-reset');
+Route::post('/reset-password/{token}', [ResetPasswordController::class, 'store'])->name('password.update');
+
 
 Route::group(['middleware' => ['auth:api']], function () {
     // profile
@@ -41,7 +49,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // riwayat
     Route::get('/riwayat', [TransactionController::class, 'history'])->name('riwayat');
-    Route::get('/riwayat/detail', [TransactionController::class, 'detail'])->name('riwayat.detail');
+    Route::get('/riwayat/detail/{id}', [TransactionController::class, 'detail'])->name('riwayat.detail');
 
     // simpanan
     Route::get('/simpanan', [DepositController::class, 'getDeposit'])->name('simpanan');
@@ -51,15 +59,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/pinjaman', [LoanController::class, 'loans'])->name('pinjaman');
     Route::post('/pinjaman/pengajuan', [LoanController::class, 'pengajuanPinjaman'])->name('pinjaman.pengajuan');
 
-    // slip pembayaran
+    // dashboard
+    Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::get('/unduh/slip', [SlipController::class, 'generate']);
+Route::get('/unduh/slip/{id}', [SlipController::class, 'generate']);
 
 // kolektor
 Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2']], function () {
     Route::get('/index', [CollectorController::class, 'index'])->name('kolektor');
     Route::get('/anggota-binaan', [CollectorController::class, 'getMember'])->name('anggota-binaan');
+    Route::get('/detail-anggota/{id}', [CollectorController::class, 'detailMember'])->name('detail-anggota');
+
     Route::post('/tambah-simpanan/{id}', [DepositController::class, 'saveDeposit'])->name('tambah-simpanan');
     Route::get('/anggota-pinjaman', [CollectorController::class, 'memberLoan'])->name('pinjaman');
     Route::get('/info-pembayaran/{id_loan}', [LoanController::class, 'loanPaymentInfo'])->name('info-pembayaran');
@@ -71,6 +82,13 @@ Route::group(['prefix' => 'kolektor', 'middleware' => ['auth:api', 'checkRole:2'
 
     // kunjungan hari ini
     Route::get('/kunjungan-hari-ini', [CollectorController::class, 'kunjunganHariIni'])->name('kunjungan-hari-ini');
+    Route::get('/history', [CollectorController::class, 'history'])->name('history');
+});
+
+// notifikasi
+Route::group(['prefix' => 'notifikasi', 'middleware' => 'auth:api'], function () {
+    Route::get('/get', [NotificationController::class, 'getByUser'])->name('get');
+    Route::post('/read/{id}', [NotificationController::class, 'read'])->name('read');
 });
 
 

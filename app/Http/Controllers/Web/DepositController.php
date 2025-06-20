@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 
 class DepositController extends Controller
 {
-    public function index(){
+    public function index(Request $request) {
+
+        $search = $request->input('search');
 
         $datas = DB::table('members')
             ->leftJoin('deposits', 'members.id', '=', 'deposits.id_member')
@@ -24,14 +26,17 @@ class DepositController extends Controller
                 DB::raw("SUM(CASE WHEN jenis_simpanan = 'pokok' THEN total_simpanan ELSE 0 END) as total_pokok"),
                 DB::raw("SUM(CASE WHEN jenis_simpanan = 'sukarela' THEN total_simpanan ELSE 0 END) as total_sukarela"),
                 DB::raw("SUM(total_simpanan) as total_simpanan")
-                )
+            )
+            ->when($search, function ($query, $search) {
+                return $query->where('users.name', 'like', '%' . $search . '%');
+            })
             ->groupBy('members.id', 'users.name')
             ->paginate(10);
 
-        return view('admin.simpanan.index', compact('datas'));
+        return view('admin.simpanan.index', compact('datas', 'search'));
     }
 
     public function saveDepo() {
-        
+
     }
 }

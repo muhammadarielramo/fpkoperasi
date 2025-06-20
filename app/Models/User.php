@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Notifications\ResetPasswordCustom;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'phone_number',
         'id_role',
         'is_active',
+        'avatar',
     ];
 
     protected $hidden = [
@@ -67,4 +69,25 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Collector::class, 'id_user');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->hasMany(Notification::class)->whereNull('read_at');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordCustom($token));
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            $user->member()->delete();
+        });
+    }
 }

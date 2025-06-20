@@ -2,16 +2,16 @@
 
 @section('content')
 
-<div class="float-right">
-                      <form>
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search" value="{{ request('search') }}">
-                          <div class="input-group-append">
-                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+            {{-- Search form (kiri) --}}
+            <form method="GET" action="{{ route('admin.data-anggota') }}" class="d-flex" style="max-width: 400px;">
+                <input type="text" name="search" id="searchInput" class="form-control" placeholder="🔍 Cari nama..." value="{{ request('search') }}">
+                <button class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered">
         <thead>
             <tr>

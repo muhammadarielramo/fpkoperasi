@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Installment extends Model
 {
+    use HasFactory;
     protected $table = 'installments';
 
     protected $fillable = [
@@ -30,6 +32,6 @@ class Installment extends Model
 
     public function transaction()
     {
-        return $this->hasMany(Transaction::class, 'id_installment');
+        return $this->hasOne(Transaction::class, 'id_installment');
     }
 }

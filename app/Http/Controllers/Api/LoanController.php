@@ -15,6 +15,19 @@ class LoanController extends Controller
     public function pengajuanPinjaman(Request $request) {
         $user = auth()->user();
 
+        // cek pinjaman sebelumnya
+        $pinjaman = Loan::where('id_member', $user->member->id)
+            ->where('status', 'Lunas')
+            ->orderBy('tgl_persetujuan', 'desc')
+            ->first();
+
+        if ($pinjaman) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda sudah memiliki pinjaman sebelumnya'
+            ], 422);
+        }
+
         $validator = Validator::make($request->all(), [
             'jumlah_pinjaman' => 'required',
             'tgl_pengajuan' => 'required',
@@ -35,6 +48,7 @@ class LoanController extends Controller
             'created_at' => now(),
             'updated_at' => now()
         ];
+
 
         try {
             $loan = Loan::create($dataPengajuan);
@@ -105,5 +119,5 @@ class LoanController extends Controller
     }
 
     // kolektor
-    
+
 }

@@ -9,6 +9,7 @@ use App\Models\Installment;
 use App\Models\Loan;
 use App\Models\MemberCollector;
 use App\Models\Transaction;
+use App\Models\TransactionLocation;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -71,7 +72,8 @@ class InstallmentController extends Controller
 
     public function setoran(Request $request, $id_loan) {
 
-        $auth = auth()->user();
+        $user = auth()->user();
+        $collector = $user->collector;
 
         $loan = Loan::find($id_loan);
         $member = $loan->member->user->name;
@@ -81,6 +83,8 @@ class InstallmentController extends Controller
             'tgl_pembayaran' => 'required',
             'angsuran_ke' => 'required',
             'status' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -102,16 +106,27 @@ class InstallmentController extends Controller
             ]);
 
             // tb transactions
-            Transaction::create([
+            $transaction = Transaction::create([
                 'id_anggota' => $loan->id_member,
                 'id_installment' => $installment->id,
                 'tipe_transaksi' => 'kredit',
                 'tgl_transaksi' => $request->tgl_pembayaran,
                 'jumlah' => $request->besar_ciclan,
-                'id_collector' => $auth->collector->id,
+                'id_collector' => $collector->id,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
+
+            // tb transaction location
+            $transactionLoc = TransactionLocation::create([
+                'id_transaction' => $transaction->id,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'created_at' => now(),
+                'collector_id' => $collector->id,
+            ]);
+
+            $transaction->location()->save($transactionLoc);
         } catch (Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
  */
@@ -20,9 +21,10 @@ class MemberFactory extends Factory
 
     public function definition(): array
     {
+        $faker = Faker::create();
         return [
             'id_user' => User::factory(),
-            'nik' => fake()->randomNumber(),
+            'nik' => $faker->unique()->numerify('##########'),
             'address' => fake()->address(),
             'is_verified' => fake()->boolean(),
             'bod' => fake()->date(),

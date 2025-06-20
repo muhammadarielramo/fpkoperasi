@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Collector;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\MemberCollector;
 use App\Models\User;
 use App\Models\ViewMemberCollector;
 use Collator;
@@ -16,13 +17,23 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 class CollectorController extends Controller
 {
-    public function getDatas()  {
+    public function getDatas(Request $request)  {
+        $search = $request->get('search');
 
         $collectors = Collector::with('user')
-            ->whereHas('user', function ($query) {
-                $query->where('is_active', 1);
-            })->paginate(20);
-        return view('admin.kolektor.index')->with('collectors',$collectors);
+            ->whereHas('user', function ($query) use ($search) {
+                $query->where('is_active', 1)
+                    ->when($search, function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+            })
+            ->paginate(20);
+
+        return view('admin.kolektor.index', [
+            'collectors' => $collectors,
+            'search' => $search, // jika ingin tampilkan di form pencarian
+        ]);
+
     }
 
     public function create() {
@@ -136,6 +147,12 @@ class CollectorController extends Controller
 
     public function detailKolektor($id) {
         $collector = Collector::with('user')->findOrFail($id);
-        return view('admin.kolektor.info', compact('collector'));
+
+        $members = MemberCollector::with('member.user')
+            ->whereHas('user', function($query) {
+                    $query->where('is_active', 1);
+                })
+            ->where('id_collector', $id)->get();
+        return view('admin.kolektor.info', compact('collector', 'members'));
     }
 }
