@@ -25,10 +25,9 @@ class SlipController extends Controller
             'id_pinjaman' => $transaction->loan->id,
             'tgl_pembayaran' => $transaction->tgl_transaksi,
             'jumlah' => $transaction->jumlah,
-            'sisa_hutang' => $remainingDebt
+            'sisa_hutang' => $remainingDebt,
+            'nama_kolektor' => $transaction->collector->user->name,
         ];
-
-        // dd($data['nama']);
 
         try {
             $pdf = Pdf::loadView('pdf.slip', compact('data'));
