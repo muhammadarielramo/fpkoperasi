@@ -23,17 +23,13 @@ export class MembersPage implements OnInit {
   ngOnInit() {
     // Gunakan RxJS untuk pencarian yang efisien
     this.searchSubject.pipe(
-      debounceTime(500), // Tunggu 500ms setelah user mengetik
-      distinctUntilChanged(), // Hanya cari jika kata kunci berubah
-      // Batalkan request sebelumnya dan buat yang baru
+      debounceTime(500),
+      distinctUntilChanged(),
       switchMap(searchTerm => this.collectorService.getCoachedMembers(searchTerm))
     ).subscribe({
       next: (observable) => {
         observable.subscribe({
-          next: (res: any) => {
-            this.members = res.data || [];
-            this.isLoading = false;
-          },
+          next: (res: any) => this.processMemberData(res), // Panggil fungsi pemroses
           error: (err: any) => this.handleError(err)
         });
       },
@@ -52,6 +48,22 @@ export class MembersPage implements OnInit {
     if (event) {
       setTimeout(() => event.target.complete(), 1000);
     }
+  }
+
+  /**
+   * Fungsi terpusat untuk memproses data member dan memperbaiki URL avatar.
+   */
+  private processMemberData(response: any) {
+    const membersData = response.data || [];
+    this.members = membersData.map((item: any) => {
+      // Cek jika photo_url ada dan dimulai dengan http://
+      if (item.photo_url && item.photo_url.startsWith('http://')) {
+        // Ganti dengan https://
+        item.photo_url = item.photo_url.replace('http://', 'https://');
+      }
+      return item;
+    });
+    this.isLoading = false;
   }
 
   // Dipanggil setiap kali ada input di search bar

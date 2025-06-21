@@ -33,7 +33,14 @@ export class MemberDetailsPage implements OnInit {
     (await this.collectorService.getMemberDetails(id)).subscribe({
       next: (res: any) => {
         if (res && res.data) {
-          this.member = res.data;
+          const memberData = res.data;
+          
+          // PERBAIKAN: Cek dan ganti http menjadi https untuk photo_url
+          if (memberData.photo_url && memberData.photo_url.startsWith('http://')) {
+            memberData.photo_url = memberData.photo_url.replace('http://', 'https://');
+          }
+          
+          this.member = memberData;
         }
         this.isLoading = false;
       },
@@ -44,7 +51,7 @@ export class MemberDetailsPage implements OnInit {
       },
     });
   }
-
+  
   goBack() {
     this.location.back();
   }

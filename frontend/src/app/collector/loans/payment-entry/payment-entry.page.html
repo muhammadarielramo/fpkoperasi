@@ -85,21 +85,4 @@
       <h2>PEMBAYARAN BERHASIL DISIMPAN!</h2>
     </div>
   </div>
-
-  <!-- Location Permission Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showLocationModal}">
-    <div class="verification-modal" (click)="$event.stopPropagation()">
-      <div class="verification-icon">
-        <img src="assets/location.svg" alt="Location Icon" class="location-icon" />
-      </div>
-      <h2>Aktifkan Layanan Lokasi</h2>
-      <p class="location-description">
-        Untuk melanjutkan proses setor tunai, Anda wajib mengaktifkan layanan lokasi (GPS).
-      </p>
-      <div class="modal-action-button-container">
-        <ion-button shape="round" class="btn-modal-primary" (click)="enableLocation()">IZINKAN LOKASI</ion-button>
-        <ion-button shape="round" class="btn-modal-secondary" fill="clear" (click)="showLocationModal = false">LAIN KALI</ion-button>
-      </div>
-    </div>
-  </div>
 </ion-content>

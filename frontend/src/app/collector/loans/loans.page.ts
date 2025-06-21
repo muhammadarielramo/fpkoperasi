@@ -51,11 +51,19 @@ export class LoansPage implements OnInit {
     (await this.collectorService.getMemberLoans()).subscribe({
       next: (res: any) => {
         if (res && Array.isArray(res.data)) {
-          // PERBAIKAN: Urutkan data berdasarkan ID (atau tanggal pembuatan jika ada)
-          // Asumsi ID yang lebih besar berarti lebih baru
           const sortedData = res.data.sort((a: any, b: any) => b.id - a.id);
-          this.allLoans = sortedData;
-          this.filteredLoans = sortedData;
+          
+          // PERBAIKAN: Proses setiap item untuk memperbaiki URL avatar
+          const processedData = sortedData.map((loan: any) => {
+            const photoUrl = loan.member?.user?.photo_url;
+            if (photoUrl && photoUrl.startsWith('http://')) {
+              loan.member.user.photo_url = photoUrl.replace('http://', 'https://');
+            }
+            return loan;
+          });
+
+          this.allLoans = processedData;
+          this.filteredLoans = processedData;
         } else {
           this.allLoans = [];
           this.filteredLoans = [];

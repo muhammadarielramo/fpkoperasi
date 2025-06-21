@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { LoanService } from 'src/app/services/loan.service';
 import { InstallmentService } from 'src/app/services/installment.service';
+import { Geolocation, Position } from '@capacitor/geolocation'; // 1. Impor dari Capacitor
 
 @Component({
   standalone: false,
@@ -52,8 +53,6 @@ export class PaymentEntryPage implements OnInit {
       next: (res: any) => {
         if (res && res.data) {
           this.memberName = res.data.member;
-          // Anda bisa mengisi field lain di sini jika API mengembalikannya
-          // Contoh: this.paymentForm.patchValue({ angsuran_ke: res.data.next_installment });
         }
       },
       error: (err: any) => {
@@ -64,31 +63,16 @@ export class PaymentEntryPage implements OnInit {
     });
   }
 
-  goBack() {
-    this.location.back();
-  }
-
-  openDatePicker() {
-    this.showDatePicker = true;
-  }
-
-  setDateValue(event: any) {
-    const date = new Date(event.detail.value);
-    const formattedDate = date.toISOString().split('T')[0];
-    this.paymentForm.patchValue({ tgl_pembayaran: formattedDate });
-    this.showDatePicker = false;
-  }
-
   async submitPayment() {
     if (this.paymentForm.invalid) {
       this.presentToast('Harap lengkapi semua data pembayaran.', 'warning');
       return;
     }
-    // Cek izin lokasi terlebih dahulu
-    this.checkLocationPermission();
+    // Langsung minta lokasi dan verifikasi
+    this.requestLocation();
   }
 
-  private async proceedWithSubmission(position: GeolocationPosition) {
+  private async proceedWithSubmission(position: Position) {
     const loading = await this.loadingCtrl.create({ message: 'Menyimpan pembayaran...' });
     await loading.present();
 
@@ -96,6 +80,7 @@ export class PaymentEntryPage implements OnInit {
       ...this.paymentForm.value,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
+      accuracy: position.coords.accuracy
     };
 
     (await this.installmentService.submitInstallment(this.loanId, payload)).subscribe({
@@ -114,45 +99,59 @@ export class PaymentEntryPage implements OnInit {
       },
     });
   }
-
-  // --- Logika Izin Lokasi ---
-  async checkLocationPermission() {
-    const permission = await navigator.permissions.query({ name: 'geolocation' });
-    if (permission.state === 'granted') {
-      this.requestLocation();
-    } else {
-      this.showLocationModal = true;
-    }
-  }
-
-  enableLocation() {
-    this.showLocationModal = false;
-    this.requestLocation();
-  }
   
+  // --- PERBAIKAN: Menggabungkan logika izin dan pengambilan lokasi ---
   private async requestLocation() {
-    const loading = await this.loadingCtrl.create({ message: 'Mendapatkan lokasi...' });
+    const loading = await this.loadingCtrl.create({ message: 'Memverifikasi lokasi...' });
     await loading.present();
     try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 0
-        });
+      // 1. Minta izin menggunakan Capacitor Geolocation
+      const permissions = await Geolocation.checkPermissions();
+      if (permissions.location !== 'granted') {
+        const request = await Geolocation.requestPermissions();
+        if (request.location !== 'granted') {
+          throw new Error('Izin lokasi ditolak.');
+        }
+      }
+
+      // 2. Ambil posisi menggunakan Capacitor Geolocation
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 15000,
       });
-      loading.dismiss();
-      this.proceedWithSubmission(position); // Lanjutkan setelah lokasi didapat
+
+      // 3. Cek lokasi palsu (mocked)
+      if ((position as any).mocked) {
+        throw new Error('Terdeteksi penggunaan lokasi palsu (Fake GPS).');
+      }
+
+      // 4. Cek akurasi lokasi
+      if (position.coords.accuracy > 500) {
+        throw new Error('Akurasi GPS terlalu rendah. Pastikan sinyal baik.');
+      }
+
+      await loading.dismiss();
+      this.proceedWithSubmission(position); // Lanjutkan jika semua pengecekan lolos
+
     } catch (error: any) {
-      loading.dismiss();
+      await loading.dismiss();
       this.presentToast(error.message || 'Gagal mendapatkan lokasi. Pastikan GPS aktif.', 'danger');
     }
   }
 
+  // Fungsi lain tetap sama
+  goBack() { this.location.back(); }
+  openDatePicker() { this.showDatePicker = true; }
+  setDateValue(event: any) {
+    const date = new Date(event.detail.value);
+    const formattedDate = date.toISOString().split('T')[0];
+    this.paymentForm.patchValue({ tgl_pembayaran: formattedDate });
+    this.showDatePicker = false;
+  }
   async presentToast(message: string, color: string = 'danger') {
     const toast = await this.toastCtrl.create({
       message,
-      duration: 3000,
+      duration: 3500,
       position: 'top',
       color,
     });

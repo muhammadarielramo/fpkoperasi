@@ -22,20 +22,17 @@ export class SavingsPage implements OnInit {
 
   ngOnInit() {
     this.searchSubject.pipe(
-      debounceTime(500), // Tunggu 500ms setelah user berhenti mengetik
-      distinctUntilChanged(), // Hanya kirim request jika kata kunci berubah
+      debounceTime(500),
+      distinctUntilChanged(),
       switchMap(searchTerm => this.collectorService.getCoachedMembers(searchTerm))
     ).subscribe({
       next: (observable) => {
         observable.subscribe({
-          next: res => {
-            this.members = res.data || [];
-            this.isLoading = false;
-          },
-          error: err => this.handleError(err)
+          next: (res: any) => this.processMemberData(res), // Panggil fungsi pemroses
+          error: (err: any) => this.handleError(err)
         });
       },
-      error: err => this.handleError(err)
+      error: (err: any) => this.handleError(err)
     });
   }
 
@@ -45,10 +42,26 @@ export class SavingsPage implements OnInit {
 
   loadInitialData(event?: any) {
     this.isLoading = true;
-    this.searchSubject.next(''); // Trigger pencarian awal (kosong)
+    this.searchSubject.next('');
     if (event) {
       setTimeout(() => event.target.complete(), 1000);
     }
+  }
+
+  /**
+   * PERBAIKAN: Fungsi terpusat untuk memproses data member dan memperbaiki URL avatar.
+   */
+  private processMemberData(response: any) {
+    const membersData = response.data || [];
+    this.members = membersData.map((item: any) => {
+      // Cek jika photo_url ada dan dimulai dengan http://
+      if (item.photo_url && item.photo_url.startsWith('http://')) {
+        // Ganti dengan https://
+        item.photo_url = item.photo_url.replace('http://', 'https://');
+      }
+      return item;
+    });
+    this.isLoading = false;
   }
 
   handleSearch(event: any) {

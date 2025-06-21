@@ -66,7 +66,17 @@ export class HistoriesPage implements OnInit {
       const response = await this.collectorService.getHistory(startDate, endDate);
       response.subscribe({
         next: (res: any) => {
-          this.transactions = res.data || [];
+          const transactionsData = res.data || [];
+          
+          // PERBAIKAN: Proses setiap transaksi untuk memperbaiki URL avatar
+          this.transactions = transactionsData.map((trx: any) => {
+            const photoUrl = trx.member?.user?.photo_url;
+            if (photoUrl && photoUrl.startsWith('http://')) {
+              trx.member.user.photo_url = photoUrl.replace('http://', 'https://');
+            }
+            return trx;
+          });
+
           this.totalDeposit = this.transactions.reduce((sum: number, trx: any) => sum + parseFloat(trx.jumlah || 0), 0);
           this.isLoading = false;
         },

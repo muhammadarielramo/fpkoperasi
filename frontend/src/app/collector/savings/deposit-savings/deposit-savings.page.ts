@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { CollectorService } from 'src/app/services/collector.service';
 import { DepositService } from 'src/app/services/deposit.service';
+import { Geolocation, Position } from '@capacitor/geolocation';
 
 @Component({
   standalone: false,
@@ -74,17 +75,17 @@ export class DepositSavingsPage implements OnInit {
     this.showDatePicker = false;
   }
 
-  private getCurrentLocation(): Promise<GeolocationPosition> {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject(new Error('Geolocation tidak didukung oleh perangkat ini.'));
-        return;
+  private async getCurrentLocation(): Promise<Position> {
+    const permissions = await Geolocation.checkPermissions();
+    if (permissions.location !== 'granted') {
+      const request = await Geolocation.requestPermissions();
+      if (request.location !== 'granted') {
+        throw new Error('Izin lokasi ditolak. Aktifkan di pengaturan perangkat.');
       }
-      navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0
-      });
+    }
+    return Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
     });
   }
 
@@ -98,10 +99,17 @@ export class DepositSavingsPage implements OnInit {
     await loading.present();
 
     try {
-      // Langkah 1: Coba dapatkan lokasi
       const position = await this.getCurrentLocation();
       
-      // Jika berhasil, ubah pesan loading dan lanjutkan
+      // PERBAIKAN: Cast 'position' ke 'any' untuk mengakses properti 'mocked'
+      if ((position as any).mocked) {
+        throw new Error('Terdeteksi penggunaan lokasi palsu (Fake GPS).');
+      }
+
+      if (position.coords.accuracy > 500) {
+        throw new Error('Akurasi GPS terlalu rendah. Pastikan sinyal baik.');
+      }
+      
       loading.message = 'Menyimpan data...';
       
       const payload = {
@@ -115,33 +123,25 @@ export class DepositSavingsPage implements OnInit {
       (await this.depositService.saveDeposit(this.memberId, payload)).subscribe({
         next: (res: any) => {
           loading.dismiss();
-          if (res && res.success === true) {
+          if (res && res.success) {
             this.showDepositSuccess = true;
             setTimeout(() => {
-              this.showDepositSuccess = false;
-              this.router.navigate(['/collector/savings']);
+                this.showDepositSuccess = false;
+                this.router.navigate(['/collector/savings']);
             }, 2000);
           } else {
-            const errorMessage = res.message || 'Terjadi kesalahan pada server.';
-            this.presentToast(errorMessage);
+             this.presentToast(res.message || 'Gagal menyimpan setoran.', 'danger');
           }
         },
         error: (err) => {
           loading.dismiss();
-          const message = err.error?.message || 'Gagal menyimpan setoran.';
-          this.presentToast(message);
+          this.presentToast(err.error?.message || 'Gagal menyimpan setoran.', 'danger');
         },
       });
 
-    } catch (locationError: any) {
-      // PERBAIKAN: Tangkap error jika gagal mendapatkan lokasi
+    } catch (error: any) {
       await loading.dismiss();
-      // Berikan pesan yang lebih spesifik
-      let message = 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin lokasi telah diberikan untuk aplikasi ini.';
-      if (locationError.message) {
-          message = locationError.message;
-      }
-      this.presentToast(message);
+      this.presentToast(error.message || 'Gagal mendapatkan lokasi.', 'danger');
     }
   }
   
