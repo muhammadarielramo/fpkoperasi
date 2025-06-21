@@ -118,6 +118,25 @@
           cursor: pointer;
         }
       }
+      .currency-input-wrapper {
+        position: relative;
+
+        .currency-prefix {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          font-family: "Poppins", sans-serif;
+          font-size: 14px;
+          color: #4d4d4d;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .currency-input {
+          padding-left: 3rem;
+        }
+      }
     }
 
     .installment-section {

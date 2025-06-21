@@ -77,7 +77,11 @@ export class HistoriesPage implements OnInit {
   }
 
   getTransactionTitle(transaction: any): string {
-    if (transaction.id_deposit) return `Simpanan`;
+    if (transaction.id_deposit && transaction.jenis_simpanan) {
+      // Ubah 'wajib' -> 'Wajib', 'pokok' -> 'Pokok', dst.
+      const jenis = transaction.jenis_simpanan.charAt(0).toUpperCase() + transaction.jenis_simpanan.slice(1);
+      return `Simpanan ${jenis}`;
+    }
     if (transaction.id_installment) return 'Pembayaran Pinjaman';
     if (transaction.id_loan) return 'Pencairan Pinjaman';
     return 'Transaksi';
