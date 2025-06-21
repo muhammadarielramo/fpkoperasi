@@ -96,4 +96,27 @@ class RegisterController extends Controller
 
         return redirect()->back()->with('success', 'Registrasi berhasil. Silakan Login di Aplikasi');
     }
+
+    public function confirmEmailVerification($token) {
+        $user = User::where('kode_otp', $token)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Token tidak valid'], 400);
+        }
+
+        try {
+            $user->update([
+                'is_active' => 1,
+                'updated_at' => now(),
+                'email_verified_at' => now(),
+            ]);
+            return response()->json(['message' => 'Email berhasil aktivasi'],200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Gagal aktivasi email',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
+    }
 }

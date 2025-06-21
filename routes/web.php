@@ -108,10 +108,13 @@ Route::middleware(['admin'])->group(function () {
 Route::get('/verifikasi/{id}', [RegisterController::class, 'verifPage'])->name('verifikasi.halaman');
 Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name('verifikasi');
 
+// reset email
+Route::get('/email/verify/{token}', [RegisterController::class, 'confirmEmailVerification'])->name('verifikasi.index');
+
 // history
 Route::get('/cashflowy/daily', [CashFlowController::class, 'ShowKas'])->name('history.daily');
 Route::get('/cashflow/create', [CashFlowController::class, 'showCreate'])->name('history.create.show');
-Route::get('/cashflow/export', [CashFlowContrcoller::class, 'export'])->name('cashflow.export');
+Route::get('/cashflow/export', [CashFlowController::class, 'export'])->name('cashflow.export');
 Route::post('/cashflow/save', [CashFlowController::class, 'create'])->name('history.create');
 
 Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
@@ -129,6 +132,5 @@ Route::post('/simpanan/pengajuan/{id}', [LoanController::class, 'responPengajuan
 // upload kt
 Route::get('/upload-ktp', [uploadController::class, 'index'])->name('upload-ktp');
 Route::post('/upload-ktp', [uploadController::class, 'upload'])->name('upload-ktp');
-
 
 

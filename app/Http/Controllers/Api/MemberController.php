@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Mail\VerifyEmailMail;
 use App\Models\Deposit;
 use App\Models\Loan;
 use App\Models\Member;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class MemberController extends Controller
 {
@@ -48,12 +51,15 @@ class MemberController extends Controller
             $data['avatar'] = $image_uploaded_path;
         }
 
-
-        try {
+        if($request->has('email')) {
+            return $this->verifyEmail($request->email, $user->email);
+        } else {
             // update tb user
             $user->update($data);
-            
+        }
 
+
+        try {
             // update tb memebr
             if (array_key_exists('address', $data)) {
                 $member = Member::where('id_user', $user->id)->first();
@@ -114,5 +120,36 @@ class MemberController extends Controller
                 'total_pinjaman' => $totalPinjaman
             ]
         ], 200);
+    }
+
+    public function verifyEmail($email, $user) {
+        $user = User::where('email', $user)->first();
+        if (!$user) {
+            return response()->json(['message' => 'Email tidak ditemukan'], 404);
+        }
+
+        // buat token dan simpan di db
+        $token = Str::random(64);
+        $user->update([
+            'kode_otp' => $token,
+            'updated_at' => now(),
+            'email' => $email,
+            'is_active' => 0
+        ]);
+
+        $verificationLink = url("/email/verify/{$token}");
+        try {
+            Mail::to($email)->send(new VerifyEmailMail($user, $verificationLink));
+
+            return response()->json([
+                'message' => 'Email verifikasi telah dikirim'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Gagal mengirim email verifikasi',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
