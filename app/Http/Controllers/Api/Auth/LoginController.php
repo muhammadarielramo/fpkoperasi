@@ -21,6 +21,8 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        $loginField = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -29,8 +31,11 @@ class LoginController extends Controller
             ], 400);
         }
 
-        $credentials = request(['username', 'password']);
-        $credentials['is_active'] = 1;
+        $credentials = [
+            $loginField => $request->username,
+            'password' => $request->password,
+            'is_active' => 1
+        ];
 
         if (auth()->guard('api')->attempt($credentials)) {
             $user = auth()->guard('api')->user();
