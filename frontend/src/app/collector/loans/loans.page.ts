@@ -51,8 +51,11 @@ export class LoansPage implements OnInit {
     (await this.collectorService.getMemberLoans()).subscribe({
       next: (res: any) => {
         if (res && Array.isArray(res.data)) {
-          this.allLoans = res.data;
-          this.filteredLoans = res.data;
+          // PERBAIKAN: Urutkan data berdasarkan ID (atau tanggal pembuatan jika ada)
+          // Asumsi ID yang lebih besar berarti lebih baru
+          const sortedData = res.data.sort((a: any, b: any) => b.id - a.id);
+          this.allLoans = sortedData;
+          this.filteredLoans = sortedData;
         } else {
           this.allLoans = [];
           this.filteredLoans = [];

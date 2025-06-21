@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { LoanService } from 'src/app/services/loan.service';
 
@@ -15,6 +15,7 @@ export class LoanDetailsPage implements OnInit {
   public isLoading: boolean = true;
 
   constructor(
+    private router: Router,
     private location: Location,
     private route: ActivatedRoute,
     private loanService: LoanService,
@@ -43,10 +44,13 @@ export class LoanDetailsPage implements OnInit {
         }
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         this.isLoading = false;
-        this.presentToast('Gagal memuat detail pinjaman.');
+        // PERBAIKAN: Ambil pesan error spesifik dari backend
+        const message = err.error?.message || 'Gagal memuat detail pinjaman.';
+        this.presentToast(message);
         console.error(err);
+        this.router.navigate(['/collector/loans']);
       },
     });
   }

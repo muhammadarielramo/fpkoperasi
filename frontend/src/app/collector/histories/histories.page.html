@@ -100,10 +100,10 @@
     <div *ngIf="!isLoading && transactions.length > 0" class="transaction-list">
       <div *ngFor="let trx of transactions" class="transaction-item">
         <div class="user-avatar">
-          <img [src]="trx.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (trx.member_name ? trx.member_name.charAt(0).toUpperCase() : '?')" alt="Avatar" />
+          <img [src]="trx.member?.user?.photo_url || 'https://placehold.co/100x100/EFEFEF/333333?text=' + (trx.member?.user?.name ? trx.member.user.name.charAt(0).toUpperCase() : '?')" alt="Avatar" />
         </div>
         <div class="transaction-info">
-          <div class="user-name">{{ trx.member_name }}</div>
+          <div class="user-name">{{ trx.member?.user?.name }}</div>
           <div class="transaction-date">{{ trx.tgl_transaksi | date:'d MMMM y' }}</div>
         </div>
         <div class="transaction-details">

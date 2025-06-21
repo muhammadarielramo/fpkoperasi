@@ -56,7 +56,11 @@ export class PaymentEntryPage implements OnInit {
           // Contoh: this.paymentForm.patchValue({ angsuran_ke: res.data.next_installment });
         }
       },
-      error: () => this.presentToast('Gagal memuat info pembayaran.'),
+      error: (err: any) => {
+        const message = err.error?.message || 'Gagal memuat info pembayaran.';
+        this.presentToast(message);
+        this.router.navigate(['/collector/loans']);
+      },
     });
   }
 

@@ -16,34 +16,35 @@ export class MemberCoachingGuard implements CanActivate {
   ) { }
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    // 1. Dapatkan path untuk redirect dari data rute, dengan fallback
+    const redirectPath = route.data['redirectTo'] || '/collector/dashboard';
+
     const memberIdToAccess = parseInt(route.paramMap.get('id')!, 10);
     if (isNaN(memberIdToAccess)) {
-      this.router.navigate(['/collector/savings']); // Arahkan jika ID tidak valid
+      this.router.navigate([redirectPath]);
       return false;
     }
 
     try {
-      // Ambil daftar anggota binaan dari API
       const coachedMembersObservable = await this.collectorService.getCoachedMembers();
       const coachedMembersResponse = await firstValueFrom(coachedMembersObservable);
       
       const coachedMembers = coachedMembersResponse.data || [];
       
-      // Cek apakah ID dari URL ada di dalam daftar anggota binaan
       const isAuthorized = coachedMembers.some((item: any) => item.id === memberIdToAccess);
 
       if (isAuthorized) {
-        return true; // Jika ada, izinkan akses
+        return true; // Izinkan akses
       } else {
-        // Jika tidak, tampilkan pesan dan blokir
+        // Jika tidak, tolak dan arahkan ke path yang sesuai
         await this.presentToast('Anda tidak memiliki izin untuk anggota ini.');
-        this.router.navigate(['/collector/savings']);
+        this.router.navigate([redirectPath]);
         return false;
       }
     } catch (error) {
       // Tangani jika gagal memuat daftar anggota
       await this.presentToast('Gagal memverifikasi izin anggota.');
-      this.router.navigate(['/collector/savings']);
+      this.router.navigate([redirectPath]); // Arahkan ke path yang sesuai
       return false;
     }
   }

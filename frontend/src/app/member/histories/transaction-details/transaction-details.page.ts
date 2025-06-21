@@ -72,10 +72,12 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   async openMap() {
-    const coords = this.transactionDetail?.lokasi?.koordinat;
+    // PERBAIKAN: Gunakan 'lat' dan 'lng' sesuai respons API
+    const lat = this.transactionDetail?.lokasi?.koordinat?.lat;
+    const lon = this.transactionDetail?.lokasi?.koordinat?.lng;
 
-    if (coords && coords.latitude && coords.longitude) {
-      const mapUrl = `https://maps.google.com/?q=${coords.latitude},${coords.longitude}`;
+    if (lat && lon) {
+      const mapUrl = `https://maps.google.com/?q=${lat},${lon}`;
       await Browser.open({ url: mapUrl });
     } else {
       this.presentToast('Data lokasi tidak tersedia untuk transaksi ini.', 'warning');

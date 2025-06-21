@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Injectable({
@@ -12,46 +12,45 @@ export class LocationGuard implements CanActivate {
     private toastCtrl: ToastController
   ) { }
 
-  async canActivate(): Promise<boolean> {
-    // Cek apakah browser mendukung Permissions API
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+    // 1. Dapatkan path untuk redirect dari data rute, dengan fallback
+    const redirectPath = route.data['redirectTo'] || '/collector/dashboard';
+
     if (!navigator.permissions) {
       await this.presentToast('Perangkat tidak mendukung pengecekan izin.');
-      return false; // Blokir jika API tidak ada
+      return false; 
     }
 
-    // Cek status izin geolokasi
     const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
 
     if (permissionStatus.state === 'granted') {
       return true; // Izin sudah diberikan, izinkan akses.
     }
 
-    // Jika izin 'prompt' (belum ditanya) atau 'denied' (ditolak)
     if (permissionStatus.state === 'prompt') {
-      // Minta izin
-      return this.requestPermission();
-    } else {
-      // Jika ditolak, tampilkan pesan dan blokir akses.
+      return this.requestPermission(redirectPath);
+    } else { // denied
       await this.presentToast('Akses lokasi diperlukan untuk halaman ini.');
-      this.router.navigate(['/collector/dashboard']); // Arahkan kembali
+      // 2. Gunakan path redirect yang dinamis
+      this.router.navigate([redirectPath]);
       return false;
     }
   }
 
-  private async requestPermission(): Promise<boolean> {
+  private async requestPermission(redirectPath: string): Promise<boolean> {
     try {
-      // Meminta izin menggunakan Geolocation API
       await new Promise<void>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
-          () => resolve(), // Sukses, berarti izin diberikan
-          (error) => reject(error), // Gagal, berarti izin ditolak
+          () => resolve(),
+          (error) => reject(error),
           { timeout: 10000 }
         );
       });
-      return true; // Jika promise resolve, izin diberikan.
+      return true;
     } catch (error) {
       await this.presentToast('Anda harus mengizinkan akses lokasi untuk melanjutkan.');
-      this.router.navigate(['/collector/dashboard']); // Arahkan kembali jika ditolak
+      // 3. Gunakan path redirect yang dinamis
+      this.router.navigate([redirectPath]);
       return false;
     }
   }

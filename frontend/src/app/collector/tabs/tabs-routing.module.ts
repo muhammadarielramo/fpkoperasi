@@ -46,6 +46,9 @@ const routes: Routes = [
   {
     path: 'savings/deposit-savings/:id',
     canActivate: [LocationGuard, MemberCoachingGuard],
+    data: { 
+      redirectTo: '/collector/savings' 
+    },
     loadChildren: () => import('../savings/deposit-savings/deposit-savings.module').then((m) => m.DepositSavingsPageModule),
   },
   {
@@ -55,11 +58,17 @@ const routes: Routes = [
   {
     path: 'loans/payment-entry/:id',
     canActivate: [LocationGuard],
+    data: { 
+      redirectTo: '/collector/loans' 
+    },
     loadChildren: () => import('../loans/payment-entry/payment-entry.module').then((m) => m.PaymentEntryPageModule),
   },
-  // PERBAIKAN: Tambahkan rute untuk detail anggota di sini
   {
-    path: 'members/member-details/:id', // URL: /collector/members/member-details/123
+    path: 'members/member-details/:id',
+    canActivate: [MemberCoachingGuard],
+    data: { 
+      redirectTo: '/collector/members' 
+    },
     loadChildren: () => import('../members/member-details/member-details.module').then(m => m.MemberDetailsPageModule)
   },
 ];
