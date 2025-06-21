@@ -53,7 +53,8 @@ export class TransactionDetailsPage implements OnInit {
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.presentToast('Terjadi kesalahan saat memuat data.');
+        const message = err.error?.message || 'Terjadi kesalahan saat memuat data.';
+        this.presentToast(message);
       },
     });
   }

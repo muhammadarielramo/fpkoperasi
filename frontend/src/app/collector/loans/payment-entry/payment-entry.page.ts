@@ -22,6 +22,8 @@ export class PaymentEntryPage implements OnInit {
   showDatePicker = false;
   showLocationModal = false;
 
+  private lastPosition: Position | null = null;
+
   constructor(
     private location: Location,
     private router: Router,
@@ -99,13 +101,11 @@ export class PaymentEntryPage implements OnInit {
       },
     });
   }
-  
-  // --- PERBAIKAN: Menggabungkan logika izin dan pengambilan lokasi ---
+
   private async requestLocation() {
     const loading = await this.loadingCtrl.create({ message: 'Memverifikasi lokasi...' });
     await loading.present();
     try {
-      // 1. Minta izin menggunakan Capacitor Geolocation
       const permissions = await Geolocation.checkPermissions();
       if (permissions.location !== 'granted') {
         const request = await Geolocation.requestPermissions();
@@ -114,21 +114,36 @@ export class PaymentEntryPage implements OnInit {
         }
       }
 
-      // 2. Ambil posisi menggunakan Capacitor Geolocation
       const position = await Geolocation.getCurrentPosition({
         enableHighAccuracy: true,
         timeout: 15000,
       });
 
-      // 3. Cek lokasi palsu (mocked)
       if ((position as any).mocked) {
         throw new Error('Terdeteksi penggunaan lokasi palsu (Fake GPS).');
       }
 
-      // 4. Cek akurasi lokasi
       if (position.coords.accuracy > 500) {
         throw new Error('Akurasi GPS terlalu rendah. Pastikan sinyal baik.');
       }
+
+      const locationAge = Date.now() - position.timestamp;
+      if (locationAge > 60000) {
+        throw new Error('Data lokasi tidak real-time. Mohon refresh GPS Anda.');
+      }
+
+      if (this.lastPosition) {
+        const distance = this.calculateDistance(this.lastPosition.coords, position.coords);
+        const timeDiffSeconds = (position.timestamp - this.lastPosition.timestamp) / 1000;
+        if (timeDiffSeconds > 1) {
+          const speedKph = (distance / timeDiffSeconds) * 3600;
+          if (speedKph > 150) {
+            throw new Error('Pergerakan lokasi tidak wajar terdeteksi.');
+          }
+        }
+      }
+
+      this.lastPosition = position;
 
       await loading.dismiss();
       this.proceedWithSubmission(position); // Lanjutkan jika semua pengecekan lolos
@@ -137,6 +152,16 @@ export class PaymentEntryPage implements OnInit {
       await loading.dismiss();
       this.presentToast(error.message || 'Gagal mendapatkan lokasi. Pastikan GPS aktif.', 'danger');
     }
+  }
+
+  private calculateDistance(coords1: any, coords2: any): number {
+    const R = 6371; // Radius bumi dalam km
+    const dLat = (coords2.latitude - coords1.latitude) * Math.PI / 180;
+    const dLon = (coords2.longitude - coords1.longitude) * Math.PI / 180;
+    const a = 
+        0.5 - Math.cos(dLat)/2 + 
+        Math.cos(coords1.latitude * Math.PI / 180) * Math.cos(coords2.latitude * Math.PI / 180) * (1 - Math.cos(dLon)) / 2;
+    return R * 2 * Math.asin(Math.sqrt(a));
   }
 
   // Fungsi lain tetap sama

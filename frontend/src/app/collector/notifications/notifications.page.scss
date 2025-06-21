@@ -39,14 +39,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+
+  ion-icon{
+    color: #ffffff;
+  }
 }
 
-.notification-icon-wrapper::before {
-  content: "✓";
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-}
 
 .notification-content {
   flex: 1;

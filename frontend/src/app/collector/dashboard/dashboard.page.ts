@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
-import { CollectorService } from '../../services/collector.service'; // 1. Impor service baru
+import { CollectorService } from '../../services/collector.service';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   standalone: false,
@@ -21,7 +22,7 @@ export class DashboardPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private collectorService: CollectorService, // 3. Suntikkan (inject) service
+    private collectorService: CollectorService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
@@ -74,9 +75,35 @@ export class DashboardPage implements OnInit {
     this.today = new Date().toLocaleDateString('id-ID', options);
   }
 
+  async goToPaymentEntry(loanId: number) {
+    try {
+      const permissions = await Geolocation.checkPermissions();
+      if (permissions.location !== 'granted') {
+        const request = await Geolocation.requestPermissions();
+        if (request.location !== 'granted') {
+          throw new Error('Anda harus mengizinkan akses lokasi untuk melanjutkan.');
+        }
+      }
+      // Jika izin sudah ada atau baru saja diberikan, lanjutkan navigasi
+      this.router.navigate(['/collector/loans/payment-entry', loanId]);
+    } catch (error: any) {
+      this.presentToast(error.message || 'Gagal memverifikasi izin lokasi.', 'warning');
+    }
+  }
+
   async logout() {
     await this.authService.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'top',
+      color,
+    });
+    await toast.present();
   }
 
   async presentErrorToast(message: string) {

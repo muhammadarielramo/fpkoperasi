@@ -9,7 +9,10 @@
 
   <!-- Tampilkan loading spinner -->
   <div *ngIf="isLoading" class="ion-text-center ion-padding">
-    <ion-spinner name="crescent" style="transform: scale(1.5); margin-top: 50%;"></ion-spinner>
+    <ion-spinner
+      name="crescent"
+      style="transform: scale(1.5); margin-top: 50%"
+    ></ion-spinner>
   </div>
 
   <!-- Tampilkan konten utama jika tidak loading -->
@@ -25,9 +28,15 @@
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
                 <h3>Simpanan Wajib</h3>
               </div>
-              <div class="amount">{{ savings.total_wajib | currency:'IDR':'Rp':'1.0-0' }}</div>
+              <div class="amount">
+                {{ dashboardData.simpanan_wajib | currency:'IDR':'Rp':'1.0-0' }}
+              </div>
             </div>
-            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
           </div>
         </swiper-slide>
 
@@ -39,9 +48,15 @@
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
                 <h3>Simpanan Pokok</h3>
               </div>
-              <div class="amount">{{ savings.total_pokok | currency:'IDR':'Rp':'1.0-0' }}</div>
+              <div class="amount">
+                {{ dashboardData.simpanan_pokok | currency:'IDR':'Rp':'1.0-0' }}
+              </div>
             </div>
-            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
           </div>
         </swiper-slide>
 
@@ -53,9 +68,16 @@
                 <img src="assets/wallet.svg" alt="Wallet" class="card-icon" />
                 <h3>Simpanan Sukarela</h3>
               </div>
-              <div class="amount">{{ savings.total_sukarela | currency:'IDR':'Rp':'1.0-0' }}</div>
+              <div class="amount">
+                {{ dashboardData.simpanan_sukarela | currency:'IDR':'Rp':'1.0-0'
+                }}
+              </div>
             </div>
-            <img src="assets/piggy-bank.svg" alt="Saldo Simpanan" class="card-illustration"/>
+            <img
+              src="assets/piggy-bank.svg"
+              alt="Saldo Simpanan"
+              class="card-illustration"
+            />
           </div>
         </swiper-slide>
       </swiper-container>
@@ -66,7 +88,9 @@
       <div class="card-content">
         <div class="pinjaman-content">
           <h3>Total Pinjaman Aktif</h3>
-          <div class="amount">{{ totalLoan | currency:'IDR':'Rp':'1.0-0' }}</div>
+          <div class="amount">
+            {{ dashboardData.total_pinjaman | currency:'IDR':'Rp':'1.0-0' }}
+          </div>
         </div>
       </div>
       <div class="pinjaman-illustration">
@@ -74,7 +98,7 @@
       </div>
     </div>
 
-    <!-- Aksi Cepat -->
+    <!-- Aksi Cepat (tetap sama) -->
     <div class="quick-actions">
       <div class="action-button" routerLink="/member/loans/loan-application">
         <img src="assets/ajukan-pinjaman.svg" alt="Ajukan Pinjaman" />
@@ -85,7 +109,10 @@
         <span>Riwayat<br />Transaksi</span>
       </div>
       <div class="action-button" routerLink="/member/savings">
-        <img src="assets/lihat-slip-pembayaran.svg" alt="Lihat Slip Pembayaran" />
+        <img
+          src="assets/lihat-slip-pembayaran.svg"
+          alt="Lihat Slip Pembayaran"
+        />
         <span>Lihat Slip<br />Pembayaran</span>
       </div>
     </div>

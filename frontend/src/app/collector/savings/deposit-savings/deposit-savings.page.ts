@@ -21,6 +21,8 @@ export class DepositSavingsPage implements OnInit {
   showDepositSuccess = false;
   showDatePicker = false;
   
+  private lastPosition: Position | null = null;
+
   constructor(
     private location: Location,
     private router: Router,
@@ -109,6 +111,24 @@ export class DepositSavingsPage implements OnInit {
       if (position.coords.accuracy > 500) {
         throw new Error('Akurasi GPS terlalu rendah. Pastikan sinyal baik.');
       }
+
+      const locationAge = Date.now() - position.timestamp;
+      if (locationAge > 60000) {
+        throw new Error('Data lokasi tidak real-time. Mohon refresh GPS Anda.');
+      }
+
+      if (this.lastPosition) {
+        const distance = this.calculateDistance(this.lastPosition.coords, position.coords);
+        const timeDiffSeconds = (position.timestamp - this.lastPosition.timestamp) / 1000;
+        if (timeDiffSeconds > 1) { // Hanya cek jika selisih waktu lebih dari 1 detik
+          const speedKph = (distance / timeDiffSeconds) * 3600;
+          if (speedKph > 150) { // Kecepatan > 150 km/jam
+            throw new Error('Pergerakan lokasi tidak wajar terdeteksi.');
+          }
+        }
+      }
+
+      this.lastPosition = position;
       
       loading.message = 'Menyimpan data...';
       
@@ -143,6 +163,16 @@ export class DepositSavingsPage implements OnInit {
       await loading.dismiss();
       this.presentToast(error.message || 'Gagal mendapatkan lokasi.', 'danger');
     }
+  }
+
+  private calculateDistance(coords1: any, coords2: any): number {
+      const R = 6371; // Radius bumi dalam km
+      const dLat = (coords2.latitude - coords1.latitude) * Math.PI / 180;
+      const dLon = (coords2.longitude - coords1.longitude) * Math.PI / 180;
+      const a = 
+          0.5 - Math.cos(dLat)/2 + 
+          Math.cos(coords1.latitude * Math.PI / 180) * Math.cos(coords2.latitude * Math.PI / 180) * (1 - Math.cos(dLon)) / 2;
+      return R * 2 * Math.asin(Math.sqrt(a));
   }
   
   async presentToast(message: string, color: string = 'danger') {

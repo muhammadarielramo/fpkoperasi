@@ -13,34 +13,35 @@ export class MemberService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   /**
+   * Mengambil data ringkasan untuk dashboard Member.
+   */
+  async getDashboardData(): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.get(`${this.apiUrl}/dashboard`, { headers });
+  }
+
+  /**
+   * Mengambil data profil untuk pengguna yang sedang login.
+   */
+  async getProfile(): Promise<Observable<any>> {
+    const headers = await this.createAuthHeader();
+    return this.http.get(`${this.apiUrl}/profile`, { headers });
+  }
+
+  /**
    * Memperbarui data profil pengguna yang sedang login.
-   * Sekarang menerima FormData untuk menangani unggahan file.
+   * Menerima FormData untuk menangani unggahan file.
    */
   async updateProfile(profileData: FormData): Promise<Observable<any>> {
-    // Saat mengirim FormData, jangan atur Content-Type secara manual.
-    // Browser akan melakukannya secara otomatis dengan boundary yang benar.
     const token = await this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     
-    // Gunakan POST untuk mengirim FormData. Laravel akan menanganinya
-    // meskipun rute didefinisikan sebagai PATCH, dengan "method spoofing".
-    // Tambahkan _method: 'PATCH' untuk memberitahu Laravel ini adalah request PATCH.
+    // Memberitahu Laravel ini adalah request PATCH melalui method spoofing.
     profileData.append('_method', 'PATCH');
     
     return this.http.post(`${this.apiUrl}/profile/update`, profileData, { headers });
-  }
-
-  // Metode lain tetap sama
-  async getDashboardData(): Promise<Observable<any>> {
-    const headers = await this.createAuthHeader();
-    return this.http.get(`${this.apiUrl}/member/dashboard`, { headers });
-  }
-
-  async getProfile(): Promise<Observable<any>> {
-    const headers = await this.createAuthHeader();
-    return this.http.get(`${this.apiUrl}/profile`, { headers });
   }
 
   private async createAuthHeader(): Promise<HttpHeaders> {

@@ -21,10 +21,10 @@
       <form [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item>
           <ion-input
-            label="Username"
+            label="Username/Email"
             formControlName="username"
             labelPlacement="floating"
-            placeholder="Masukkan Username"
+            placeholder="Masukkan Username/Email"
             class="username-input"
             (ionInput)="loginForm.get('username')?.setValue($event.target.value)"
           ></ion-input>
