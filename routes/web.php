@@ -92,6 +92,8 @@ Route::middleware(['admin'])->group(function () {
     // simpanan
     Route::group(['prefix' => 'simpanan', 'as' => 'simpanan.'], function(){
         Route::get('/data', [DepositController::class, 'index'])->name('index');
+        Route::get('/tambah/{id}', [DepositController::class, 'addShow'])->name('tambah-show');
+        Route::post('/tambah', [DepositController::class, 'saveDepo'])->name('tambah');
         Route::get('/history',[TransactionController::class, 'deposit'])->name('history');
         Route::get('/history/info/{id}', [TransactionController::class, 'infoHistori'])->name('histori.info');
     });

@@ -1,5 +1,7 @@
 @extends('layouts.admin.app', ['title' => 'Data Simpanan'])
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @section('content')
 
                 <div class="card">
@@ -24,6 +26,7 @@
                                     <th>Simpanan Pokok</th>
                                     <th>Simpanan Sukarela</th>
                                     <th>Jumlah Simpanan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +37,8 @@
                                     <td>Rp {{ number_format($data->total_pokok, 0, ',', '.') }}</td>
                                     <td>Rp {{ number_format($data->total_sukarela, 0, ',', '.') }}</td>
                                     <td><strong>Rp {{ number_format($data->total_simpanan, 0, ',', '.') }}</strong></td>
+                                    <td><a href="{{route('simpanan.tambah-show', $data->id_member)}}" class="btn btn-primary">Tambah</a></td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -45,4 +50,26 @@
                         {{ $datas->links() }}
                      </div>
                 </div>
+@endsection
+
+@section('script')
+    @if(session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: '{{ session('error') }}',
+            });
+        </script>
+    @endif
+
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '{{ session('success') }}',
+        });
+    </script>
+@endif
 @endsection
