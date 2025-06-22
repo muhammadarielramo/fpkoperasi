@@ -85,6 +85,8 @@ Route::middleware(['admin'])->group(function () {
         Route::put('/pengajuan/update/{id}', [LoanController::class, 'responPengajuan'])->name('updateStatus');
         Route::get('/detail/{id}', [LoanController::class, 'detailPinjaman'])->name('detail');
         Route::patch('/pinjaman/{id}/lunas', [LoanController::class, 'lunas'])->name('lunas');
+        Route::get('/cicil/{id}', [LoanController::class, 'addPaymentShow'])->name('cicil-show');
+        Route::post('/cicil/{id}', [LoanController::class, 'addPayment'])->name('cicil');
     });
 
     // simpanan

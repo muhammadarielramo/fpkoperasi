@@ -63,11 +63,16 @@
                 <dd class="col-sm-8">Rp {{ number_format($loan->jumlah_pinjaman - $totalCicilan, 0, ',', '.') }}</dd>
             </dl>
 
-            <form action="{{ route('pinjaman.lunas', $loan->id) }}" method="POST" onsubmit="return confirm('Tandai pinjaman ini sebagai lunas?')">
-                @csrf
-                @method('PATCH')
-                <button type="submit" class="btn btn-success btn-sm">✔️ Lunas</button>
-            </form>
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ route('pinjaman.cicil-show', $loan->id) }}') }}" class="btn btn-primary">Tambah Cicilan</a>
+
+                <form action="{{ route('pinjaman.lunas', $loan->id) }}" method="POST" onsubmit="return confirm('Tandai pinjaman ini sebagai lunas?')">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-success btn-sm">✔️ Lunas</button>
+                </form>
+            </div>
+
         </div>
     </div>
 

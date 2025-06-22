@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Web;
 
 use App\Events\LoanRespon;
 use App\Http\Controllers\Controller;
+use App\Models\Installment;
 use App\Models\Loan;
 use App\Models\Notification;
+use App\Models\Transaction;
 use Doctrine\DBAL\Schema\Index;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class LoanController extends Controller
@@ -101,5 +105,57 @@ class LoanController extends Controller
         $loan->save();
 
         return redirect()->route('pinjaman.index');
+    }
+
+    public function addPaymentShow($id) {
+        $loan = Loan::findOrFail($id);
+        $data = [
+            'nama' => $loan->member->user->name,
+            'id' => $loan->id,
+        ];
+        return view('admin.pinjaman.add', compact('data'));
+    }
+
+    public function addPayment(Request $request, $id){
+        $request->validate([
+            'besar_ciclan' => 'required|numeric',
+            'tgl_pembayaran' => 'required|date',
+            'cicilan_ke' => 'required|numeric',
+            'status' => 'required',
+        ]);
+
+        $loan = Loan::with('member')->findOrFail($id);
+
+        try {
+            // simban tb installments
+            $installment = Installment::create([
+                'id_loan' => $id,
+                'tgl_pembayaran' => $request->tgl_pembayaran,
+                'cicilan_ke' => $request->cicilan_ke,
+                'besar_ciclan' => $request->besar_ciclan,
+                'status' => $request->status,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            //simpan tb transaksi
+            Transaction::create([
+                'id_anggota' => $loan->id_member,
+                'id_loan' => $id,
+                'id_installment' => $installment->id,
+                'tipe_transaksi' => 'kredit',
+                'tgl_transaksi' => $request->tgl_pembayaran,
+                'jumlah' => $request->besar_ciclan,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->route('pinjaman.index');
+
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->withErrors([
+                'general_error' => 'Terjadi kesalahan tak terduga. Mohon coba lagi.'
+            ]);
+        }
     }
 }
