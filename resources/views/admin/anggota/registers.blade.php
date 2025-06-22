@@ -67,18 +67,24 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="{{ route('register.terima', ['id' => $p->id]) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Diterima">
-                                            <button type="submit" class="btn btn-success btn-sm">Terima</button>
-                                        </form>
+                                        <div style="display: flex; gap: 5px;">
+                                            <form action="{{ route('register.terima', ['id' => $p->id]) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="Diterima">
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    Terima
+                                                </button>
+                                            </form>
 
-                                         <form action="{{ route('register.tolak', ['id' => $p->id]) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="status" value="Ditolak">
-                                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                        </form>
+                                            <form action="{{ route('register.tolak', ['id' => $p->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="status" value="Ditolak">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    Tolak
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
