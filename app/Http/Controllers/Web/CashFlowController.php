@@ -16,7 +16,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class CashFlowController extends Controller
 {
     public function showKas(Request $request) {
-
         // detail kas
         $totalIn = CashFlow::cashIn()->sum('nominal');
         $totalOut = CashFlow::cashOut()->sum('nominal');

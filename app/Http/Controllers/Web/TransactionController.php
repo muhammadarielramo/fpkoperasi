@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Exports\TransactionExport;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\Pagination\Paginator;
 
 use function Laravel\Prompts\form;
 
@@ -81,7 +82,7 @@ class TransactionController extends Controller
             $query->whereDate('tgl_transaksi', $selectedDate);
         }
 
-        $transactions = $query->get();
+        $transactions = $query->paginate(10);
 
         // dd($transactions);
         $totalDebit = $transactions

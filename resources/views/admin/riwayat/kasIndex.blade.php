@@ -5,7 +5,7 @@
         $totalIn = 0;
         $totalOut = 0;
         @endphp
-    <form action="{{ route('history.daily') }}" method="GET" class="form-inline mb-3">
+    <form action="{{ route('cashflow.daily') }}" method="GET" class="form-inline mb-3">
         <div class="form-group mr-2">
             <input type="text" name="date" class="form-control" placeholder="YYYY-MM-DD atau YYYY-MM" required>
         </div>
@@ -67,23 +67,7 @@
                                 -
                             @endif
                         </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                {{-- Tombol Edit --}}
-                                <a href="{{ route('cash-flows.edit', $t->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
 
-                                {{-- Tombol Hapus --}}
-                                <form action="{{ route('cash-flows.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
                     </tr>
                 @endforeach
                 <tr class="font-weight-bold bg-light">

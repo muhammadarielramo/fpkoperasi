@@ -116,7 +116,12 @@ Route::post('/verifikasi/{id}', [RegisterController::class, 'verifikasi'])->name
 Route::get('/email/verify/{token}', [RegisterController::class, 'confirmEmailVerification'])->name('verifikasi.index');
 
 // history
-Route::get('/cashflowy/daily', [CashFlowController::class, 'ShowKas'])->name('history.daily');
+Route::get('/history/daily', [TransactionController::class, 'dailyHistory'])->name('history.daily');
+Route::get('/history/monthly', [TransactionController::class, 'monthlyHistory'])->name('history.monthly');
+Route::get('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
+
+// cashflow
+Route::get('/cashflowy/daily', [CashFlowController::class, 'ShowKas'])->name('cashflow.daily');
 Route::get('/cashflow/create', [CashFlowController::class, 'showCreate'])->name('history.create.show');
 Route::get('/cashflow/export', [CashFlowController::class, 'export'])->name('cashflow.export');
 Route::post('/cashflow/save', [CashFlowController::class, 'create'])->name('history.create');
