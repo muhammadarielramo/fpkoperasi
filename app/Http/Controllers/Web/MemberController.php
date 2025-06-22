@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Collector;
 use App\Models\MemberCollector;
 use App\Models\Notification;
+use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Console\View\Components\Info;
 
@@ -39,18 +40,22 @@ class MemberController extends Controller
     public function destroy($id) {
         $member = Member::findOrFail($id);
 
+        try{
+            // update tb user
+            $member->user->update([
+                'is_active' => 0,
+                'updated_at' => now(),
+            ]);
 
-        // update tb user
-        $member->user->update([
-            'is_active' => 0,
-            'updated_at' => now(),
-        ]);
+            // update tb member
+            $member->update([
+                'updated_at' => now(),]);
 
-        // update tb member
-        $member->update([
-            'updated_at' => now(),]);
+            return redirect()->route('admin.data-anggota')->with('success', 'Data berhasil disimpan');;
 
-        return redirect()->route('admin.data-anggota');
+        } catch(Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function edit($id) {
@@ -179,10 +184,10 @@ class MemberController extends Controller
 
         try {
             Notification::create($data);
-        } catch (\Throwable $th) {
-            throw $th;
+            return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil ditambahkan atau diperbarui.');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
 
-        return redirect()->route('admin.data-anggota')->with('success', 'Kolektor berhasil ditambahkan atau diperbarui.');
     }
 }

@@ -51,29 +51,29 @@ class TransactionController extends Controller
 
         if ($startDateInput && $endDateInput) {
             if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $startDateInput) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $endDateInput)) {
-                return back()->withErrors(['date_range' => 'Format tanggal mulai atau tanggal akhir tidak valid. Gunakan YYYY-MM-DD.']);
+                return back()->withErrors(['error' => 'Format tanggal mulai atau tanggal akhir tidak valid. Gunakan YYYY-MM-DD.']);
             }
             try {
                 $startDate = Carbon::parse($startDateInput)->startOfDay();
                 $endDate = Carbon::parse($endDateInput)->endOfDay();
                 if ($startDate->greaterThan($endDate)) {
-                    return back()->withErrors(['date_range' => 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.']);
+                    return back()->withErrors(['error' => 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.']);
                 }
 
                 $query->whereBetween('tgl_transaksi', [$startDate, $endDate]);
 
             } catch (\Exception $e) {
-                return back()->withErrors(['date_range' => 'Terjadi kesalahan dalam memproses rentang tanggal.']);
+                return back()->withErrors(['error' => 'Terjadi kesalahan dalam memproses rentang tanggal.']);
             } } elseif ($dateInput) {
             if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
-                return back()->withErrors(['date' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD.']);
+                return back()->withErrors(['error' => 'Format tanggal tidak valid. Gunakan YYYY-MM-DD.']);
             }
 
             try {
                 $selectedDate = Carbon::parse($dateInput)->format('Y-m-d');
                 $query->whereDate('tgl_transaksi', $selectedDate);
             } catch (\Exception $e) {
-                return back()->withErrors(['date' => 'Terjadi kesalahan dalam memproses tanggal tunggal.']);
+                return back()->withErrors(['error' => 'Terjadi kesalahan dalam memproses tanggal tunggal.']);
             }
 
         } else {

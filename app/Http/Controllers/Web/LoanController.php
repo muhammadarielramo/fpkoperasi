@@ -82,8 +82,8 @@ class LoanController extends Controller
                 event(new LoanRespon($loan, $recipientUser, 'rejected'));
             }
 
-            return redirect()->indexPengajuan();
-        } catch(\Exception $e) {
+            return redirect()->indexPengajuan()->with('success', 'Data berhasil disimpan');;
+        } catch(Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
 
@@ -100,11 +100,15 @@ class LoanController extends Controller
     }
 
     public function lunas ($id) {
-        $loan = Loan::findOrFail($id);
-        $loan->status = 'Lunas';
-        $loan->save();
+        try{
+            $loan = Loan::findOrFail($id);
+            $loan->status = 'Lunas';
+            $loan->save();
 
-        return redirect()->route('pinjaman.index');
+            return redirect()->route('pinjaman.index')->with('success', 'Data berhasil disimpan');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
+        }
     }
 
     public function addPaymentShow($id) {
@@ -150,12 +154,11 @@ class LoanController extends Controller
                 'updated_at' => now(),
             ]);
 
-            return redirect()->route('pinjaman.index');
+            return redirect()->route('pinjaman.index')->with('success', 'Data berhasil disimpan');;
 
         } catch (Exception $e) {
-            return redirect()->back()->withInput()->withErrors([
-                'general_error' => 'Terjadi kesalahan tak terduga. Mohon coba lagi.'
-            ]);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
+
         }
     }
 }

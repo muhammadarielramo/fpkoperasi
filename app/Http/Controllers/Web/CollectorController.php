@@ -74,10 +74,10 @@ class CollectorController extends Controller
                 'updated_at' => now(),
             ]);
 
-            return redirect()->route('admin.data-kolektor');
+            return redirect()->route('admin.data-kolektor')->with('success', 'Data berhasil disimpan');;
 
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
     }
 
@@ -120,7 +120,7 @@ class CollectorController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('admin.data-kolektor');
+        return redirect()->route('admin.data-kolektor')->with('success', 'Data berhasil disimpan');;
     }
 
 
@@ -132,17 +132,17 @@ class CollectorController extends Controller
                 'is_active' => 0,
                 'updated_at' => now(),
             ]);
+            $kolektor->update([
+                'status' => 'Non Aktif',
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->route('admin.data-kolektor') ->with('success', 'Data berhasil disimpan');;
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
 
 
-        $kolektor->update([
-            'status' => 'Non Aktif',
-            'updated_at' => now(),
-        ]);
-
-        return redirect()->route('admin.data-kolektor');
     }
 
     public function detailKolektor($id) {
