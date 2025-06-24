@@ -1,7 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { MemberService } from 'src/app/services/member.service';
-import { environment } from 'src/environments/environment'; // 1. Impor environment
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   standalone: false,
@@ -24,6 +26,8 @@ export class ProfilePage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private memberService: MemberService,
+    private authService: AuthService,
+    private router: Router,
     private loadingCtrl: LoadingController
   ) {
     // 2. Buat URL dasar untuk storage dari apiUrl
@@ -41,13 +45,15 @@ export class ProfilePage implements OnInit {
     (await this.memberService.getProfile()).subscribe({
       next: (res: any) => {
         if (res && res.data) {
-          // 3. Bangun URL lengkap untuk avatar
-          const avatarUrl = res.data.avatar 
-            ? `${this.storageBaseUrl}/${res.data.avatar}`
-            : `https://placehold.co/100x100/EFEFEF/333333?text=${res.data.name ? res.data.name.charAt(0).toUpperCase() : '?'}`;
+          let avatarUrl = `https://placehold.co/100x100/EFEFEF/333333?text=${res.data.username ? res.data.username.charAt(0).toUpperCase() : '?'}`;
+          // Memperbaiki URL avatar
+          if (res.data.avatar) {
+            let path = res.data.avatar.startsWith('http') ? res.data.avatar : `${this.storageBaseUrl}/${res.data.avatar}`;
+            avatarUrl = path.replace('http://', 'https://');
+          }
 
           this.profileData = {
-            username: res.data.name,
+            username: res.data.username,
             email: res.data.email,
             alamat: res.data.member?.address,
             noHp: res.data.phone_number,
@@ -76,45 +82,47 @@ export class ProfilePage implements OnInit {
     await loading.present();
 
     const formData = new FormData();
+    const emailChanged = this.profileData.email !== this.originalProfileData.email;
+
     formData.append('username', this.profileData.username);
     formData.append('address', this.profileData.alamat);
     formData.append('phone_number', this.profileData.noHp);
-    
-    if (this.profileData.email !== this.originalProfileData.email) {
-      formData.append('email', this.profileData.email);
-    }
-    
+
     if (this.avatarFile) {
       formData.append('avatar', this.avatarFile, this.avatarFile.name);
+    }
+
+    if (emailChanged) {
+      formData.append('email', this.profileData.email);
     }
 
     (await this.memberService.updateProfile(formData)).subscribe({
       next: (res: any) => {
         loading.dismiss();
-        if (res && res.success) {
+        if (res && res.message === 'Email verifikasi telah dikirim ke alamat baru Anda.') {
+          this.handleEmailChangeSuccess(res.message);
+        } else if (res && res.success) {
           this.presentToast('Profil berhasil diperbarui!', 'success');
-          // 4. Perbarui data lokal dengan URL lengkap yang baru
-          const newAvatarUrl = res.data.avatar
-            ? `${this.storageBaseUrl}/${res.data.avatar}`
-            : this.profileData.avatar;
-            
-          this.originalProfileData = { ...this.profileData, avatar: newAvatarUrl };
-          this.profileData.avatar = newAvatarUrl;
-          this.avatarFile = null;
           this.isEditMode = false;
+          // PERBAIKAN: Panggil kembali loadProfileData() untuk menyinkronkan tampilan
+          this.loadProfileData(); 
         } else {
-          let errorMessages = 'Gagal menyimpan perubahan.';
-          if (res && res.messages && typeof res.messages === 'object') {
-            errorMessages = Object.values(res.messages).reduce((acc: string[], val: any) => acc.concat(val), []).join('\n');
-          }
+          const errorMessages = Object.values(res.messages || {'error':['Terjadi kesalahan']}).reduce((acc: any[], val: any) => acc.concat(val), []).join('\n');
           this.presentToast(errorMessages, 'danger');
         }
       },
       error: (err) => {
         loading.dismiss();
-        this.presentToast('Terjadi kesalahan saat mengunggah. Coba lagi.', 'danger');
+        this.presentToast('Terjadi kesalahan. Silakan coba lagi.', 'danger');
       }
     });
+  }
+
+  async handleEmailChangeSuccess(message: string) {
+    this.presentToast(message, 'success');
+    this.isEditMode = false;
+    // Panggil ulang data untuk memastikan tampilan kembali ke data email yang lama
+    this.loadProfileData();
   }
 
   cancelEdit(force: boolean = false) {
