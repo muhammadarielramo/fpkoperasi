@@ -90,4 +90,8 @@ class User extends Authenticatable implements JWTSubject
             $user->member()->delete();
         });
     }
+
+    public function ResetEmail() {
+        return $this->hasMany(ResetEmail::class);
+    }
 }

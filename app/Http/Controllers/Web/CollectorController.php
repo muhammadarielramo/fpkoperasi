@@ -149,7 +149,7 @@ class CollectorController extends Controller
         $collector = Collector::with('user')->findOrFail($id);
 
         $members = MemberCollector::with('member.user')
-            ->whereHas('user', function($query) {
+            ->whereHas('member.user', function($query) {
                     $query->where('is_active', 1);
                 })
             ->where('id_collector', $id)->get();

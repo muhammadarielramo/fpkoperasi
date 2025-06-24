@@ -9,6 +9,7 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\SendMail;
+use App\Models\ResetEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -98,15 +99,18 @@ class RegisterController extends Controller
     }
 
     public function confirmEmailVerification($token) {
-        $user = User::where('kode_otp', $token)->first();
+        $newEmail = ResetEmail::where('token', $token)->first();
 
-        if (!$user) {
+
+        if (!$newEmail) {
             return response()->json(['message' => 'Token tidak valid'], 400);
         }
 
+        $user = User::where('id', $newEmail->id_user)->first();
+
         try {
             $user->update([
-                'is_active' => 1,
+                'email' => $newEmail->email,
                 'updated_at' => now(),
                 'email_verified_at' => now(),
             ]);

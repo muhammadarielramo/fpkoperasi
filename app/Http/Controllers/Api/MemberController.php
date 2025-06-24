@@ -6,6 +6,7 @@ use App\Mail\VerifyEmailMail;
 use App\Models\Deposit;
 use App\Models\Loan;
 use App\Models\Member;
+use App\Models\ResetEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -130,16 +131,15 @@ class MemberController extends Controller
 
         // buat token dan simpan di db
         $token = Str::random(64);
-        $user->update([
-            'kode_otp' => $token,
-            'updated_at' => now(),
-            'email' => $email,
-            'is_active' => 0
+        $data = ResetEmail::create([
+            'id_user' => $user->id,
+            'token' => $token,
+            'email' => $email
         ]);
 
         $verificationLink = url("/email/verify/{$token}");
         try {
-            Mail::to($email)->send(new VerifyEmailMail($user, $verificationLink));
+            Mail::to($email)->send(new VerifyEmailMail($data, $verificationLink));
 
             return response()->json([
                 'message' => 'Email verifikasi telah dikirim'
