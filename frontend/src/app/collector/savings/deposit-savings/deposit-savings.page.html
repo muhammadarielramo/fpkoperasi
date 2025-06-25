@@ -34,11 +34,27 @@
             formControlName="tgl_simpanan"
             placeholder="Pilih tanggal..."
           >
-            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
+            <ion-icon
+              name="calendar-outline"
+              slot="end"
+              class="calendar-icon"
+            ></ion-icon>
           </ion-input>
-          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+          <ion-modal
+            [isOpen]="showDatePicker"
+            (didDismiss)="showDatePicker = false"
+            [breakpoints]="[0, 0.6, 0.8]"
+            initialBreakpoint="0.6"
+            handleBehavior="cycle"
+            handle="true"
+          >
             <ng-template>
-              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+              <ion-datetime
+                presentation="date"
+                (ionChange)="setDateValue($event)"
+                (ionCancel)="showDatePicker = false"
+                [showDefaultButtons]="true"
+              ></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
@@ -49,14 +65,22 @@
         <label class="form-label">Nominal</label>
         <div class="currency-input-wrapper">
           <span class="currency-prefix">Rp</span>
-          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="nominal" />
+          <input
+            type="number"
+            class="form-input currency-input"
+            placeholder="Masukkan Nominal..."
+            formControlName="nominal"
+          />
         </div>
       </div>
 
       <!-- Savings Type -->
       <div class="form-group savings-type-section">
         <label class="form-label">Jenis Simpanan</label>
-        <select class="form-input savings-dropdown" formControlName="jenis_simpanan">
+        <select
+          class="form-input savings-dropdown"
+          formControlName="jenis_simpanan"
+        >
           <option value="wajib">Simpanan Wajib</option>
           <option value="pokok">Simpanan Pokok</option>
           <option value="sukarela">Simpanan Sukarela</option>
@@ -65,7 +89,12 @@
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <ion-button type="submit" class="btn-submit" fill="solid" [disabled]="depositForm.invalid">
+        <ion-button
+          type="submit"
+          class="btn-submit"
+          fill="solid"
+          [disabled]="depositForm.invalid"
+        >
           Submit
         </ion-button>
       </div>
@@ -73,7 +102,10 @@
   </div>
 
   <!-- Deposit Success Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showDepositSuccess}">
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showDepositSuccess}"
+  >
     <div class="verification-modal">
       <div class="deposit-success-icon">
         <img src="assets/checkmark.svg" alt="Success" />

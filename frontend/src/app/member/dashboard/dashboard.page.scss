@@ -14,7 +14,6 @@
     min-height: auto;
     justify-content: center;
 
-
     .swipeable-cards {
       z-index: 10;
       position: relative;
@@ -168,15 +167,15 @@
   .quick-actions {
     position: relative;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     z-index: 101;
 
     .action-button {
       background: #ffffff;
       border-radius: 24px;
       box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
-      padding: 1rem;
-      width: 30%;
+      padding: 0.75rem;
+      width: 47.5%;
       text-align: center;
       font-family: "Poppins", sans-serif;
       font-weight: 800;
@@ -186,7 +185,7 @@
 
       img {
         width: 50px;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.5rem;
       }
 
       span {
@@ -201,38 +200,12 @@
     z-index: 1;
     display: flex;
     align-items: center;
-    
+
     padding: 0 8rem 0 1rem;
     margin-top: 0;
 
     @media (min-height: 400px) {
-        padding: 4rem 8rem 0 1rem;
-        margin-top: 0;
-    }
-
-    @media (min-height: 500px) {
-        padding: 5rem 8rem 0 1rem;
-        margin-top: 0;
-    }
-
-    @media (min-height: 600px) {
-        padding: 6rem 8rem 0 1rem;
-        margin-top: 0;
-    }
-
-    @media (min-height: 700px) {
-        padding: 7rem 8rem 0 1rem;
-        margin-top: 0;
-    }
-
-    @media (min-height: 800px) {
-        padding: 8rem 8rem 0 1rem;
-        margin-top: 0;
-    }
-
-    @media (min-height: 900px) {
-        padding: 9rem 8rem 0 1rem;
-        margin-top: 0;
+      padding: 6.25vh 8rem 0 1rem;
     }
   }
 

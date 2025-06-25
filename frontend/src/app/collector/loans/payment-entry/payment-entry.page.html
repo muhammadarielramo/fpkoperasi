@@ -29,14 +29,24 @@
         <label class="form-label">Jumlah Pembayaran</label>
         <div class="currency-input-wrapper">
           <span class="currency-prefix">Rp</span>
-          <input type="number" class="form-input currency-input" placeholder="Masukkan Nominal..." formControlName="besar_ciclan" />
+          <input
+            type="number"
+            class="form-input currency-input"
+            placeholder="Masukkan Nominal..."
+            formControlName="besar_ciclan"
+          />
         </div>
       </div>
 
       <!-- Installment -->
       <div class="form-group installment-section">
         <label class="form-label">Angsuran ke-</label>
-        <input type="number" class="form-input installment-input" placeholder="e.g., 1" formControlName="angsuran_ke" />
+        <input
+          type="number"
+          class="form-input installment-input"
+          placeholder="e.g., 1"
+          formControlName="angsuran_ke"
+        />
       </div>
 
       <!-- Tanggal Pembayaran -->
@@ -48,11 +58,27 @@
             readonly
             formControlName="tgl_pembayaran"
           >
-            <ion-icon name="calendar-outline" slot="end" class="calendar-icon"></ion-icon>
+            <ion-icon
+              name="calendar-outline"
+              slot="end"
+              class="calendar-icon"
+            ></ion-icon>
           </ion-input>
-          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+          <ion-modal
+            [isOpen]="showDatePicker"
+            (didDismiss)="showDatePicker = false"
+            [breakpoints]="[0, 0.6, 0.8]"
+            initialBreakpoint="0.6"
+            handleBehavior="cycle"
+            handle="true"
+          >
             <ng-template>
-              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+              <ion-datetime
+                presentation="date"
+                (ionChange)="setDateValue($event)"
+                (ionCancel)="showDatePicker = false"
+                [showDefaultButtons]="true"
+              ></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
@@ -61,15 +87,26 @@
       <!-- Payment Status -->
       <div class="form-group payment-status-section">
         <label class="form-label">Status Pembayaran</label>
-        <ion-select class="form-input status-dropdown" formControlName="status" placeholder="Pilih Status">
+        <ion-select
+          class="form-input status-dropdown"
+          formControlName="status"
+          placeholder="Pilih Status"
+        >
           <ion-select-option value="lunas">Lunas</ion-select-option>
-          <ion-select-option value="terlambat">Terlambat (Denda)</ion-select-option>
+          <ion-select-option value="terlambat"
+            >Terlambat (Denda)</ion-select-option
+          >
         </ion-select>
       </div>
 
       <!-- Submit Button -->
       <div class="submit-section">
-        <ion-button type="submit" class="btn-submit" fill="solid" [disabled]="paymentForm.invalid">
+        <ion-button
+          type="submit"
+          class="btn-submit"
+          fill="solid"
+          [disabled]="paymentForm.invalid"
+        >
           Submit
         </ion-button>
       </div>
@@ -77,7 +114,10 @@
   </div>
 
   <!-- Payment Success Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showPaymentSuccess}">
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showPaymentSuccess}"
+  >
     <div class="verification-modal">
       <div class="payment-success-icon">
         <img src="assets/checkmark.svg" alt="Success" />

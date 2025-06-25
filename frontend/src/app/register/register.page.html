@@ -105,6 +105,10 @@
         <ion-modal
           [isOpen]="showDatePicker"
           (didDismiss)="showDatePicker = false"
+          [breakpoints]="[0, 0.6, 0.8]"        
+          initialBreakpoint="0.6"             
+          handleBehavior="cycle"               
+          handle="true"
         >
           <ng-template>
             <ion-datetime

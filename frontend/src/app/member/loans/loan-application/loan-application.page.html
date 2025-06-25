@@ -12,13 +12,21 @@
   <!-- Content Section -->
   <div class="content-section">
     <!-- Hubungkan form dengan FormGroup dan event ngSubmit -->
-    <form class="loan-form" [formGroup]="loanForm" (ngSubmit)="submitApplication()">
+    <form
+      class="loan-form"
+      [formGroup]="loanForm"
+      (ngSubmit)="submitApplication()"
+    >
       <!-- Nominal Pinjaman -->
       <div class="form-group">
         <label class="form-label">Nominal Pinjaman</label>
         <div class="dropdown-wrapper">
           <!-- Ganti <select> dengan <ion-select> untuk pengalaman mobile yang lebih baik -->
-          <ion-select class="form-select" formControlName="jumlah_pinjaman" placeholder="Pilih Nominal">
+          <ion-select
+            class="form-select"
+            formControlName="jumlah_pinjaman"
+            placeholder="Pilih Nominal"
+          >
             <ion-select-option value="500000">Rp500.000</ion-select-option>
             <ion-select-option value="1000000">Rp1.000.000</ion-select-option>
             <ion-select-option value="2000000">Rp2.000.000</ion-select-option>
@@ -38,11 +46,28 @@
             formControlName="tgl_pengajuan"
             (click)="openDatePicker()"
           >
-            <ion-icon name="calendar-outline" slot="end" class="calendar-icon" (click)="openDatePicker()"></ion-icon>
+            <ion-icon
+              name="calendar-outline"
+              slot="end"
+              class="calendar-icon"
+              (click)="openDatePicker()"
+            ></ion-icon>
           </ion-input>
-          <ion-modal [isOpen]="showDatePicker" (didDismiss)="showDatePicker = false">
+          <ion-modal
+            [isOpen]="showDatePicker"
+            (didDismiss)="showDatePicker = false"
+            [breakpoints]="[0, 0.6, 0.8]"
+            initialBreakpoint="0.6"
+            handleBehavior="cycle"
+            handle="true"
+          >
             <ng-template>
-              <ion-datetime presentation="date" (ionChange)="setDateValue($event)" (ionCancel)="showDatePicker = false" [showDefaultButtons]="true"></ion-datetime>
+              <ion-datetime
+                presentation="date"
+                (ionChange)="setDateValue($event)"
+                (ionCancel)="showDatePicker = false"
+                [showDefaultButtons]="true"
+              ></ion-datetime>
             </ng-template>
           </ion-modal>
         </div>
@@ -52,19 +77,30 @@
       <div class="form-group">
         <label class="form-label">Jangka Waktu</label>
         <div class="dropdown-wrapper">
-          <ion-select class="form-select" formControlName="tenor" placeholder="Pilih Jangka Waktu">
-            <ion-select-option value="1">1 Bulan (Jangka Pendek)</ion-select-option>
+          <ion-select
+            class="form-select"
+            formControlName="tenor"
+            placeholder="Pilih Jangka Waktu"
+          >
+            <ion-select-option value="1"
+              >1 Bulan (Jangka Pendek)</ion-select-option
+            >
             <ion-select-option value="3">3 Bulan</ion-select-option>
             <ion-select-option value="6">6 Bulan</ion-select-option>
             <ion-select-option value="12">12 Bulan</ion-select-option>
           </ion-select>
         </div>
       </div>
-      
+
       <!-- Submit Button -->
       <div class="submit-section">
         <!-- Ubah menjadi type="submit" dan nonaktifkan jika form tidak valid -->
-        <ion-button type="submit" class="btn-ajukan" fill="solid" [disabled]="loanForm.invalid">
+        <ion-button
+          type="submit"
+          class="btn-ajukan"
+          fill="solid"
+          [disabled]="loanForm.invalid"
+        >
           Ajukan Pinjaman
         </ion-button>
       </div>
@@ -72,7 +108,10 @@
   </div>
 
   <!-- Loan Success Modal -->
-  <div class="verification-overlay" [ngClass]="{'show-overlay': showLoanSuccess}">
+  <div
+    class="verification-overlay"
+    [ngClass]="{'show-overlay': showLoanSuccess}"
+  >
     <div class="verification-modal">
       <div class="loan-success-icon">
         <img src="assets/checkmark.svg" alt="Success" />
