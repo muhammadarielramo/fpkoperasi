@@ -37,13 +37,14 @@ use Illuminate\Support\Facades\Mail;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
 
 // reset password
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('show-reset-password');
-Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('reset-password');
+Route::post('/reset-password/{token}', [ResetPasswordController::class, 'store'])->name('password.update');
+// Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.update');
 
 Route::middleware(['admin'])->group(function () {
     // dashboard
