@@ -143,4 +143,8 @@ Route::post('/simpanan/pengajuan/{id}', [LoanController::class, 'responPengajuan
 Route::get('/upload-ktp', [uploadController::class, 'index'])->name('upload-ktp');
 Route::post('/upload-ktp', [uploadController::class, 'upload'])->name('upload-ktp');
 
+// scan app
+Route::get('/kokita-app', function () {
+    return view('kokita');
+})->name('kokita-app');
 
