@@ -25,37 +25,37 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() { }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // 1. Atur logika tombol kembali
-      this.platform.backButton.subscribeWithPriority(10, () => {
-        this.handleBackButton();
-      });
-
-      // 2. Terapkan fitur khusus seluler jika berjalan di perangkat asli
-      if (isPlatform('capacitor')) {
-        this.lockScreenOrientation();
-        this.setDarkNavigationStyle();
-      } else {
-        console.log('Tidak berjalan di perangkat seluler (Capacitor), inisialisasi dilewati.');
-      }
-    });
-  }
-
   ngOnDestroy() {
-    // Pastikan untuk membersihkan listener saat komponen dihancurkan
+    // Bersihkan listener jika ada
     if (this.orientationChangeListener && typeof this.orientationChangeListener.remove === 'function') {
       this.orientationChangeListener.remove();
     }
   }
 
-  /**
-   * Mengatur gaya bilah navigasi bawah menjadi gelap (hanya untuk Android).
-   */
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        this.handleBackButton();
+      });
+
+      if (isPlatform('capacitor')) {
+        this.initializeNormalFeatures();
+      } else {
+        console.log('Tidak berjalan di perangkat seluler (Capacitor), inisialisasi UI saja.');
+        this.initializeNormalFeatures();
+      }
+    });
+  }
+
+  private initializeNormalFeatures() {
+    this.lockScreenOrientation();
+    this.setDarkNavigationStyle();
+  }
+
   private setDarkNavigationStyle(): void {
     if (isPlatform('android')) {
       NavigationBar.setNavigationBarColor({
-        color: '#121212', // Warna latar gelap
+        color: '#121212',
         darkButtons: true,
       }).catch(error => {
         console.error('Gagal mengatur warna bilah navigasi', error);
@@ -63,9 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Mengunci orientasi layar ke mode potret.
-   */
   private async lockScreenOrientation() {
     try {
       await ScreenOrientation.lock({ orientation: 'portrait-primary' });

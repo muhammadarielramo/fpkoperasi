@@ -43,12 +43,12 @@ export class RegisterPage implements OnInit {
     private authService: AuthService
   ) {
     this.registerForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(255)]],
-      phone: ['', [Validators.required, Validators.maxLength(15)]],
+      name: ['', [Validators.required, Validators.maxLength(255), Validators.pattern('^[a-zA-Z ]+$')]],
+      phone: ['', [Validators.required, Validators.maxLength(15), Validators.pattern('^[0-9]+$')]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
       address: ['', [Validators.required]],
       nik: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]], // Validasi 16 digit angka
-      gender: ['male', Validators.required], // 'L' untuk Laki-laki, 'P' untuk Perempuan
+      gender: ['male', Validators.required], // 'male' untuk Laki-laki, 'female' untuk Perempuan
       bod: ['', Validators.required], // Birth of Date (Tanggal Lahir)
       ktp: [null, Validators.required] // Untuk menyimpan file gambar
     });

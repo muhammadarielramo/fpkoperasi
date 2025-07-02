@@ -34,3 +34,9 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 
 include ':capgo-capacitor-navigation-bar'
 project(':capgo-capacitor-navigation-bar').projectDir = new File('../node_modules/@capgo/capacitor-navigation-bar/android')
+
+include ':capacitor-dev-mode-detector'
+project(':capacitor-dev-mode-detector').projectDir = new File('../plugins/capacitor-dev-mode-detector/android')
+
+include ':capacitor-mock-detector'
+project(':capacitor-mock-detector').projectDir = new File('../plugins/capacitor-mock-detector/android')

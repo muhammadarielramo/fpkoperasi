@@ -6,6 +6,7 @@ import { ToastController, LoadingController } from '@ionic/angular';
 import { CollectorService } from 'src/app/services/collector.service';
 import { DepositService } from 'src/app/services/deposit.service';
 import { Geolocation, Position } from '@capacitor/geolocation';
+import { MockLocationService } from 'src/app/services/mock-location.service';
 
 @Component({
   standalone: false,
@@ -31,7 +32,8 @@ export class DepositSavingsPage implements OnInit {
     private collectorService: CollectorService,
     private depositService: DepositService,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private mockService: MockLocationService
   ) {
     this.depositForm = this.formBuilder.group({
       tgl_simpanan: ['', Validators.required],
@@ -40,12 +42,17 @@ export class DepositSavingsPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.memberId = +id;
       this.loadMemberDetails();
     }
+    this.mockService.startContinuousCheck();
+  }
+
+  ngOnDestroy() {
+    this.mockService.stopContinuousCheck();
   }
 
   async loadMemberDetails() {

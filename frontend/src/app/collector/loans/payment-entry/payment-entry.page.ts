@@ -5,7 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { LoanService } from 'src/app/services/loan.service';
 import { InstallmentService } from 'src/app/services/installment.service';
-import { Geolocation, Position } from '@capacitor/geolocation'; // 1. Impor dari Capacitor
+import { Geolocation, Position } from '@capacitor/geolocation';
+import { MockLocationService } from 'src/app/services/mock-location.service';
 
 @Component({
   standalone: false,
@@ -32,7 +33,8 @@ export class PaymentEntryPage implements OnInit {
     private loanService: LoanService,
     private installmentService: InstallmentService,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private mockService: MockLocationService
   ) {
     this.paymentForm = this.formBuilder.group({
       besar_ciclan: ['', [Validators.required, Validators.min(1)]],
@@ -42,12 +44,17 @@ export class PaymentEntryPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loanId = +id;
       this.loadPaymentInfo();
     }
+    this.mockService.startContinuousCheck();
+  }
+
+  ngOnDestroy() {
+    this.mockService.stopContinuousCheck();
   }
 
   async loadPaymentInfo() {

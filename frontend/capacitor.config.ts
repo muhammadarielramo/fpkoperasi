@@ -7,6 +7,9 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 0 // Nonaktifkan splash native
+    },
+    MockDetector: {
+      // Plugin configuration if needed
     }
   }
 };
